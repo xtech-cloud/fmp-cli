@@ -1,0 +1,50 @@
+import os
+from typing import Dict, List, Tuple
+from generator.template.utility import writer
+
+template = """
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:53775/",
+      "sslPort": 44358
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "fmp_{{org_lower}}_{{module_lower}}_web_blazor": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:7114;http://localhost:5114"
+    }
+  }
+}
+"""
+
+def generate(
+    _orgname: str,
+    _modulename: str,
+    _outputdir: str,
+):
+    sub_dir = os.path.join(_outputdir, "Properties")
+    os.makedirs(sub_dir, exist_ok=True)
+
+    contents = (
+        template.replace("{{org_lower}}", _orgname.lower())
+        .replace("{{module_lower}}", _modulename.lower())
+    )
+    filepath = os.path.join(sub_dir, "launchSettings.json")
+    writer.write(filepath, contents, False)
