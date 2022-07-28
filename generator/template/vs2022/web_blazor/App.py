@@ -22,7 +22,7 @@ template = """
 <AntContainer />
 """
 
-template_type = "typeof({{org}}.FMP.MOD.{{module}}.LIB.Razor.{{service}}Component).Assembly"
+template_type = "typeof({{org}}.FMP.MOD.{{module}}.LIB.Razor.{{service}}Component).Assembly,"
 
 def generate(
     _orgname: str,

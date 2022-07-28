@@ -242,17 +242,16 @@ def generate(
     static_cancel_blocks = ""
     dynamic_cancel_blocks = ""
     for service in _services.keys():
-        for rpc_name in _services[service].keys():
-            member_block = template_member.replace("{{service}}", service)
-            member_blocks = member_blocks + member_block
-            static_register_block = template_static_register.replace("{{service}}", service)
-            static_register_blocks = static_register_blocks + static_register_block
-            dynamic_register_block = template_dynamic_register.replace("{{service}}", service)
-            dynamic_register_blocks = dynamic_register_blocks + dynamic_register_block 
-            static_cancel_block = template_static_cancel.replace("{{service}}", service)
-            static_cancel_blocks = static_cancel_blocks + static_cancel_block 
-            dynamic_cancel_block = template_dynamic_cancel.replace("{{service}}", service)
-            dynamic_cancel_blocks = dynamic_cancel_blocks + dynamic_cancel_block 
+        member_block = template_member.replace("{{service}}", service)
+        member_blocks = member_blocks + member_block
+        static_register_block = template_static_register.replace("{{service}}", service)
+        static_register_blocks = static_register_blocks + static_register_block
+        dynamic_register_block = template_dynamic_register.replace("{{service}}", service)
+        dynamic_register_blocks = dynamic_register_blocks + dynamic_register_block 
+        static_cancel_block = template_static_cancel.replace("{{service}}", service)
+        static_cancel_blocks = static_cancel_blocks + static_cancel_block 
+        dynamic_cancel_block = template_dynamic_cancel.replace("{{service}}", service)
+        dynamic_cancel_blocks = dynamic_cancel_blocks + dynamic_cancel_block 
     # 生成项目文件
     contents = (
         template.replace("{{org}}", _orgname)

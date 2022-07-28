@@ -18,7 +18,7 @@ template_razor = """
 template_xml = """
     <SpaceItem>
         <Text>{{rpc}}:</Text>
-        <TextArea @bind-Value="@__debugEcho" Rows="4" ReadOnly="true" />
+        <TextArea @bind-Value="@__debug{{rpc}}" Rows="4" ReadOnly="true" />
     </SpaceItem>
 """
 
@@ -63,7 +63,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
 
         private async Task __debugClick()
         {
-            var bridge = (getFacade()?.getViewBridge() as IHealthyViewBridge);
+            var bridge = (getFacade()?.getViewBridge() as I{{service}}ViewBridge);
             if (null == bridge)
             {
                 logger_?.Error("bridge is null");
@@ -81,7 +81,7 @@ template_method_razor = """
             public void Refresh{{rpc}}(IDTO _dto)
             {
                 var dto = _dto as {{response}}DTO;
-                razor_.__debugEcho = dto?.message.ToString();
+                razor_.__debug{{rpc}} = dto?.message.ToString();
             }
 """
 
@@ -149,7 +149,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
         /// <summary>
         /// 直系UI装饰层
         /// </summary>
-        private HealthyFacade? facade_;
+        private {{service}}Facade? facade_;
 
         /// <summary>
         /// 注入的全局提示服务

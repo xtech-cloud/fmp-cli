@@ -35,7 +35,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}Model? getModel()
         {
             if(null == model_)
-                model_ = findModel(HealthyModel.NAME) as HealthyModel;
+                model_ = findModel({{service}}Model.NAME) as {{service}}Model;
             return model_;
         }
 
@@ -46,7 +46,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}Service? getService()
         {
             if(null == service_)
-                service_ = findService(HealthyService.NAME) as HealthyService;
+                service_ = findService({{service}}Service.NAME) as {{service}}Service;
             return service_;
         }
 
@@ -57,7 +57,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}Facade? getFacade()
         {
             if(null == facade_)
-                facade_ = findFacade(HealthyFacade.NAME) as HealthyFacade;
+                facade_ = findFacade({{service}}Facade.NAME) as {{service}}Facade;
             return facade_;
         }
 
