@@ -15,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddGrpcHealthChecks()
-                .AddCheck("StartKit", () => HealthCheckResult.Healthy());
-
+                .AddCheck("{{module}}", () => HealthCheckResult.Healthy());
+{{db_blocks}}
 MyProgram.PreBuild(builder);
 var app = builder.Build();
 
@@ -41,7 +41,7 @@ app.UseGrpcWeb();
 {{mapservice_blocks}}
 
 app.MapGrpcHealthChecksService();
-app.MapGet("/", () => "StartKit");
+app.MapGet("/", () => "{{module}}");
 
 IWebHostEnvironment env = app.Environment;
 
@@ -59,21 +59,34 @@ template_MapGrpcService = """
 app.MapGrpcService<{{service}}Service>().EnableGrpcWeb();
 """
 
+template_Driver_Mongo = """
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("Database"));
+"""
+
+
 def generate(
     _orgname: str,
     _modulename: str,
     _outputdir: str,
+    _databasedriver: str,
     _enums: List[str],
     _services: Dict[str, Dict[str, Tuple]],
     _messages: Dict[str, List[Tuple]],
 ):
     mapservice_blocks = ""
     for service in _services.keys():
-        mapservice_blocks = mapservice_blocks + template_MapGrpcService.replace("{{service}}", service)
+        mapservice_blocks = mapservice_blocks + template_MapGrpcService.replace(
+            "{{service}}", service
+        )
     contents = (
         template.replace("{{org}}", _orgname)
         .replace("{{module}}", _modulename)
         .replace("{{mapservice_blocks}}", mapservice_blocks)
     )
+    if "mongodb" == _databasedriver:
+        contents = contents.replace("{{db_blocks}}", template_Driver_Mongo)
+    else:
+        contents = contents.replace("{{db_blocks}}", "")
+
     filepath = os.path.join(_outputdir, "Program.cs")
     writer.write(filepath, contents, True)

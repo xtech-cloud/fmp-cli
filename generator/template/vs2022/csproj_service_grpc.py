@@ -3,9 +3,13 @@ from typing import Dict, List, Tuple
 from generator.template.utility import writer
 from generator.template.vs2022.service_grpc import Program
 from generator.template.vs2022.service_grpc import MyProgram
+from generator.template.vs2022.service_grpc import ArgumentChecker
 from generator.template.vs2022.service_grpc import BaseService
 from generator.template.vs2022.service_grpc import Service
 from generator.template.vs2022.service_grpc import appsettings
+from generator.template.vs2022.service_grpc import DatabaseSettings
+from generator.template.vs2022.service_grpc import DAO
+from generator.template.vs2022.service_grpc import Entity
 
 template = """
 <Project Sdk="Microsoft.NET.Sdk.Web">
@@ -22,6 +26,7 @@ template = """
     <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.46.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.47.0-pre1" />
     <PackageReference Include="Grpc.AspNetCore.Web" Version="2.46.0" />
+{{db_blocks}}
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +34,10 @@ template = """
   </ItemGroup>
 
 </Project>
+"""
+
+template_mongodb = """
+    <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
 """
 
 
@@ -39,6 +48,7 @@ def generate(
     _enums: List[str],
     _services: Dict[str, Dict[str, Tuple]],
     _messages: Dict[str, List[Tuple]],
+    _databasedriver: str,
 ):
     contents = (
         template.replace("{{org}}", _orgname)
@@ -46,6 +56,10 @@ def generate(
         .replace("{{org_lower}}", _orgname.lower())
         .replace("{{module_lower}}", _modulename.lower())
     )
+    if "mongodb" == _databasedriver:
+        contents = contents.replace("{{db_blocks}}", template_mongodb)
+    else:
+        contents = contents.replace("{{db_blocks}}", "")
     project_name = "fmp-{}-{}-service-grpc".format(
         _orgname.lower(), _modulename.lower()
     )
@@ -55,6 +69,7 @@ def generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),
+        _databasedriver,
         _enums,
         _services,
         _messages,
@@ -80,4 +95,12 @@ def generate(
         _messages,
     )
     # 生成appsettings
-    appsettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    appsettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    # 生成ArgumentChekcer
+    ArgumentChecker.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    # 生成DatabaseSettings
+    DatabaseSettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    # 生成DAO
+    DAO.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    # 生成Entity
+    Entity.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)

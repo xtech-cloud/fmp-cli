@@ -11,15 +11,15 @@ from generator.template.vs2022 import csproj_service_grpc_Test
 from generator.template.vs2022 import csproj_web_blazor
 
 
-def generate(_debug: bool, _orgname: str, _modulename: str, _workdir: str):
-    org_name = _orgname
-    mod_name = _modulename
+def generate(
+    _debug: bool, _orgname: str, _modulename: str, _databasedriver: str, _workdir: str
+):
 
-    if "" == org_name:
+    if "" == _orgname:
         print("org is empty")
         return
 
-    if "" == mod_name:
+    if "" == _modulename:
         print("mod is empty")
         return
 
@@ -84,7 +84,7 @@ def generate(_debug: bool, _orgname: str, _modulename: str, _workdir: str):
     )
     # 生成service项目文件
     csproj_service_grpc.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages
+        _orgname, _modulename, dir_vs2022, enums, services, messages, _databasedriver
     )
     # 生成service测试项目文件
     csproj_service_grpc_Test.generate(
