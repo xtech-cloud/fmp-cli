@@ -3,7 +3,7 @@ import sys
 from generator import vs2022
 
 print("****************************************************")
-print("* FMP Client - ver 1.1.0")
+print("* FMP Client - ver 1.1.1")
 print("****************************************************")
 
 print("1. generate")
