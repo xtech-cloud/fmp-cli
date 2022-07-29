@@ -16,7 +16,7 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
     /// <summary>
     /// {{service}}基类
     /// </summary>
-    public class {{service}}BaseService : {{service}}.{{service}}Base
+    public class {{service}}BaseService : LIB.Proto.{{service}}.{{service}}Base
     {
 {{method_blocks}}
     }
