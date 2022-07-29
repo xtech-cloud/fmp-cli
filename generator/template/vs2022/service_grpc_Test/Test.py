@@ -16,7 +16,10 @@ template_method = """
     [Fact]
     public override async Task {{rpc}}Test()
     {
-        await base.{{rpc}}Test();
+        var service = new {{service}}Service();
+        var request = new {{request}}();
+        var response = await service.{{rpc}}(request, TestServerCallContext.Create());
+        Assert.Equal(0, response.Status.Code);
     }
 """
 
