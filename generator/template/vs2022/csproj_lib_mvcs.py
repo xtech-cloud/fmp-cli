@@ -3,18 +3,18 @@ from typing import Dict, List, Tuple
 from generator.template.utility import writer
 from generator.template.vs2022.lib_mvcs import ProtoDTO
 from generator.template.vs2022.lib_mvcs import Entry
-from generator.template.vs2022.lib_mvcs import BaseEntry
-from generator.template.vs2022.lib_mvcs import BaseModel
+from generator.template.vs2022.lib_mvcs import EntryBase
+from generator.template.vs2022.lib_mvcs import ModelBase
 from generator.template.vs2022.lib_mvcs import Model
-from generator.template.vs2022.lib_mvcs import BaseView
+from generator.template.vs2022.lib_mvcs import ViewBase
 from generator.template.vs2022.lib_mvcs import View
-from generator.template.vs2022.lib_mvcs import BaseController
+from generator.template.vs2022.lib_mvcs import ControllerBase
 from generator.template.vs2022.lib_mvcs import Controller
-from generator.template.vs2022.lib_mvcs import BaseService
+from generator.template.vs2022.lib_mvcs import ServiceBase
 from generator.template.vs2022.lib_mvcs import Service
 from generator.template.vs2022.lib_mvcs import Facade
 from generator.template.vs2022.lib_mvcs import ViewBridge
-from generator.template.vs2022.lib_mvcs import BaseViewBridge
+from generator.template.vs2022.lib_mvcs import ViewBridgeBase
 
 template = """
 <Project Sdk="Microsoft.NET.Sdk">
@@ -69,7 +69,7 @@ def generate(
     # 生成Entry
     Entry.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
     # 生成BaseEntry
-    BaseEntry.generate(
+    EntryBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),
@@ -78,7 +78,7 @@ def generate(
         _messages,
     )
     # 生成BaseModel
-    BaseModel.generate(
+    ModelBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),
@@ -96,7 +96,7 @@ def generate(
         _messages,
     )
     # 生成BaseView
-    BaseView.generate(
+    ViewBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),
@@ -114,7 +114,7 @@ def generate(
         _messages,
     )
     # 生成BaseController
-    BaseController.generate(
+    ControllerBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),
@@ -132,7 +132,7 @@ def generate(
         _messages,
     )
     # 生成BaseService
-    BaseService.generate(
+    ServiceBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),
@@ -159,7 +159,7 @@ def generate(
         _messages,
     )
     # 生成BaseViewBridge
-    BaseViewBridge.generate(
+    ViewBridgeBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),

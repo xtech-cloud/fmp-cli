@@ -17,13 +17,13 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}服务层基类
     /// </summary>
-    public class {{service}}BaseService : Service
+    public class {{service}}ServiceBase : Service
     {
         /// <summary>
         /// 带uid参数的构造函数
         /// </summary>
         /// <param name="_uid">实例化后的唯一识别码</param>
-        public {{service}}BaseService(string _uid) : base(_uid)
+        public {{service}}ServiceBase(string _uid) : base(_uid)
         {
 
         }
@@ -135,5 +135,5 @@ def generate(
             .replace("{{service}}", service)
             .replace("{{method_blocks}}", method_blocks)
         )
-        filepath = os.path.join(_outputdir, "{}BaseService.cs".format(service))
+        filepath = os.path.join(_outputdir, "{}ServiceBase.cs".format(service))
         writer.write(filepath, contents, True)

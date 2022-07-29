@@ -44,7 +44,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// 模块入口基类
     /// </summary>
-    public class BaseEntry : UserData
+    public class EntryBase : UserData
     {
         /// <summary>
         /// 模块选项
@@ -262,5 +262,5 @@ def generate(
         .replace("{{static_cancel_blocks}}", static_cancel_blocks)
         .replace("{{dynamic_cancel_blocks}}", dynamic_cancel_blocks)
     )
-    filepath = os.path.join(_outputdir, "BaseEntry.cs")
+    filepath = os.path.join(_outputdir, "EntryBase.cs")
     writer.write(filepath, contents, True)

@@ -10,7 +10,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}数据层
     /// </summary>
-    public class {{service}}Model : {{service}}BaseModel
+    public class {{service}}Model : {{service}}ModelBase
     {
         /// <summary>
         /// 完整名称

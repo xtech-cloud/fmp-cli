@@ -9,7 +9,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// 模块入口
     /// </summary>
-    public class Entry : BaseEntry
+    public class Entry : EntryBase
     {
 
         /// <summary>

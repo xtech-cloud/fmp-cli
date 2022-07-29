@@ -8,7 +8,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}服务层
     /// </summary>
-    public class {{service}}Service : {{service}}BaseService
+    public class {{service}}Service : {{service}}ServiceBase
     {
         /// <summary>
         /// 完整名称

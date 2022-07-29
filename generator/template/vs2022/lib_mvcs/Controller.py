@@ -8,7 +8,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}控制层
     /// </summary>
-    public class {{service}}Controller : {{service}}BaseController
+    public class {{service}}Controller : {{service}}ControllerBase
     {
         /// <summary>
         /// 完整名称

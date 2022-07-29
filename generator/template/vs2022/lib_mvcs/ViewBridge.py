@@ -10,7 +10,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}视图桥接层
     /// </summary>
-    public class {{service}}ViewBridge : {{service}}BaseViewBridge
+    public class {{service}}ViewBridge : {{service}}ViewBridgeBase
     {
         
     }

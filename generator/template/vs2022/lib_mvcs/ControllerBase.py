@@ -13,15 +13,15 @@ using {{org}}.FMP.MOD.{{module}}.LIB.Proto;
 namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
 {
     /// <summary>
-    /// {{service}}数据层基类
+    /// {{service}}控制层基类
     /// </summary>
-    public class {{service}}BaseModel : Model
+    public class {{service}}ControllerBase : Controller
     {
         /// <summary>
         /// 带uid参数的构造函数
         /// </summary>
         /// <param name="_uid">实例化后的唯一识别码</param>
-        public {{service}}BaseModel(string _uid) : base(_uid)
+        public {{service}}ControllerBase(string _uid) : base(_uid)
         {
 
         }
@@ -29,34 +29,35 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
 {{method_blocks}}
 
         /// <summary>
-        /// 获取直系控制层
+        /// 获取直系视图层
         /// </summary>
-        /// <returns>控制层</returns>
-        protected {{service}}Controller? getController()
+        /// <returns>视图层</returns>
+        protected {{service}}View? getView()
         {
-            if(null == controller_)
-                controller_ = findController({{service}}Controller.NAME) as {{service}}Controller;
-            return controller_;
+            if(null == view_)
+                view_ = findView({{service}}View.NAME) as {{service}}View;
+            return view_;
         }
 
         /// <summary>
-        /// 直系控制层
+        /// 直系视图层
         /// </summary>
-        private {{service}}Controller? controller_;
+        private {{service}}View? view_;
     }
 }
-
-
 """
 
 template_method = """
         /// <summary>
         /// 更新{{rpc}}的数据
         /// </summary>
+        /// <param name="_status">直系状态</param>
         /// <param name="_response">{{rpc}}的回复</param>
-        public void UpdateProto{{rpc}}({{response}} _response)
+        public void UpdateProto{{rpc}}({{service}}Model.{{service}}Status? _status, {{response}} _response)
         {
-            getController()?.UpdateProto{{rpc}}(status_ as {{service}}Model.{{service}}Status, _response);
+            Error err = new Error(_response.Status.Code, _response.Status.Message);
+            {{response}}DTO? dto = new {{response}}DTO(_response);
+            getView()?.RefreshProto{{rpc}}(err, dto);
         }
 """
 
@@ -85,5 +86,5 @@ def generate(
             .replace("{{service}}", service)
             .replace("{{method_blocks}}", method_blocks)
         )
-        filepath = os.path.join(_outputdir, "{}BaseModel.cs".format(service))
+        filepath = os.path.join(_outputdir, "{}ControllerBase.cs".format(service))
         writer.write(filepath, contents, True)

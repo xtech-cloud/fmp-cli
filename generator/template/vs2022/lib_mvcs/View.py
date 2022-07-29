@@ -10,7 +10,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}视图层
     /// </summary>
-    public class {{service}}View : {{service}}BaseView
+    public class {{service}}View : {{service}}ViewBase
     {
         /// <summary>
         /// 完整名称

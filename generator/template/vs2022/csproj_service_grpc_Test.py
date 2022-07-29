@@ -3,8 +3,12 @@ from typing import Dict, List, Tuple
 from generator.template.utility import writer
 from generator.template.vs2022.service_grpc_Test import Usings
 from generator.template.vs2022.service_grpc_Test import TestServerCallContext
-from generator.template.vs2022.service_grpc_Test import BaseTest
-from generator.template.vs2022.service_grpc_Test import Test
+from generator.template.vs2022.service_grpc_Test import UnitTestBase
+from generator.template.vs2022.service_grpc_Test import UnitTest
+from generator.template.vs2022.service_grpc_Test import IntegrationTestBase
+from generator.template.vs2022.service_grpc_Test import IntegrationTest
+from generator.template.vs2022.service_grpc_Test import DatabaseSettings
+from generator.template.vs2022.service_grpc_Test import DAOManager
 
 template = """
 <Project Sdk="Microsoft.NET.Sdk">
@@ -20,6 +24,7 @@ template = """
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Moq" Version="4.18.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -47,6 +52,7 @@ def generate(
     _enums: List[str],
     _services: Dict[str, Dict[str, Tuple]],
     _messages: Dict[str, List[Tuple]],
+    _databasedriver: str,
 ):
     contents = (
         template.replace("{{org}}", _orgname)
@@ -62,7 +68,15 @@ def generate(
     Usings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
     # 生成TestServerCallContext
     TestServerCallContext.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
-    # 生成BaseTest
-    BaseTest.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
-    # 生成Test
-    Test.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
+    # 生成UnitTestBase
+    UnitTestBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
+    # 生成UnitTest
+    UnitTest.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
+    # 生成IntegrationTestBase
+    IntegrationTestBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    # 生成IntegrationTest
+    IntegrationTest.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    # 生成DatabaseSettings
+    DatabaseSettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    # 生成DAOManager
+    DAOManager.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)

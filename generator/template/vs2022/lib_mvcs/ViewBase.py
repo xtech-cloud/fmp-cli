@@ -15,13 +15,13 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// <summary>
     /// {{service}}视图层基类
     /// </summary>
-    public class {{service}}BaseView : View
+    public class {{service}}ViewBase : View
     {
         /// <summary>
         /// 带uid参数的构造函数
         /// </summary>
         /// <param name="_uid">实例化后的唯一识别码</param>
-        public {{service}}BaseView(string _uid) : base(_uid)
+        public {{service}}ViewBase(string _uid) : base(_uid)
         {
 
         }
@@ -124,5 +124,5 @@ def generate(
             .replace("{{service}}", service)
             .replace("{{method_blocks}}", method_blocks)
         )
-        filepath = os.path.join(_outputdir, "{}BaseView.cs".format(service))
+        filepath = os.path.join(_outputdir, "{}ViewBase.cs".format(service))
         writer.write(filepath, contents, True)

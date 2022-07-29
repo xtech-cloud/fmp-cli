@@ -4,7 +4,7 @@ from generator.template.utility import writer
 from generator.template.vs2022.service_grpc import Program
 from generator.template.vs2022.service_grpc import MyProgram
 from generator.template.vs2022.service_grpc import ArgumentChecker
-from generator.template.vs2022.service_grpc import BaseService
+from generator.template.vs2022.service_grpc import ServiceBase
 from generator.template.vs2022.service_grpc import Service
 from generator.template.vs2022.service_grpc import appsettings
 from generator.template.vs2022.service_grpc import DatabaseSettings
@@ -76,8 +76,8 @@ def generate(
     )
     # 生成MyProgram
     MyProgram.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
-    # 生成BaseService
-    BaseService.generate(
+    # 生成ServiceBase
+    ServiceBase.generate(
         _orgname,
         _modulename,
         os.path.join(_outputdir, project_name),

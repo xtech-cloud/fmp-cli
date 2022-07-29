@@ -88,7 +88,7 @@ def generate(
     )
     # 生成service测试项目文件
     csproj_service_grpc_Test.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages
+        _orgname, _modulename, dir_vs2022, enums, services, messages, _databasedriver
     )
     # 生成blazor项目文件
     csproj_web_blazor.generate(
