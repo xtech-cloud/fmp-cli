@@ -34,6 +34,6 @@ def generate(
 ):
     if "mongodb" == _databasedriver:
         contents = template_mongodb.replace("{{org}}", _orgname).replace("{{module}}", _modulename)
-        filepath = os.path.join(_outputdir, "DatabaseSettings.cs")
+        filepath = os.path.join(_outputdir, "DatabaseOptions.cs")
         writer.write(filepath, contents, True)
 

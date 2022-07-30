@@ -26,12 +26,15 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
     public class Entity
     {
         /// <summary>
+        /// MongoDB的ObjectId
+        /// </summary>
+        [BsonId]
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        private string? _id{ get; set; }
+
+        /// <summary>
         /// 实体的唯一识别ID
         /// </summary>
-        /// <remarks>
-        /// 不使用ObjectId
-        /// </remarks>
-        [BsonId(IdGenerator = typeof(CombGuidGenerator))]
         public Guid? Uuid { get; set; }
     }
 }

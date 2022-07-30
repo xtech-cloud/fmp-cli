@@ -56,7 +56,7 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
         /// <param name="_count">查询量</param>
         /// <returns></returns>
         public virtual async Task<List<T>> ListAsync(int _offset, int _count) =>
-            await collection_.Find(_ => true).Limit(_count).ToListAsync();
+            await collection_.Find(_ => true).Skip(_offset).Limit(_count).ToListAsync();
 
         /// <summary>
         /// 获取实体

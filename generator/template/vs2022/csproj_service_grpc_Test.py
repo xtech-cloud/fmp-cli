@@ -7,8 +7,9 @@ from generator.template.vs2022.service_grpc_Test import UnitTestBase
 from generator.template.vs2022.service_grpc_Test import UnitTest
 from generator.template.vs2022.service_grpc_Test import IntegrationTestBase
 from generator.template.vs2022.service_grpc_Test import IntegrationTest
-from generator.template.vs2022.service_grpc_Test import DatabaseSettings
-from generator.template.vs2022.service_grpc_Test import DAOManager
+from generator.template.vs2022.service_grpc_Test import DatabaseOptions
+from generator.template.vs2022.service_grpc_Test import TestFixtureBase
+from generator.template.vs2022.service_grpc_Test import TestFixture
 
 template = """
 <Project Sdk="Microsoft.NET.Sdk">
@@ -76,7 +77,9 @@ def generate(
     IntegrationTestBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
     # 生成IntegrationTest
     IntegrationTest.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
-    # 生成DatabaseSettings
-    DatabaseSettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
-    # 生成DAOManager
-    DAOManager.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    # 生成DatabaseOptions
+    DatabaseOptions.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    # 生成TestFixtureBase
+    TestFixtureBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages, _databasedriver)
+    # 生成TestFixture
+    TestFixture.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)

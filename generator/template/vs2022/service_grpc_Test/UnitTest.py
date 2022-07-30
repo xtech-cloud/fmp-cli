@@ -3,32 +3,24 @@ from typing import Dict, List, Tuple
 from generator.template.utility import writer
 
 template = """
-using Moq;
 using {{org}}.FMP.MOD.{{module}}.LIB.Proto;
-using {{org}}.FMP.MOD.{{module}}.App.Service;
 
 public class {{service}}Test : {{service}}UnitTestBase
 {
-    private TestServerCallContext context_ { get; set; }
-    private {{service}}Service service_ { get; set; }
-    //private Mock<YourMockDAO> mockYourDAO_ { get; set; }
-    public {{service}}Test()
+    public {{service}}Test(TestFixture _testFixture)
+        : base(_testFixture)
     {
-        context_ = TestServerCallContext.Create();
-        //mockYourDAO_ = YourMockDAO.NewMock();
-        //service_ = new {{service}}Service(mockYoutDAO_.Object);
-        service_ = new {{service}}Service();
     }
+
 {{method_blocks}}
 }
 """
 
 template_method = """
-    [Fact]
     public override async Task {{rpc}}Test()
     {
         var request = new {{request}}();
-        var response = await service_.{{rpc}}(request, context_);
+        var response = await fixture_.getService{{service}}().{{rpc}}(request, fixture_.context);
         Assert.Equal(0, response.Status.Code);
     }
 """
