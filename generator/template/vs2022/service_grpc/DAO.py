@@ -64,7 +64,7 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
         /// <param name="_uuid">实体的uuid</param>
         /// <returns></returns>
         public virtual async Task<T?> GetAsync(string _uuid) =>
-            await collection_.Find(x => x.Uuid.ToString() == _uuid).FirstOrDefaultAsync();
+            await collection_.Find(x => x.Uuid.Equals(Guid.Parse(_uuid))).FirstOrDefaultAsync();
 
         /// <summary>
         /// 更新实体
