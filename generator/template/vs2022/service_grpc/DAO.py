@@ -73,7 +73,7 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
         /// <param name="_entity">实体的实例</param>
         /// <returns></returns>
         public virtual async Task UpdateAsync(string _uuid, T _entity) =>
-            await collection_.ReplaceOneAsync(x => x.Uuid.ToString() == _uuid, _entity);
+            await collection_.ReplaceOneAsync(x => x.Uuid.Equals(Guid.Parse(_uuid)), _entity);
 
         /// <summary>
         /// 异步移除实体
@@ -81,7 +81,7 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
         /// <param name="_uuid">实体的uuid</param>
         /// <returns></returns>
         public virtual async Task RemoveAsync(string _uuid) =>
-            await collection_.DeleteOneAsync(x => x.Uuid.ToString() == _uuid);
+            await collection_.DeleteOneAsync(x => x.Uuid.Equals(Guid.Parse(_uuid)));
     }
 }
 """
