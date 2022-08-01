@@ -44,7 +44,7 @@ template_method = """
             {
                 return Error.NewNullErr("service is null");
             }
-            return await service.Call{{rpc}}(dto?.message);
+            return await service.Call{{rpc}}(dto?.Value);
         }
 """
 
