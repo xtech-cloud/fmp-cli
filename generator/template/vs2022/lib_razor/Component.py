@@ -47,7 +47,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
                     return;
                 Task.Run(async () =>
                 {
-                    await razor_.messageService_.Success(_message);
+                    await razor_.messageService_.Error(_message);
                 }); 
             }
 
