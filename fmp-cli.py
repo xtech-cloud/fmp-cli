@@ -1,12 +1,14 @@
 import os
 import sys
 from generator import vs2022
+from deploy import docker
 
 print("****************************************************")
-print("* FMP Client - ver 1.6.2")
+print("* FMP Client - ver 1.7.0")
 print("****************************************************")
 
 print("1. generate")
+print("2. deploy")
 index = input("enter you choice:")
 
 if "1" == index:
@@ -23,5 +25,11 @@ if "1" == index:
     debug = input("print log [y/n] (default n):")
     if "" == debug:
         debug = "n"
-
     vs2022.generate(debug == "y", org_name, module_name, database_driver, "./")
+elif "2" == index:
+    print("1. DSC (Data Storage Center)")
+    index = input("enter you choice:")
+    target = ""
+    if "1" == index:
+        target = "DSC"
+    docker.buildCompose(target, "./")
