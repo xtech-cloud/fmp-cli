@@ -50,6 +50,13 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
            await collection_.InsertOneAsync(_entity);
 
         /// <summary>
+        /// 异步计算数量
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<long> CountAsync() =>
+            await collection_.CountDocumentsAsync(_=>true);
+
+        /// <summary>
         /// 异步列举实体
         /// </summary>
         /// <param name="_offset">偏移量</param>
