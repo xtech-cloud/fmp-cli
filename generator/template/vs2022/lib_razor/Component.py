@@ -81,7 +81,7 @@ template_method_razor = """
             public void Refresh{{rpc}}(IDTO _dto)
             {
                 var dto = _dto as {{response}}DTO;
-                razor_.__debug{{rpc}} = dto?.message.ToString();
+                razor_.__debug{{rpc}} = dto?.Value.ToString();
             }
 """
 
