@@ -4,7 +4,7 @@ from generator import vs2022
 from deploy import docker
 
 print("****************************************************")
-print("* FMP Client - ver 1.7.0")
+print("* FMP Client - ver 1.7.1")
 print("****************************************************")
 
 print("1. generate")

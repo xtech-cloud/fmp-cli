@@ -18,7 +18,7 @@ public class DatabaseOptions : IOptions<DatabaseSettings>
         {
             return new DatabaseSettings
             {
-                ConnectionString = "mongodb://localhost:27017",
+                ConnectionString = "mongodb://root:mongo%40XTC@localhost:27017",
                 DatabaseName = "{{org}}_FMP_{{module}}_TEST",
             };
         }

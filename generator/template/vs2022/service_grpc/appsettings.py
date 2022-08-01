@@ -35,7 +35,8 @@ template_development = """
       "Default": "Information",
       "Microsoft.AspNetCore": "Warning"
     }
-  }
+  },
+{{db_blocks}}
 }
 
 """
@@ -43,7 +44,7 @@ template_development = """
 template_driver_mongodb = """
   "Database": {
     "Driver": "MongoDB",
-    "ConnectionString": "mongodb://localhost:27017",
+    "ConnectionString": "mongodb://root:mongo%40XTC@localhost:27017",
     "DatabaseName": "{{org}}_FMP_{{module}}"
   }
 """
@@ -70,5 +71,13 @@ def generate(
     contents = contents.replace("{{org}}", _orgname)
     filepath = os.path.join(_outputdir, "appsettings.json")
     writer.write(filepath, contents, False)
+
+
+    contents = template_development
+    if "mongodb" == _databasedriver:
+        contents = contents.replace("{{db_blocks}}", template_driver_mongodb)
+    else:
+        contents = contents.replace("{{db_blocks}}", template_driver_none)
+    contents = contents.replace("{{module}}", _modulename)
     filepath = os.path.join(_outputdir, "appsettings.Development.json")
     writer.write(filepath, template_development, False)
