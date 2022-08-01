@@ -19,11 +19,11 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
 template_message = """
     public class {{message}}DTO : IDTO
     {
-        public {{message}}DTO({{message}} _message)
+        public {{message}}DTO({{message}} _value)
         {
-            message = _message;    
+            Value = _value;    
         }
-        public readonly {{message}} message;
+        public readonly {{message}} Value;
     }
 """
 
