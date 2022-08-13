@@ -16,7 +16,7 @@ template = """
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net6</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <RootNamespace>{{org}}.FMP.MOD.{{module}}.App.Web</RootNamespace>
   </PropertyGroup>

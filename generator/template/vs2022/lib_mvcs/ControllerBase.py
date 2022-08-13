@@ -21,9 +21,10 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         /// 带uid参数的构造函数
         /// </summary>
         /// <param name="_uid">实例化后的唯一识别码</param>
-        public {{service}}ControllerBase(string _uid) : base(_uid)
+        /// <param name="_gid">直系的组的ID</param>
+        public {{service}}ControllerBase(string _uid, string _gid) : base(_uid)
         {
-
+            gid_ = _gid;
         }
 
 {{method_blocks}}
@@ -35,9 +36,14 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}View? getView()
         {
             if(null == view_)
-                view_ = findView({{service}}View.NAME) as {{service}}View;
+                view_ = findView({{service}}View.NAME + "." + gid_) as {{service}}View;
             return view_;
         }
+
+        /// <summary>
+        /// 直系的MVCS的四个组件的组的ID
+        /// </summary>
+        protected string gid_ = "";
 
         /// <summary>
         /// 直系视图层

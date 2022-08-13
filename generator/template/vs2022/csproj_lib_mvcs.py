@@ -20,7 +20,7 @@ template = """
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>{{org}}.FMP.MOD.{{module}}.LIB.MVCS</RootNamespace>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>

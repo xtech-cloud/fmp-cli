@@ -49,11 +49,11 @@ public partial class Program
         options.setChannel(channel);
         framework.setUserData("{{org}}.FMP.MOD.{{module}}.LIB.MVCS.Entry", entry);
         entry.Inject(framework, options);
-        entry.DynamicRegister(logger);
+        entry.DynamicRegister("default", logger);
         await builder.Build().RunAsync();
 
         framework.Dismantle();
-        entry.StaticCancel(logger);
+        entry.StaticCancel("default", logger);
         framework.Release();
     }
 }

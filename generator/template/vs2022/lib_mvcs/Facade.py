@@ -18,9 +18,15 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         /// 带uid参数的构造函数
         /// </summary>
         /// <param name="_uid">实例化后的唯一识别码</param>
-        public {{service}}Facade(string _uid) : base(_uid)
+        public {{service}}Facade(string _uid, string _gid) : base(_uid)
         {
+            gid_ = _gid;
         }
+
+        /// <summary>
+        /// 直系的MVCS的四个组件的组的ID
+        /// </summary>
+        protected string gid_ = "";
     }
 }
 

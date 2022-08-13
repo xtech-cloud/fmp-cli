@@ -15,41 +15,57 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         /// <summary>
         /// 静态注册
         /// </summary>
+        /// <remarks>
+        /// 使用(NAME+"."+_id)作为uid，注册一套MVCS
+        /// </remarks>
+        /// <param name="_id">id</param>
         /// <param name="_logger">日志</param>
         /// <returns>错误</returns>
-        public Error StaticRegister(Logger? _logger)
+        public Error StaticRegister(string _id, Logger? _logger)
         {
-            return base.staticRegister(_logger);
+            return base.staticRegister(_id, _logger);
         }
 
         /// <summary>
         /// 动态注册
         /// </summary>
+        /// <remarks>
+        /// 使用(NAME+"."+_id)作为uid，注册一套MVCS
+        /// </remarks>
+        /// <param name="_id">id</param>
         /// <param name="_logger">日志</param>
         /// <returns>错误</returns>
-        public Error DynamicRegister(Logger _logger)
+        public Error DynamicRegister(string _id, Logger _logger)
         {
-            return base.dynamicRegister(_logger);
+            return base.dynamicRegister(_id, _logger);
         }
 
         /// <summary>
         /// 静态注销
         /// </summary>
+        /// <remarks>
+        /// 使用(NAME+"."+_id)作为uid，注销一套MVCS
+        /// </remarks>
+        /// <param name="_id">id</param>
         /// <param name="_logger">日志</param>
         /// <returns>错误</returns>
-        public Error StaticCancel(Logger _logger)
+        public Error StaticCancel(string _id, Logger _logger)
         {
-            return base.staticCancel(_logger);
+            return base.staticCancel(_id, _logger);
         }
 
         /// <summary>
         /// 动态注销
         /// </summary>
+        /// <remarks>
+        /// 使用(NAME+"."+_id)作为uid，注销一套MVCS
+        /// </remarks>
+        /// <param name="_id">id</param>
         /// <param name="_logger">日志</param>
         /// <returns>错误</returns>
-        public Error DynamicCancel(Logger _logger)
+        public Error DynamicCancel(string _id, Logger _logger)
         {
-            return base.dynamicCancel(_logger);
+            return base.dynamicCancel(_id, _logger);
         }
     }
 }

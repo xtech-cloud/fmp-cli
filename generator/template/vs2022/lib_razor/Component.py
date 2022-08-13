@@ -125,7 +125,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
                     logger_?.Error("entry is null");
                     return null;
                 }
-                facade_ = entry?.get{{service}}Facade();
+                facade_ = entry?.getDynamic{{service}}Facade("default");
                 if (null == facade_)
                 {
                     logger_?.Error("facade_ is null");

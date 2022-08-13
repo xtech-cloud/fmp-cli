@@ -21,9 +21,10 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         /// 带uid参数的构造函数
         /// </summary>
         /// <param name="_uid">实例化后的唯一识别码</param>
-        public {{service}}ViewBase(string _uid) : base(_uid)
+        /// <param name="_gid">直系的组的ID</param>
+        public {{service}}ViewBase(string _uid, string _gid) : base(_uid)
         {
-
+            gid_ = _gid;
         }
 
 {{method_blocks}}
@@ -35,7 +36,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}Model? getModel()
         {
             if(null == model_)
-                model_ = findModel({{service}}Model.NAME) as {{service}}Model;
+                model_ = findModel({{service}}Model.NAME + "." + gid_) as {{service}}Model;
             return model_;
         }
 
@@ -46,7 +47,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}Service? getService()
         {
             if(null == service_)
-                service_ = findService({{service}}Service.NAME) as {{service}}Service;
+                service_ = findService({{service}}Service.NAME + "." + gid_) as {{service}}Service;
             return service_;
         }
 
@@ -57,9 +58,14 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         protected {{service}}Facade? getFacade()
         {
             if(null == facade_)
-                facade_ = findFacade({{service}}Facade.NAME) as {{service}}Facade;
+                facade_ = findFacade({{service}}Facade.NAME + "." + gid_) as {{service}}Facade;
             return facade_;
         }
+
+        /// <summary>
+        /// 直系的MVCS的四个组件的组的ID
+        /// </summary>
+        protected string gid_ = "";
 
         /// <summary>
         /// 直系数据层

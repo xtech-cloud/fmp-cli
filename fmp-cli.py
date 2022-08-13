@@ -25,7 +25,13 @@ if "1" == index:
     debug = input("print log [y/n] (default n):")
     if "" == debug:
         debug = "n"
+    unity = input("generate unity's solution [y/n] (default n):")
+    if "" == unity:
+        unity = "n"
     vs2022.generate(debug == "y", org_name, module_name, database_driver, "./")
+    if "y" == unity:
+        unity2021.generate(debug == "y", org_name, module_name, "./")
+
 elif "2" == index:
     print("1. DSC (Data Storage Center)")
     index = input("enter you choice:")

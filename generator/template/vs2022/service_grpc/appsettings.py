@@ -13,7 +13,7 @@ template = """
   "AllowedHosts": "*",
   "Kestrel": {
     "EndpointDefaults": {
-      "Protocols": "Http2"
+      "Protocols": "Http1"
     },
     "Endpoints": {
       "Http": {
@@ -80,4 +80,4 @@ def generate(
         contents = contents.replace("{{db_blocks}}", template_driver_none)
     contents = contents.replace("{{module}}", _modulename)
     filepath = os.path.join(_outputdir, "appsettings.Development.json")
-    writer.write(filepath, template_development, False)
+    writer.write(filepath, contents, False)
