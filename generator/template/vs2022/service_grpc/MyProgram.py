@@ -16,11 +16,7 @@ public static class MyProgram
 }
 """
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-):
+def generate(_options, _outputdir: str):
     contents = template
     filepath = os.path.join(_outputdir, "MyProgram.cs")
     writer.write(filepath, contents, False)

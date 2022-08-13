@@ -41,138 +41,43 @@ template = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
-        .replace("{{org_lower}}", _orgname.lower())
-        .replace("{{module_lower}}", _modulename.lower())
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
+        .replace("{{org_lower}}", org_name.lower())
+        .replace("{{module_lower}}", module_name.lower())
     )
-    project_name = "fmp-{}-{}-lib-mvcs".format(_orgname.lower(), _modulename.lower())
+    project_name = "fmp-{}-{}-lib-mvcs".format(org_name.lower(), module_name.lower())
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
     # 生成ProtoDTO
-    ProtoDTO.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ProtoDTO.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Entry
-    Entry.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    Entry.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseEntry
-    EntryBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    EntryBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseModel
-    ModelBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ModelBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Model
-    Model.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Model.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseView
-    ViewBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ViewBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成View
-    View.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    View.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseController
-    ControllerBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ControllerBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Controller
-    Controller.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Controller.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseService
-    ServiceBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ServiceBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Service
-    Service.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Service.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Facade
-    Facade.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Facade.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseViewBridge
-    ViewBridgeBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ViewBridgeBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成ViewBridge
-    ViewBridge.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ViewBridge.generate(_options, os.path.join(_outputdir, project_name))

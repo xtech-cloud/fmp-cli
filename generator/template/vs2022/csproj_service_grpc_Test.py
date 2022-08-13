@@ -46,40 +46,37 @@ template = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-    _databasedriver: str,
-):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    datbase_driver = _options["database_driver"]
+
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
-        .replace("{{org_lower}}", _orgname.lower())
-        .replace("{{module_lower}}", _modulename.lower())
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
+        .replace("{{org_lower}}", org_name.lower())
+        .replace("{{module_lower}}", module_name.lower())
     )
     project_name = "fmp-{}-{}-service-grpc_Test".format(
-        _orgname.lower(), _modulename.lower()
+        org_name.lower(), module_name.lower()
     )
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
+
     # 生成Usings
-    Usings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    Usings.generate(_options, os.path.join(_outputdir, project_name))
     # 生成TestServerCallContext
-    TestServerCallContext.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    TestServerCallContext.generate(_options, os.path.join(_outputdir, project_name))
     # 生成UnitTestBase
-    UnitTestBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
+    UnitTestBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成UnitTest
-    UnitTest.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
+    UnitTest.generate(_options, os.path.join(_outputdir, project_name))
     # 生成IntegrationTestBase
-    IntegrationTestBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    IntegrationTestBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成IntegrationTest
-    IntegrationTest.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    IntegrationTest.generate(_options, os.path.join(_outputdir, project_name))
     # 生成DatabaseOptions
-    DatabaseOptions.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    DatabaseOptions.generate(_options, os.path.join(_outputdir, project_name))
     # 生成TestFixtureBase
-    TestFixtureBase.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages, _databasedriver)
+    TestFixtureBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成TestFixture
-    TestFixture.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _enums, _services, _messages)
+    TestFixture.generate(_options, os.path.join(_outputdir, project_name))

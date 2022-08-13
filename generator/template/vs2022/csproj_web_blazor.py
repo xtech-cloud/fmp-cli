@@ -39,64 +39,37 @@ template = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    datbase_driver = _options["database_driver"]
+
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
-        .replace("{{org_lower}}", _orgname.lower())
-        .replace("{{module_lower}}", _modulename.lower())
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
+        .replace("{{org_lower}}", org_name.lower())
+        .replace("{{module_lower}}", module_name.lower())
     )
-    project_name = "fmp-{}-{}-web-blazor".format(_orgname.lower(), _modulename.lower())
+    project_name = "fmp-{}-{}-web-blazor".format(org_name.lower(), module_name.lower())
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
+
     # 生成Program
-    Program.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Program.generate(_options, os.path.join(_outputdir, project_name))
     # 生成ConsoleLogger
-    ConsoleLogger.generate(
-        _orgname, _modulename, os.path.join(_outputdir, project_name)
-    )
+    ConsoleLogger.generate(_options, os.path.join(_outputdir, project_name))
     # 生成_Imports
-    _Imports.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    _Imports.generate(_options, os.path.join(_outputdir, project_name))
     # 生成App
-    App.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    App.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Pages/Welcome
-    Welcome.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    Welcome.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Layouts/BasicLayout
-    BasicLayout.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    BasicLayout.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Properties/launchSettings
-    launchSettings.generate(
-        _orgname, _modulename, os.path.join(_outputdir, project_name)
-    )
+    launchSettings.generate(_options, os.path.join(_outputdir, project_name))
     # 生成wwwroot/index
-    index.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    index.generate(_options, os.path.join(_outputdir, project_name))
     # 生成wwwroot/appsettings
-    appsettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    appsettings.generate(_options, os.path.join(_outputdir, project_name))
     # 生成wwwroot/css/site
-    site.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    site.generate(_options, os.path.join(_outputdir, project_name))

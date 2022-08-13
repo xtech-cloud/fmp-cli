@@ -41,66 +41,40 @@ template_mongodb = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-    _databasedriver: str,
-):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    database_driver = _options["database_driver"]
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
-        .replace("{{org_lower}}", _orgname.lower())
-        .replace("{{module_lower}}", _modulename.lower())
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
+        .replace("{{org_lower}}", org_name.lower())
+        .replace("{{module_lower}}", module_name.lower())
     )
-    if "mongodb" == _databasedriver:
+    if "mongodb" == database_driver:
         contents = contents.replace("{{db_blocks}}", template_mongodb)
     else:
         contents = contents.replace("{{db_blocks}}", "")
     project_name = "fmp-{}-{}-service-grpc".format(
-        _orgname.lower(), _modulename.lower()
+        org_name.lower(), module_name.lower()
     )
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
+
     # 生成Program
-    Program.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _databasedriver,
-        _enums,
-        _services,
-        _messages,
-    )
+    Program.generate(_options, os.path.join(_outputdir, project_name))
     # 生成MyProgram
-    MyProgram.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    MyProgram.generate(_options, os.path.join(_outputdir, project_name))
     # 生成ServiceBase
-    ServiceBase.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    ServiceBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Service
-    Service.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Service.generate(_options, os.path.join(_outputdir, project_name))
     # 生成appsettings
-    appsettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    appsettings.generate(_options, os.path.join(_outputdir, project_name))
     # 生成ArgumentChekcer
-    ArgumentChecker.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    ArgumentChecker.generate(_options, os.path.join(_outputdir, project_name))
     # 生成DatabaseSettings
-    DatabaseSettings.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    DatabaseSettings.generate(_options, os.path.join(_outputdir, project_name))
     # 生成DAO
-    DAO.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    DAO.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Entity
-    Entity.generate(_orgname, _modulename, os.path.join(_outputdir, project_name), _databasedriver)
+    Entity.generate(_options, os.path.join(_outputdir, project_name))

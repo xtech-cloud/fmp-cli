@@ -31,30 +31,18 @@ template = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
-        .replace("{{org_lower}}", _orgname.lower())
-        .replace("{{module_lower}}", _modulename.lower())
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
+        .replace("{{org_lower}}", org_name.lower())
+        .replace("{{module_lower}}", module_name.lower())
     )
-    project_name = "fmp-{}-{}-lib-razor".format(_orgname.lower(), _modulename.lower())
+    project_name = "fmp-{}-{}-lib-razor".format(org_name.lower(), module_name.lower())
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
     # 生成_Imports
-    _Imports.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    _Imports.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Component
-    Component.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    Component.generate(_options, os.path.join(_outputdir, project_name))

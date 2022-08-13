@@ -25,53 +25,20 @@ template = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-):
+def generate(_options, _outputdir: str):
     # 生成项目文件
-    contents = template.replace("{{org}}", _orgname).replace("{{module}}", _modulename)
-    project_name = "fmp-{}-{}-lib-bridge".format(_orgname.lower(), _modulename.lower())
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    contents = template.replace("{{org}}", org_name).replace("{{module}}", module_name)
+    project_name = "fmp-{}-{}-lib-bridge".format(org_name.lower(), module_name.lower())
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
     # 生成IDTO
-    IDTO.generate(_orgname, _modulename, os.path.join(_outputdir, project_name))
+    IDTO.generate(_options, os.path.join(_outputdir, project_name))
     # 生成IUiBridge.cs
-    IUiBridge.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    IUiBridge.generate(_options, os.path.join(_outputdir, project_name))
     # 生成IUiProtoBridge.cs
-    IUiProtoBridge.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    IUiProtoBridge.generate(_options, os.path.join(_outputdir, project_name))
     # 生成IViewBridge.cs
-    IViewBridge.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    IViewBridge.generate(_options, os.path.join(_outputdir, project_name))
     # 生成IViewProtoBridge.cs
-    IViewProtoBridge.generate(
-        _orgname,
-        _modulename,
-        os.path.join(_outputdir, project_name),
-        _enums,
-        _services,
-        _messages,
-    )
+    IViewProtoBridge.generate(_options, os.path.join(_outputdir, project_name))

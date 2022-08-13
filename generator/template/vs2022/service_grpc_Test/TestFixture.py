@@ -32,20 +32,21 @@ template_method = """
     }
 """
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-):
-    method_blocks= ""
-    for service in _services.keys():
+
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    services = _options["services"]
+
+    filepath = os.path.join(_outputdir, "IntegrationTestBase.cs")
+    writer.write(filepath, template, True)
+
+    method_blocks = ""
+    for service in services.keys():
         method_blocks = method_blocks + template_method.replace("{{service}}", service)
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
         .replace("{{method_blocks}}", method_blocks)
     )
     filepath = os.path.join(_outputdir, "TestFixture.cs")

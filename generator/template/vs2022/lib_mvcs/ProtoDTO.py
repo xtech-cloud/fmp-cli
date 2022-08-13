@@ -28,19 +28,15 @@ template_message = """
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-    _enums: List[str],
-    _services: Dict[str, Dict[str, Tuple]],
-    _messages: Dict[str, List[Tuple]],
-):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    messages = _options["messages"]
     message_blocks = ""
     # 遍历所有消息
-    for message_name in _messages.keys():
+    for message_name in messages.keys():
         # 遍历所有字段
-        for field in _messages[message_name]:
+        for field in messages[message_name]:
             # 字段名
             field_name = field[0]
             # 字段类型
@@ -50,9 +46,10 @@ def generate(
 
     # 生成项目文件
     contents = (
-        template.replace("{{org}}", _orgname)
-        .replace("{{module}}", _modulename)
+        template.replace("{{org}}", org_name)
+        .replace("{{module}}", module_name)
         .replace("{{message_blocks}}", message_blocks)
     )
+    contents = contents.replace("{{version}}", _options["version"])
     filepath = os.path.join(_outputdir, "ProtoDTO.cs")
     writer.write(filepath, contents, True)

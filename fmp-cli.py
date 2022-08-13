@@ -4,7 +4,7 @@ import yaml
 from generator import vs2022
 from deploy import docker
 
-def useWizard():
+def useWizard(_version):
     print("1. generate")
     print("2. deploy")
     index = input("enter you choice:")
@@ -26,9 +26,9 @@ def useWizard():
         unity = input("generate unity's solution [y/n] (default n):")
         if "" == unity:
             unity = "n"
-        vs2022.generate(debug == "y", org_name, module_name, database_driver, "./")
+        vs2022.generate(version, debug == "y", org_name, module_name, database_driver, "./")
         if "y" == unity:
-            unity2021.generate(debug == "y", org_name, module_name, "./")
+            unity2021.generate(version, debug == "y", org_name, module_name, "./")
 
     elif "2" == index:
         print("1. DSC (Data Storage Center)")
@@ -38,7 +38,7 @@ def useWizard():
             target = "DSC"
         docker.buildCompose(target, "./")
 
-def useYaml():
+def useYaml(_version):
     print("! use fmp.yaml")
     with open('fmp.yaml') as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -69,14 +69,15 @@ def useYaml():
             print("debug: {}".format(debug))
             print("```")
 
-            vs2022.generate(debug, config["org_name"], config["module_name"], database_driver, "./")
+            vs2022.generate(_version, debug, config["org_name"], config["module_name"], database_driver, "./")
 
+version = "1.8.0"
 print("****************************************************")
-print("* FMP Client - ver 1.8.0")
+print("* FMP Client - ver {}".format(version))
 print("****************************************************")
 
 if os.path.exists("./fmp.yaml"):
-    useYaml()
+    useYaml(version)
 else:
-    useWizard()
+    useWizard(version)
 

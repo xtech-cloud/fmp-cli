@@ -12,7 +12,12 @@ from generator.template.vs2022 import csproj_web_blazor
 
 
 def generate(
-    _debug: bool, _orgname: str, _modulename: str, _databasedriver: str, _workdir: str
+    _version: str,
+    _debug: bool,
+    _orgname: str,
+    _modulename: str,
+    _databasedriver: str,
+    _workdir: str,
 ):
 
     if "" == _orgname:
@@ -64,33 +69,30 @@ def generate(
         print(services)
         print(messages)
 
+    options = {
+        "version": _version,
+        "org_name": _orgname,
+        "module_name": _modulename,
+        "enums": enums,
+        "services": services,
+        "messages": messages,
+        "database_driver": _databasedriver,
+    }
     os.makedirs("vs2022", exist_ok=True)
     dir_vs2022 = os.path.join(_workdir, "vs2022")
     # 生成解决方案文件
-    sln.generate(_orgname, _modulename, dir_vs2022)
+    sln.generate(options, dir_vs2022)
     # 生成proto项目文件
-    csproj_lib_proto.generate(_orgname, _modulename, dir_vs2022)
+    csproj_lib_proto.generate(options, dir_vs2022)
     # 生成bridge项目文件
-    csproj_lib_bridge.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages
-    )
+    csproj_lib_bridge.generate(options, dir_vs2022)
     # 生成mvcs项目文件
-    csproj_lib_mvcs.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages
-    )
+    csproj_lib_mvcs.generate(options, dir_vs2022)
     # 生成razor项目文件
-    csproj_lib_razor.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages
-    )
+    csproj_lib_razor.generate(options, dir_vs2022)
     # 生成service项目文件
-    csproj_service_grpc.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages, _databasedriver
-    )
+    csproj_service_grpc.generate(options, dir_vs2022)
     # 生成service测试项目文件
-    csproj_service_grpc_Test.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages, _databasedriver
-    )
+    csproj_service_grpc_Test.generate(options, dir_vs2022)
     # 生成blazor项目文件
-    csproj_web_blazor.generate(
-        _orgname, _modulename, dir_vs2022, enums, services, messages
-    )
+    csproj_web_blazor.generate(options, dir_vs2022)

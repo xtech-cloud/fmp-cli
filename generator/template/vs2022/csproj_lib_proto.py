@@ -24,7 +24,9 @@ template = """
 """
 
 
-def generate(_orgname: str, _modulename: str, _outputdir: str):
-    contents = template.replace("{{org}}", _orgname).replace("{{module}}", _modulename)
-    project_name = "fmp-{}-{}-lib-proto".format(_orgname.lower(), _modulename.lower())
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+    contents = template.replace("{{org}}", org_name).replace("{{module}}", module_name)
+    project_name = "fmp-{}-{}-lib-proto".format(org_name.lower(), module_name.lower())
     writer.writeVS2022Project(_outputdir, project_name, contents, False)

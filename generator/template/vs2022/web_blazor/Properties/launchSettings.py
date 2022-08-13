@@ -34,17 +34,16 @@ template = """
 }
 """
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-):
+
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+
     sub_dir = os.path.join(_outputdir, "Properties")
     os.makedirs(sub_dir, exist_ok=True)
 
-    contents = (
-        template.replace("{{org_lower}}", _orgname.lower())
-        .replace("{{module_lower}}", _modulename.lower())
+    contents = template.replace("{{org_lower}}", org_name.lower()).replace(
+        "{{module_lower}}", module_name.lower()
     )
     filepath = os.path.join(sub_dir, "launchSettings.json")
     writer.write(filepath, contents, False)

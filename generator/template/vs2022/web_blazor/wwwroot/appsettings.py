@@ -23,11 +23,7 @@ template = """
 }
 """
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-):
+def generate(_options, _outputdir: str):
     sub_dir = os.path.join(_outputdir, "wwwroot")
     os.makedirs(sub_dir, exist_ok=True)
 

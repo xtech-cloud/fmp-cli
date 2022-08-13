@@ -48,10 +48,6 @@ public class ConsoleLogger : Logger
 """
 
 
-def generate(
-    _orgname: str,
-    _modulename: str,
-    _outputdir: str,
-):
+def generate(_options, _outputdir: str):
     filepath = os.path.join(_outputdir, "ConsoleLogger.cs")
     writer.write(filepath, template, True)

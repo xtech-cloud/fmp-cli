@@ -66,7 +66,10 @@ EndGlobal
 """
 
 
-def generate(_orgname: str, _modulename: str, _outputdir: str):
+def generate(_options, _outputdir: str):
+    org_name = _options["org_name"]
+    module_name = _options["module_name"]
+
     guid_sln = str(uuid.uuid4()).upper()
     guid_lib_proto = str(uuid.uuid4()).upper()
     guid_lib_bridge = str(uuid.uuid4()).upper()
@@ -77,8 +80,8 @@ def generate(_orgname: str, _modulename: str, _outputdir: str):
     guid_service_grpc_Test = str(uuid.uuid4()).upper()
 
     contents = (
-        template.replace("{{org.lower}}", _orgname.lower())
-        .replace("{{module.lower}}", _modulename.lower())
+        template.replace("{{org.lower}}", org_name.lower())
+        .replace("{{module.lower}}", module_name.lower())
         .replace("{{guid_lib_proto}}", guid_lib_proto)
         .replace("{{guid_lib_bridge}}", guid_lib_bridge)
         .replace("{{guid_lib_mvcs}}", guid_lib_mvcs)
@@ -90,6 +93,6 @@ def generate(_orgname: str, _modulename: str, _outputdir: str):
     )
 
     output_path = os.path.join(
-        _outputdir, "fmp-{}-{}.sln".format(_orgname.lower(), _modulename.lower())
+        _outputdir, "fmp-{}-{}.sln".format(org_name.lower(), module_name.lower())
     )
     writer.write(output_path, contents, False)
