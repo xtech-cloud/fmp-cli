@@ -11,5 +11,6 @@ global using Xunit;
 """
 
 def generate(_options, _outputdir: str):
+    contents = template.replace("{{version}}", _options["version"])
     filepath = os.path.join(_outputdir, "Usings.cs")
-    writer.write(filepath, template, True)
+    writer.write(filepath, contents, True)

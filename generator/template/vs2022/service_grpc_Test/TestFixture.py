@@ -38,9 +38,6 @@ def generate(_options, _outputdir: str):
     module_name = _options["module_name"]
     services = _options["services"]
 
-    filepath = os.path.join(_outputdir, "IntegrationTestBase.cs")
-    writer.write(filepath, template, True)
-
     method_blocks = ""
     for service in services.keys():
         method_blocks = method_blocks + template_method.replace("{{service}}", service)

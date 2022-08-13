@@ -36,5 +36,6 @@ def generate(_options, _outputdir: str):
         contents = template_mongodb.replace("{{org}}", org_name).replace(
             "{{module}}", module_name
         )
+        contents = contents.replace("{{version}}", _options["version"])
         filepath = os.path.join(_outputdir, "DatabaseOptions.cs")
         writer.write(filepath, contents, True)

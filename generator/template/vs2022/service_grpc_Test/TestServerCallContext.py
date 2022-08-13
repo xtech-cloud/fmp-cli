@@ -68,5 +68,6 @@ public class TestServerCallContext : ServerCallContext
 
 
 def generate(_options, _outputdir: str):
+    contents = template.replace("{{version}}", _options["version"])
     filepath = os.path.join(_outputdir, "TestServerCallContext.cs")
-    writer.write(filepath, template, True)
+    writer.write(filepath, contents, True)

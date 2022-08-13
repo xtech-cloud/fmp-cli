@@ -74,5 +74,6 @@ def generate(_options, _outputdir: str):
         .replace("{{method_blocks}}", method_blocks)
         .replace("{{database_dispose}}", databse_dispose)
     )
+    contents = contents.replace("{{version}}", _options["version"])
     filepath = os.path.join(_outputdir, "TestFixtureBase.cs")
     writer.write(filepath, contents, True)

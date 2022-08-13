@@ -50,5 +50,6 @@ def generate(_options, _outputdir: str):
             .replace("{{service}}", service)
             .replace("{{method_blocks}}", method_blocks)
         )
+        contents = contents.replace("{{version}}", _options["version"])
         filepath = os.path.join(_outputdir, "{}UnitTestBase.cs".format(service))
         writer.write(filepath, contents, True)
