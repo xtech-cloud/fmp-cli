@@ -43,6 +43,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 texture.LoadImage(bytes);
                 sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
+            else
+            {
+                logger.Error("{0} not found", filefullpath);
+            }
 
             _onFinish(sprite);
         }
