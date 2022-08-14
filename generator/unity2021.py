@@ -4,6 +4,7 @@ from generator.template.unity2021 import copy_dll
 from generator.template.unity2021.packages import manifest
 from generator.template.unity2021.packages import packages_lock
 from generator.template.unity2021.projectsettings import ProjectVersion
+from generator.template.unity2021.projectsettings import ProjectSettings
 from generator.template.unity2021.assets.editor import PackageTools
 from generator.template.unity2021.assets.exports import config
 from generator.template.unity2021.assets.exports import ExportRoot
@@ -44,6 +45,8 @@ def generate(_options, _workdir: str):
     packages_lock.generate(_options, dir_unity2021)
     # 生成ProjectSettings/ProjectVersion.txt
     ProjectVersion.generate(_options, dir_unity2021)
+    # 生成ProjectSettings/ProjectSettings.txt
+    ProjectSettings.generate(_options, dir_unity2021)
     # 生成Asset/Editor/PackageTools.cs
     PackageTools.generate(_options, dir_unity2021)
     # 生成Asset/Exports/xxxx.xml
