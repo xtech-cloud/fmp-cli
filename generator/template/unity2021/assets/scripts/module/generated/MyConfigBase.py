@@ -28,12 +28,26 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public string slot { get; set; } = "[root]";
         }
 
+        public class AutoOpen
+        {
+            [XmlAttribute("active")]
+            public bool active { get; set; } = false; 
+            [XmlAttribute("source")]
+            public string source { get; set; } = "";
+            [XmlAttribute("uri")]
+            public string uri { get; set; } = "";
+            [XmlAttribute("delay")]
+            public float delay { get; set; } = 0;
+        }
+
         public class Instance
         {
             [XmlAttribute("uid")]
             public string uid { get; set; } = "";
             [XmlAttribute("style")]
             public string style { get; set; } = "";
+            [XmlElement("AutoOpen")]
+            public AutoOpen autoOpen { get; set; } = new AutoOpen(); 
         }
 
         [XmlAttribute("version")]

@@ -18,14 +18,21 @@ template = """<?xml version="1.0" encoding="utf-8"?>
     -->
     <Styles>
         <Style name="default"></Style>
-        </Styles>
-        <!-- 预创建的实例列表
-          uid: 实例的唯一ID
-          style: 使用的样式名
-        -->
-        <Instances>
-          <Instance uid="default" style="default"></Instance>
-        </Instances>
+    </Styles>
+    <!-- 预创建的实例列表
+      uid: 实例的唯一ID
+      style: 使用的样式名
+    -->
+    <Instances>
+        <Instance uid="default" style="default">
+            <!-- 预创建的实例列表
+              source: 内容的源的类型
+              uri: 内容的地址
+              delay: 延时打开的时间，单位秒
+            -->
+            <AutoOpen active="false" source="" uri="" delay="0"/>
+        </Instance>
+    </Instances>
 </MyConfig>
 """
 
