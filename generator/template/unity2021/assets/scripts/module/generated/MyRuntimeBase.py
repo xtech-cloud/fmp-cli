@@ -25,6 +25,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     {
         public MonoBehaviour mono { get; set; }
         public MyConfig config { get; set; }
+        public Dictionary<string, LibMVCS.Any> settings { get; set; }
         public LibMVCS.Logger logger { get; set; }
         public MyEntryBase entry { get; set; }
 
@@ -103,6 +104,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instance.rootUI = UnityEngine.GameObject.Instantiate(instanceUI, instanceUI.transform.parent);
             instance.rootUI.name = _uid;
             instance.logger = logger;
+            instance.config = config;
+            instance.settings = settings;
             instance.viewBridgeHealthy = facade.getViewBridge() as IHealthyViewBridge;
 
             MyConfig.Style style = null;

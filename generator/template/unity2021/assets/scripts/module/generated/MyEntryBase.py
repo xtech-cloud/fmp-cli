@@ -71,6 +71,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
 
             runtime_ = new MyRuntime();
+            runtime_.settings = settings_;
             runtime_.entry = this;
             runtime_.logger = _logger;
             runtime_.config = config_;

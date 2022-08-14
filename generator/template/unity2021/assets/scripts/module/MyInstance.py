@@ -17,6 +17,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     /// </summary>
     public class MyInstance : MyInstanceBase
     {
+        private MyConfig.Style style_ { get; set; }
 
         /// <summary>
         /// 应用样式
@@ -24,6 +25,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_style">样式</param>
         public void ApplyStyle(MyConfig.Style _style)
         {
+            style_ = _style;
         }
 
         /// <summary>

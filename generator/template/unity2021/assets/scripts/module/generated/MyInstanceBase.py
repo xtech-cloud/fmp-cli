@@ -8,6 +8,7 @@ template = """
 //*************************************************************************************
 
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine;
 using LibMVCS = XTC.FMP.LIB.MVCS;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.Bridge;
@@ -19,9 +20,32 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     public class MyInstanceBase
     {
         public LibMVCS.Logger logger { get; set; }
+        public MyConfig config { get; set; }
+        public Dictionary<string, LibMVCS.Any> settings { get; set; }
         public GameObject rootUI { get; set; }
 
 {{member_blocks}}
+
+        protected void loadSpriteFromTheme(string _file, System.Action<Sprite> _onFinish)
+        {
+            Sprite sprite = null;
+
+            string datapath = settings["datapath"].AsString();
+            string vendor = settings["vendor"].AsString();
+            string dir = System.IO.Path.Combine(datapath, vendor);
+            dir = System.IO.Path.Combine(dir, "theme");
+            dir = System.IO.Path.Combine(dir, MyEntryBase.ModuleName);
+            string filefullpath = System.IO.Path.Combine(dir, _file);
+            if (System.IO.File.Exists(filefullpath))
+            {
+                var bytes = System.IO.File.ReadAllBytes(filefullpath);
+                var texture = new Texture2D(10, 10, TextureFormat.RGBA32, false);
+                texture.LoadImage(bytes);
+                sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
+
+            _onFinish(sprite);
+        }
 
 {{method_blocks}}
 
