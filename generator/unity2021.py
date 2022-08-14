@@ -24,11 +24,14 @@ from generator.template.unity2021.assets.scripts.module.generated import MyInsta
 from generator.template.unity2021.assets.scripts.module.generated import MyRuntimeBase
 from generator.template.unity2021.assets.scripts.module.generated import UiBridgeBase
 from generator.template.unity2021.assets.lib3rd import dll
+from generator.template.unity2021 import gitignore
 
 
 def generate(_options, _workdir: str):
     dir_unity2021 = os.path.join(_workdir, "unity2021")
     os.makedirs(dir_unity2021, exist_ok=True)
+    # 生成Asset/.gitignore
+    gitignore.generate(_options, dir_unity2021)
     # 生成copy_dll.json
     copy_dll.generate(_options, dir_unity2021)
 

@@ -9,6 +9,7 @@ from generator.template.vs2022 import csproj_lib_razor
 from generator.template.vs2022 import csproj_service_grpc
 from generator.template.vs2022 import csproj_service_grpc_Test
 from generator.template.vs2022 import csproj_web_blazor
+from generator.template.vs2022 import gitignore
 
 
 def generate(_options, _workdir: str):
@@ -31,3 +32,5 @@ def generate(_options, _workdir: str):
     csproj_service_grpc_Test.generate(_options, dir_vs2022)
     # 生成blazor项目文件
     csproj_web_blazor.generate(_options, dir_vs2022)
+    # 生成.gitignore
+    gitignore.generate(_options, dir_vs2022)

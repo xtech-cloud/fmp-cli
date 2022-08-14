@@ -99,6 +99,7 @@ def useWizard(_version):
         vs2022.generate(options, "./")
         if "y" == unity:
             unity2021.generate(options, "./")
+            print("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
 
     elif "2" == index:
         print("1. DSC (Data Storage Center)")
@@ -156,6 +157,7 @@ def useYaml(_version):
             vs2022.generate(options, "./")
             if unity:
                 unity2021.generate(options, "./")
+                print("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
 
 
 version = "1.9.0"
