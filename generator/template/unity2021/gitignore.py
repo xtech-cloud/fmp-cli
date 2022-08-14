@@ -8,6 +8,7 @@ template = r"""
 /{{module_name}}/Assets/Plugins/
 /{{module_name}}/Assets/Plugins.meta
 /{{module_name}}/Library/
+/{{module_name}}/obj/
 /{{module_name}}/Logs/
 /{{module_name}}/Temp/
 /{{module_name}}/UserSettings/
