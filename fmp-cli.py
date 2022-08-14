@@ -160,7 +160,7 @@ def useYaml(_version):
                 print("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
 
 
-version = "1.9.2"
+version = "1.9.3"
 print("****************************************************")
 print("* FMP Client - ver {}".format(version))
 print("****************************************************")
