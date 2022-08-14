@@ -51,7 +51,10 @@ template = """
 """
 
 
-def generate(_orgname: str, _modulename: str, _outputdir: str):
+def generate(_options, _outputdir: str):
+    output_dir = os.path.join(_outputdir, "Packages")
+    os.makedirs(output_dir, exist_ok=True)
+
     contents = template
-    output_path = os.path.join(_outputdir, "manifest.json")
+    output_path = os.path.join(output_dir, "packages-lock.json")
     writer.write(output_path, contents, False)

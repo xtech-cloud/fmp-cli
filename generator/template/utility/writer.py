@@ -1,6 +1,5 @@
 import os
 
-
 def write(_filepath, _contents, _overwrite):
     if os.path.exists(_filepath) and not _overwrite:
         return
@@ -15,3 +14,14 @@ def writeVS2022Project(_sln_dir, _project_name, _contents, _overwrite):
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, _project_name + ".csproj")
     write(output_path, _contents, _overwrite)
+
+def writeHexToBinary(_filepath, _bin_hex, _overwrite):
+    if os.path.exists(_filepath) and not _overwrite:
+        return
+    print("write " + _filepath)
+    contents = _bin_hex.replace("\r", "").replace("\n","")
+    contents.strip()
+    bytes_data = bytes.fromhex(contents)
+    with open(_filepath, "wb") as wf:
+        wf.write(bytes_data)
+        wf.close()
