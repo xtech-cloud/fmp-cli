@@ -19,6 +19,8 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// </summary>
     public class {{service}}ServiceBase : Service
     {
+        public {{service}}ServiceMock mock { get; set; } = new {{service}}ServiceMock();
+    
         /// <summary>
         /// 带uid参数的构造函数
         /// </summary>
@@ -100,17 +102,27 @@ template_method = """
         public async Task<Error> Call{{rpc}}({{request}}? _request)
         {
             getLogger()?.Trace("Call {{rpc}} ...");
-            if(null == _request)
+            if (null == _request)
             {
                 return Error.NewNullErr("parameter:_request is null");
             }
-            var client = getGrpcClient();
-            if (null == client)
+
+            {{response}}? response = null;
+            if (null != mock.Call{{rpc}}Delegate)
             {
-                return Error.NewNullErr("client is null");
+                getLogger()?.Trace("use mock ...");
+                response = await mock.Call{{rpc}}Delegate(_request);
+            }
+            else
+            {
+                var client = getGrpcClient();
+                if (null == client)
+                {
+                    return await Task.FromResult(Error.NewNullErr("client is null"));
+                }
+                response = await client.{{rpc}}Async(_request);
             }
 
-            var response = await client.{{rpc}}Async(_request);
             getModel()?.UpdateProto{{rpc}}(response);
             return Error.OK;
         }
@@ -129,6 +141,7 @@ def generate(_options, _outputdir: str):
                 template_method.replace("{{service}}", service)
                 .replace("{{rpc}}", rpc_name)
                 .replace("{{request}}", rpc_map[0])
+                .replace("{{response}}", rpc_map[1])
             )
             method_blocks = method_blocks + method_block
         contents = (

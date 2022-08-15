@@ -59,7 +59,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             {
                 getLogger().Exception(ex);
             }
-            runtime.CreateInstance(uid, style);
+            runtime.CreateInstanceAsync(uid, style, (_instance)=>
+            {
+            });
         }
 
         private void handleOpen(LibMVCS.Model.Status _status, object _data)
@@ -81,7 +83,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             {
                 getLogger().Exception(ex);
             }
-            runtime.OpenInstance(uid, source, uri, delay);
+            runtime.OpenInstanceAsync(uid, source, uri, delay);
         }
 
         private void handleClose(LibMVCS.Model.Status _status, object _data)
@@ -99,8 +101,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             {
                 getLogger().Exception(ex);
             }
-            runtime.CloseInstance(uid, delay);
-
+            runtime.CloseInstanceAsync(uid, delay);
         }
 
         private void handleDelete(LibMVCS.Model.Status _status, object _data)
@@ -116,7 +117,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             {
                 getLogger().Exception(ex);
             }
-            runtime.DeleteInstance(uid);
+            runtime.DeleteInstanceAsync(uid);
         }
 
         private void handleBootloaderStepExecute(LibMVCS.Model.Status _status, object _data)

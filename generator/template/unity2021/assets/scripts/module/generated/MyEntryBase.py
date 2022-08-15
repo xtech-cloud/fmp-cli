@@ -112,22 +112,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             mono_.StartCoroutine(loadUAB("file", (_root) =>
             {
                 processRoot(_root);
-                foreach (var subject in config_.preload.subjects)
+                createInstances(() =>
                 {
-                    var data = new Dictionary<string, object>();
-                    foreach (var parameter in subject.parameters)
-                    {
-                        if (parameter.type.Equals("string"))
-                            data[parameter.key] = parameter.value;
-                        else if (parameter.type.Equals("int"))
-                            data[parameter.key] = int.Parse(parameter.value);
-                        else if (parameter.type.Equals("float"))
-                            data[parameter.key] = float.Parse(parameter.value);
-                        else if (parameter.type.Equals("bool"))
-                            data[parameter.key] = bool.Parse(parameter.value);
-                    }
-                    modelDummy_.Publish(subject.message, data);
-                }
+                    publishPreloadSubjects();
+                });
             }, (_err) =>
             {
                 logger_.Error(_err.getMessage());
@@ -173,13 +161,50 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             runtime_.ProcessRoot(_root, slotUi);
 
             logger_.Debug("process {0} success", _root.name);
+        }
 
+        /// <summary>
+        /// 创建实例
+        /// </summary>
+        /// <param name="_onFinish"></param>
+        protected void createInstances(System.Action _onFinish)
+        {
+            int finished = 0;
             foreach (var instance in config_.instances)
             {
-                runtime_.CreateInstance(instance.uid, instance.style);
+                runtime_.CreateInstanceAsync(instance.uid, instance.style, (_instance)=>
+                {
+                    finished += 1;
+                    if(finished >= config_.instances.Length)
+                    {
+                        _onFinish();
+                    }
+                });
             }
         }
 
+        /// <summary>
+        /// 发布预加载中的主题
+        /// </summary>
+        protected void publishPreloadSubjects()
+        {
+            foreach (var subject in config_.preload.subjects)
+            {
+                var data = new Dictionary<string, object>();
+                foreach (var parameter in subject.parameters)
+                {
+                    if (parameter.type.Equals("string"))
+                        data[parameter.key] = parameter.value;
+                    else if (parameter.type.Equals("int"))
+                        data[parameter.key] = int.Parse(parameter.value);
+                    else if (parameter.type.Equals("float"))
+                        data[parameter.key] = float.Parse(parameter.value);
+                    else if (parameter.type.Equals("bool"))
+                        data[parameter.key] = bool.Parse(parameter.value);
+                }
+                modelDummy_.Publish(subject.message, data);
+            }
+        }
 
         /// <summary>
         /// 加载UnityAssetBundle

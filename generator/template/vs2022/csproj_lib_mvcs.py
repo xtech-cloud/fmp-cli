@@ -10,6 +10,7 @@ from generator.template.vs2022.lib_mvcs import ViewBase
 from generator.template.vs2022.lib_mvcs import View
 from generator.template.vs2022.lib_mvcs import ControllerBase
 from generator.template.vs2022.lib_mvcs import Controller
+from generator.template.vs2022.lib_mvcs import ServiceMock
 from generator.template.vs2022.lib_mvcs import ServiceBase
 from generator.template.vs2022.lib_mvcs import Service
 from generator.template.vs2022.lib_mvcs import Facade
@@ -71,6 +72,8 @@ def generate(_options, _outputdir: str):
     ControllerBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Controller
     Controller.generate(_options, os.path.join(_outputdir, project_name))
+    # 生成ServiceMock
+    ServiceMock.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseService
     ServiceBase.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Service

@@ -77,20 +77,70 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instanceUI.gameObject.SetActive(false);
         }
 
+
         /// <summary>
         /// 创建实例
         /// </summary>
         /// <param name="_uid">实例的uid</param>
         /// <param name="_style">使用的样式名</param>
         /// <returns></returns>
-        public virtual MyInstance CreateInstance(string _uid, string _style)
+        public virtual void CreateInstanceAsync(string _uid, string _style, System.Action<MyInstance> _onFinish)
+        {
+            mono.StartCoroutine(createInstanceAsync(_uid, _style, _onFinish));
+        }
+
+        /// <summary>
+        /// 删除实例
+        /// </summary>
+        /// <param name="_uid">实例的uid</param>
+        public virtual void DeleteInstanceAsync(string _uid)
+        {
+            mono.StartCoroutine(deleteInstanceAsync(_uid));
+        }
+
+
+        /// <summary>
+        /// 打开实例
+        /// </summary>
+        /// <param name="_uid">实例的uid</param>
+        /// <param name="_source">内容的源类型</param>
+        /// <param name="_uri">内容的地址</param>
+        /// <param name="_delay">延时时间，单位秒</param>
+        public virtual void OpenInstanceAsync(string _uid, string _source, string _uri, float _delay)
+        {
+            mono.StartCoroutine(openInstanceAsync(_uid, _source, _uri, _delay));
+        }
+
+        /// <summary>
+        /// 关闭实例
+        /// </summary>
+        /// <param name="_uid">实例的uid</param>
+        /// <param name="_delay">延时时间，单位秒</param>
+        public virtual void CloseInstanceAsync(string _uid, float _delay)
+        {
+            mono.StartCoroutine(closeInstanceAsync(_uid, _delay));
+        }
+
+        protected IEnumerator delayDo(float _time, System.Action _action)
+        {
+            if (0 == _time)
+                yield return new WaitForEndOfFrame();
+            else
+                yield return new WaitForSeconds(_time);
+            _action();
+        }
+
+        private IEnumerator createInstanceAsync(string _uid, string _style, System.Action<MyInstance> _onFinish)
         {
             logger.Debug("create instance of {0}, uid is {1}, style is {2}", MyEntryBase.ModuleName, _uid, _style);
+            // 延时一帧执行，在发布消息时不能动态注册
+            yield return new WaitForEndOfFrame();
+
             MyInstance instance;
             if (instances.TryGetValue(_uid, out instance))
             {
                 logger.Error("instance is exists");
-                return instance;
+                yield break;
             }
 
             instance = new MyInstance();
@@ -110,97 +160,68 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
             instance.ApplyStyle(style);
             instance.HandleCreated();
-            // 延时一帧执行，在发布消息时不能动态注册
-            mono.StartCoroutine(delayDo(0, () =>
-            {
-                // 动态注册直系的MVCS
-                entry.DynamicRegister(_uid, logger);
-                var facade = entry.getDynamicHealthyFacade(_uid);
-                facade.setUiBridge(new HealthyUiBridge());
-                instance.viewBridgeHealthy = facade.getViewBridge() as IHealthyViewBridge;
-            }));
-            return instance;
+            // 动态注册直系的MVCS
+            entry.DynamicRegister(_uid, logger);
+{{dynamic_register_blocks}}
+            _onFinish(instance);
         }
 
-        /// <summary>
-        /// 删除实例
-        /// </summary>
-        /// <param name="_uid">实例的uid</param>
-        public virtual void DeleteInstance(string _uid)
+        private IEnumerator deleteInstanceAsync(string _uid)
         {
             logger.Debug("delete instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+            // 延时一帧执行，在发布消息时不能动态注销
+            yield return new WaitForEndOfFrame();
+
             MyInstance instance;
             if (!instances.TryGetValue(_uid, out instance))
             {
                 logger.Error("instance not found");
-                return;
+                yield break;
             }
 
             instance.HandleDeleted();
             GameObject.Destroy(instance.rootUI);
             instances.Remove(_uid);
 
-            // 延时一帧执行，在发布消息时不能动态注销
-            mono.StartCoroutine(delayDo(0, () =>
-            {
-                // 动态注销直系的MVCS
-                entry.DynamicCancel(_uid, logger);
-            }));
+            // 动态注销直系的MVCS
+            entry.DynamicCancel(_uid, logger);
         }
 
-        /// <summary>
-        /// 打开实例
-        /// </summary>
-        /// <param name="_uid">实例的uid</param>
-        /// <param name="_source">内容的源类型</param>
-        /// <param name="_uri">内容的地址</param>
-        /// <param name="_delay">延时时间，单位秒</param>
-        public virtual void OpenInstance(string _uid, string _source, string _uri, float _delay)
+        private IEnumerator openInstanceAsync(string _uid, string _source, string _uri, float _delay)
         {
             logger.Debug("open instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+
             MyInstance instance;
             if (!instances.TryGetValue(_uid, out instance))
             {
                 logger.Error("instance not found");
-                return;
+                yield break;
             }
-            mono.StartCoroutine(delayDo(_delay, () =>
-            {
-                instance.HandleOpened();
-            }));
+            yield return new WaitForSeconds(_delay);
+            instance.HandleOpened();
         }
 
-        /// <summary>
-        /// 关闭实例
-        /// </summary>
-        /// <param name="_uid">实例的uid</param>
-        /// <param name="_delay">延时时间，单位秒</param>
-        public virtual void CloseInstance(string _uid, float _delay)
+        private IEnumerator closeInstanceAsync(string _uid, float _delay)
         {
             logger.Debug("close instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
             MyInstance instance;
             if (!instances.TryGetValue(_uid, out instance))
             {
                 logger.Error("instance not found");
-                return;
+                yield break;
             }
-            mono.StartCoroutine(delayDo(_delay, () =>
-            {
-                instance.HandleClosed();
-            }));
+            yield return new WaitForSeconds(_delay);
+            instance.HandleClosed();
         }
 
-
-        protected IEnumerator delayDo(float _time, System.Action _action)
-        {
-            if (0 == _time)
-                yield return new WaitForEndOfFrame();
-            else
-                yield return new WaitForSeconds(_time);
-            _action();
-        }
     }
 }
+"""
+
+template_dynamic_register_blocks = """
+            var facade{{service}} = entry.getDynamic{{service}}Facade(_uid);
+            facade{{service}}.setUiBridge(new {{service}}UiBridge());
+            instance.viewBridge{{service}} = facade{{service}}.getViewBridge() as I{{service}}ViewBridge;
 """
 
 def generate(_options, _outputdir: str):
@@ -213,9 +234,17 @@ def generate(_options, _outputdir: str):
     output_dir = os.path.join(output_dir, "_Generated_")
     os.makedirs(output_dir, exist_ok=True)
 
+    services = _options["services"]
+    dynamic_register_blocks = ""
+    for service in services.keys():
+        dynamic_register_block = template_dynamic_register_blocks
+        dynamic_register_block = dynamic_register_block.replace("{{service}}", service)
+        dynamic_register_blocks = dynamic_register_blocks + dynamic_register_block
+
     contents = template
     contents = contents.replace("{{org_name}}", _options["org_name"])
     contents = contents.replace("{{module_name}}", _options["module_name"])
     contents = contents.replace("{{version}}", _options["version"])
+    contents = contents.replace("{{dynamic_register_blocks}}", dynamic_register_blocks)
     output_path = os.path.join(output_dir, "MyRuntimeBase.cs")
     writer.write(output_path, contents, True)

@@ -22,6 +22,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public void __DebugPreload(GameObject _exportRoot)
         {
             processRoot(_exportRoot);
+            createInstances(() =>
+            {
+                publishPreloadSubjects();
+            });
         }
 
         /// <summary>
