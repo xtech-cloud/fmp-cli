@@ -71,8 +71,6 @@ public class RootBase : UnityEngine.MonoBehaviour
     protected DebugEntry entry_ { get; set; } = new DebugEntry();
     protected XmlConfig config_ { get; set; } = new XmlConfig();
     protected Dictionary<string, LibMVCS.Any> settings_ = new Dictionary<string, LibMVCS.Any>();
-    protected DummyView viewDummy_ { get; set; }
-    protected DummyModel modelDummy_ { get; set; }
 
     /// <summary>
     /// 唤醒
@@ -86,17 +84,13 @@ public class RootBase : UnityEngine.MonoBehaviour
 
         initFramework();
 
-        var options = new Options();
         entry_ = new DebugEntry();
+        var options = entry_.NewOptions();
         entry_.Inject(framework_, options);
         entry_.UniInject(this, options, logger_, config_, settings_);
         framework_.setUserData("{{org_name}}.FMP.MOD.{{module_name}}.LIB.MVCS.Entry", entry_);
 
-        viewDummy_ = new DummyView(DummyView.NAME);
-        framework_.getStaticPipe().RegisterView(viewDummy_);
-
-        modelDummy_ = new DummyModel(DummyModel.NAME);
-        framework_.getStaticPipe().RegisterModel(modelDummy_);
+        entry_.RegisterDummy();
 
         setupFramework();
     }
@@ -107,8 +101,9 @@ public class RootBase : UnityEngine.MonoBehaviour
     protected virtual void doDestroy()
     {
         dismantleFramework();
-        framework_.getStaticPipe().CancelView(viewDummy_);
-        framework_.getStaticPipe().CancelModel(modelDummy_);
+
+        entry_.CancelDummy();
+
         releaseFramework();
     }
 

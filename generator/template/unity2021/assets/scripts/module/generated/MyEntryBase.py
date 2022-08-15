@@ -37,7 +37,13 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         protected LibMVCS.Logger logger_;
         protected Dictionary<string, LibMVCS.Any> settings_;
         protected MyRuntime runtime_ { get; set; }
+        protected DummyView viewDummy_ { get; set; }
+        protected DummyModel modelDummy_ { get; set; }
 
+        public Options NewOptions()
+        {
+            return new Options();
+        }
 
         /// <summary>
         /// 手动注入
@@ -76,6 +82,27 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             runtime_.logger = _logger;
             runtime_.config = config_;
             runtime_.mono = mono_;
+        }
+
+        /// <summary>
+        /// 注册虚拟视图和数据
+        /// </summary>
+        public void RegisterDummy()
+        {
+            viewDummy_ = new DummyView(DummyView.NAME);
+            framework_.getStaticPipe().RegisterView(viewDummy_);
+
+            modelDummy_ = new DummyModel(DummyModel.NAME);
+            framework_.getStaticPipe().RegisterModel(modelDummy_);
+        }
+
+        /// <summary>
+        /// 注销虚拟视图和数据
+        /// </summary>
+        public void CancelDummy()
+        {
+            framework_.getStaticPipe().CancelView(viewDummy_);
+            framework_.getStaticPipe().CancelModel(modelDummy_);
         }
 
         public virtual void Preload()
