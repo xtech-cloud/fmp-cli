@@ -5,6 +5,7 @@ from generator.template.vs2022 import sln
 from generator.template.vs2022 import csproj_lib_proto
 from generator.template.vs2022 import csproj_lib_bridge
 from generator.template.vs2022 import csproj_lib_mvcs
+from generator.template.vs2022 import csproj_lib_mvcs_Test
 from generator.template.vs2022 import csproj_lib_razor
 from generator.template.vs2022 import csproj_service_grpc
 from generator.template.vs2022 import csproj_service_grpc_Test
@@ -24,6 +25,8 @@ def generate(_options, _workdir: str):
     csproj_lib_bridge.generate(_options, dir_vs2022)
     # 生成mvcs项目文件
     csproj_lib_mvcs.generate(_options, dir_vs2022)
+    # 生成mvcs测试项目文件
+    csproj_lib_mvcs_Test.generate(_options, dir_vs2022)
     # 生成razor项目文件
     csproj_lib_razor.generate(_options, dir_vs2022)
     # 生成service项目文件

@@ -2,6 +2,7 @@ import os
 from typing import Dict, List, Tuple
 from generator.template.utility import writer
 from generator.template.vs2022.lib_mvcs import ProtoDTO
+from generator.template.vs2022.lib_mvcs import Subjects
 from generator.template.vs2022.lib_mvcs import Entry
 from generator.template.vs2022.lib_mvcs import EntryBase
 from generator.template.vs2022.lib_mvcs import ModelBase
@@ -56,6 +57,8 @@ def generate(_options, _outputdir: str):
     writer.writeVS2022Project(_outputdir, project_name, contents, False)
     # 生成ProtoDTO
     ProtoDTO.generate(_options, os.path.join(_outputdir, project_name))
+    # 生成Subjects
+    Subjects.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Entry
     Entry.generate(_options, os.path.join(_outputdir, project_name))
     # 生成BaseEntry

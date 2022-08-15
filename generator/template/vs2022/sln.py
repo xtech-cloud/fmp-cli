@@ -9,6 +9,8 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{{{guid_sln}}}") = "fmp-{{org.lower}}-{{module.lower}}-lib-mvcs", "fmp-{{org.lower}}-{{module.lower}}-lib-mvcs\\fmp-{{org.lower}}-{{module.lower}}-lib-mvcs.csproj", "{{{guid_lib_mvcs}}}"
 EndProject
+Project("{{{guid_sln}}}") = "fmp-{{org.lower}}-{{module.lower}}-lib-mvcs_Test", "fmp-{{org.lower}}-{{module.lower}}-lib-mvcs_Test\\fmp-{{org.lower}}-{{module.lower}}-lib-mvcs_Test.csproj", "{{{guid_lib_mvcs_Test}}}"
+EndProject
 Project("{{{guid_sln}}}") = "fmp-{{org.lower}}-{{module.lower}}-lib-proto", "fmp-{{org.lower}}-{{module.lower}}-lib-proto\\fmp-{{org.lower}}-{{module.lower}}-lib-proto.csproj", "{{{guid_lib_proto}}}"
 EndProject
 Project("{{{guid_sln}}}") = "fmp-{{org.lower}}-{{module.lower}}-lib-bridge", "fmp-{{org.lower}}-{{module.lower}}-lib-bridge\\fmp-{{org.lower}}-{{module.lower}}-lib-bridge.csproj", "{{{guid_lib_bridge}}}"
@@ -31,6 +33,10 @@ Global
 		{{{guid_lib_mvcs}}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{{guid_lib_mvcs}}}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{{{guid_lib_mvcs}}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{{{guid_lib_mvcs_Test}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{{guid_lib_mvcs_Test}}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{{guid_lib_mvcs_Test}}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{{guid_lib_mvcs_Test}}}.Release|Any CPU.Build.0 = Release|Any CPU
 		{{{guid_lib_proto}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{{{guid_lib_proto}}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{{guid_lib_proto}}}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -74,6 +80,7 @@ def generate(_options, _outputdir: str):
     guid_lib_proto = str(uuid.uuid4()).upper()
     guid_lib_bridge = str(uuid.uuid4()).upper()
     guid_lib_mvcs = str(uuid.uuid4()).upper()
+    guid_lib_mvcs_Test = str(uuid.uuid4()).upper()
     guid_lib_razor = str(uuid.uuid4()).upper()
     guid_web_blazor = str(uuid.uuid4()).upper()
     guid_service_grpc = str(uuid.uuid4()).upper()
@@ -85,6 +92,7 @@ def generate(_options, _outputdir: str):
         .replace("{{guid_lib_proto}}", guid_lib_proto)
         .replace("{{guid_lib_bridge}}", guid_lib_bridge)
         .replace("{{guid_lib_mvcs}}", guid_lib_mvcs)
+        .replace("{{guid_lib_mvcs_Test}}", guid_lib_mvcs_Test)
         .replace("{{guid_lib_razor}}", guid_lib_razor)
         .replace("{{guid_web_blazor}}", guid_web_blazor)
         .replace("{{guid_service_grpc}}", guid_service_grpc)
