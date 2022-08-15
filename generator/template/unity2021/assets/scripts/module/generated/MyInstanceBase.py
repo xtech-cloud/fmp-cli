@@ -33,7 +33,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             string datapath = settings["datapath"].AsString();
             string vendor = settings["vendor"].AsString();
             string dir = System.IO.Path.Combine(datapath, vendor);
-            dir = System.IO.Path.Combine(dir, "theme");
+            dir = System.IO.Path.Combine(dir, "themes");
             dir = System.IO.Path.Combine(dir, MyEntryBase.ModuleName);
             string filefullpath = System.IO.Path.Combine(dir, _file);
             if (System.IO.File.Exists(filefullpath))
