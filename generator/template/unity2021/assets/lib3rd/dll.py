@@ -10,6 +10,7 @@ from generator.template.unity2021.assets.lib3rd.binhex import Grpc_Net_Common
 from generator.template.unity2021.assets.lib3rd.binhex import Microsoft_Extensions_Logging_Abstractions
 from generator.template.unity2021.assets.lib3rd.binhex import System_Diagnostics_DiagnosticSource
 from generator.template.unity2021.assets.lib3rd.binhex import System_Runtime_CompilerServices_Unsafe
+from generator.template.unity2021.assets.lib3rd.binhex import Newtonsoft_Json
 
 def writeMVCS(_outputdir:str):
     output_dir = os.path.join(_outputdir, "fmp-lib-mvcs-1.6.0")
@@ -36,6 +37,8 @@ def writeDependency(_outputdir:str):
     writer.writeHexToBinary(output_path, System_Diagnostics_DiagnosticSource.bin_hex, True)
     output_path = os.path.join(output_dir, "System.Runtime.CompilerServices.Unsafe.dll")
     writer.writeHexToBinary(output_path, System_Runtime_CompilerServices_Unsafe.bin_hex, True)
+    output_path = os.path.join(output_dir, "Newtonsoft.Json.dll")
+    writer.writeHexToBinary(output_path, Newtonsoft_Json.bin_hex, True)
 
 def generate(_options, _outputdir: str):
     output_dir = os.path.join(_outputdir, "Assets")

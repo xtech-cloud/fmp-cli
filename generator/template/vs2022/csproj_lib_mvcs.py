@@ -31,6 +31,7 @@ template = """
   <ItemGroup>
     <PackageReference Include="fmp-lib-mvcs" Version="1.6.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.47.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

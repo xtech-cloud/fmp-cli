@@ -5,11 +5,8 @@ from generator.template.utility import writer
 template = """
 {
   "dependencies": {
-    "com.unity.collab-proxy": "1.15.17",
     "com.unity.feature.development": "1.0.1",
-    "com.unity.ide.rider": "3.0.14",
     "com.unity.ide.visualstudio": "2.0.15",
-    "com.unity.ide.vscode": "1.2.5",
     "com.unity.test-framework": "1.1.31",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.6.4",
@@ -49,7 +46,6 @@ template = """
   }
 } 
 """
-
 
 def generate(_options, _outputdir: str):
     output_dir = os.path.join(_outputdir, "Packages")
