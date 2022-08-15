@@ -21,12 +21,16 @@ from generator.template.unity2021.assets.scripts.module import MyConfig
 from generator.template.unity2021.assets.scripts.module import MyEntry 
 from generator.template.unity2021.assets.scripts.module import MyInstance
 from generator.template.unity2021.assets.scripts.module import MyRuntime
+from generator.template.unity2021.assets.scripts.module import MySubject
 from generator.template.unity2021.assets.scripts.module import UiBridge
 from generator.template.unity2021.assets.scripts.module.generated import MyConfigBase
 from generator.template.unity2021.assets.scripts.module.generated import MyEntryBase
 from generator.template.unity2021.assets.scripts.module.generated import MyInstanceBase 
 from generator.template.unity2021.assets.scripts.module.generated import MyRuntimeBase
+from generator.template.unity2021.assets.scripts.module.generated import MySubjectBase
 from generator.template.unity2021.assets.scripts.module.generated import UiBridgeBase
+from generator.template.unity2021.assets.scripts.module.generated import DummyViewBase
+from generator.template.unity2021.assets.scripts.module.generated import DummyModelBase
 from generator.template.unity2021.assets.lib3rd import dll
 from generator.template.unity2021 import gitignore
 
@@ -79,6 +83,8 @@ def generate(_options, _workdir: str):
     MyInstance.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyRuntime.cs
     MyRuntime.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/MySubject.cs
+    MySubject.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/UiBridge.cs
     UiBridge.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyConfigBase.cs
@@ -89,7 +95,13 @@ def generate(_options, _workdir: str):
     MyInstanceBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyRuntimeBase.cs
     MyRuntimeBase.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/MySubjectBase.cs
+    MySubjectBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/UiBridgeBase.cs
     UiBridgeBase.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/DummyViewBase.cs
+    DummyViewBase.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/DummyModelBase.cs
+    DummyModelBase.generate(_options, dir_unity2021)
     # 生成Asset/3rd/xxx.dll
     dll.generate(_options, dir_unity2021)

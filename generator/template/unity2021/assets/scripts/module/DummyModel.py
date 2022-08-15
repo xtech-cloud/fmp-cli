@@ -11,37 +11,15 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     /// <summary>
     /// 虚拟数据
     /// </summary>
-    public class DummyModel : LibMVCS.Model
+    public class DummyModel : DummyModelBase
     {
-        public const string NAME = "{{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity.DummyModel";
 
-        public class DummyStatus : LibMVCS.Model.Status
+        public class DummyStatus : DummyStatusBase
         {
-            public const string NAME = "{{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity.DummyStatus";
         }
 
         public DummyModel(string _uid) : base(_uid)
         {
-        }
-
-        protected override void preSetup()
-        {
-            LibMVCS.Error err;
-            status_ = spawnStatus<DummyStatus>(DummyStatus.NAME, out err);
-            if(!LibMVCS.Error.IsOK(err))
-            {
-                getLogger().Error(err.getMessage());
-            }
-        }
-
-        protected override void postDismantle()
-        {
-            LibMVCS.Error err;
-            killStatus(DummyStatus.NAME, out err);
-            if(!LibMVCS.Error.IsOK(err))
-            {
-                getLogger().Error(err.getMessage());
-            }
         }
     }
 }

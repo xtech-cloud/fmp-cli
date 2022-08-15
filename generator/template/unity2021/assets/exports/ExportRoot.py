@@ -475,7 +475,7 @@ guid: 9b979adb308c521449ed20a4a2bc15e9
 PrefabImporter:
   externalObjects: {}
   userData: 
-  assetBundleName: module.{{org_name_lower}}_{{module_name_lower}}
+  assetBundleName: {{org_name_lower}}_{{module_name_lower}}
   assetBundleVariant: uab
 """
 

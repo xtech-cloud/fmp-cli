@@ -48,6 +48,9 @@ template = r"""
     <Reference Include="fmp-{{org_name_lower}}-{{module_name}}-lib-proto">
       <HintPath>{{WORK_DIR}}\{{module_name}}\Assets\3rd\fmp-{{org_name_lower}}-{{module_name_lower}}\fmp-{{org_name_lower}}-{{module_name_lower}}-lib-proto.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>{{WORK_DIR}}\{{module_name}}\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>{{WORK_DIR}}\{{module_name}}\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>

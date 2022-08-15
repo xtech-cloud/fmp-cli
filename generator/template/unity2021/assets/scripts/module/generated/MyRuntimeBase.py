@@ -93,11 +93,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 return instance;
             }
 
-            // 动态注册直系的MVCS
-            entry.DynamicRegister(_uid, logger); 
-            var facade = entry.getDynamicHealthyFacade(_uid);
-            facade.setUiBridge(new HealthyUiBridge());
-
             instance = new MyInstance();
             instances[_uid] = instance;
 
@@ -106,7 +101,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instance.logger = logger;
             instance.config = config;
             instance.settings = settings;
-            instance.viewBridgeHealthy = facade.getViewBridge() as IHealthyViewBridge;
 
             MyConfig.Style style = null;
             foreach (var s in config.styles)
@@ -116,6 +110,15 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
             instance.ApplyStyle(style);
             instance.HandleCreated();
+            // 延时一帧执行，在发布消息时不能动态注册
+            mono.StartCoroutine(delayDo(0, () =>
+            {
+                // 动态注册直系的MVCS
+                entry.DynamicRegister(_uid, logger);
+                var facade = entry.getDynamicHealthyFacade(_uid);
+                facade.setUiBridge(new HealthyUiBridge());
+                instance.viewBridgeHealthy = facade.getViewBridge() as IHealthyViewBridge;
+            }));
             return instance;
         }
 
@@ -137,8 +140,12 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             GameObject.Destroy(instance.rootUI);
             instances.Remove(_uid);
 
-            // 动态注销直系的MVCS
-            entry.DynamicCancel(_uid, logger);
+            // 延时一帧执行，在发布消息时不能动态注销
+            mono.StartCoroutine(delayDo(0, () =>
+            {
+                // 动态注销直系的MVCS
+                entry.DynamicCancel(_uid, logger);
+            }));
         }
 
         /// <summary>
@@ -186,7 +193,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         protected IEnumerator delayDo(float _time, System.Action _action)
         {
-            yield return new WaitForSeconds(_time);
+            if (0 == _time)
+                yield return new WaitForEndOfFrame();
+            else
+                yield return new WaitForSeconds(_time);
             _action();
         }
     }

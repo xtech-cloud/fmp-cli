@@ -17,22 +17,35 @@ template = """<?xml version="1.0" encoding="utf-8"?>
       name: 名称
     -->
     <Styles>
-        <Style name="default"></Style>
+        <Style name="default">
+        </Style>
     </Styles>
     <!-- 预创建的实例列表
       uid: 实例的唯一ID
       style: 使用的样式名
     -->
     <Instances>
-        <Instance uid="default" style="default">
-            <!-- 预创建的实例列表
-              source: 内容的源的类型
-              uri: 内容的地址
-              delay: 延时打开的时间，单位秒
-            -->
-            <AutoOpen active="false" source="" uri="" delay="0"/>
-        </Instance>
+        <Instance uid="default" style="default"/>
     </Instances>
+    <!-- 预加载 -->
+    <Preload>
+        <!-- 消息订阅的主题
+          message: 消息
+          Parameter.key: 参数的键
+          Parameter.value: 参数的值
+          Parameter.type: 参数的类型，支持的类型为string,int,float,bool
+        -->
+        <Subjects>
+            <Subject message="/{{org_name}}/{{module_name}}/Open">
+                <Parameters>
+                    <Parameter key="uid" value="default" type="string"/>
+                    <Parameter key="source" value="" type="string"/>
+                    <Parameter key="uri" value="" type="string"/>
+                    <Parameter key="delay" value="0" type="float"/>
+                </Parameters>
+            </Subject>
+        </Subjects>
+    </Preload>
 </MyConfig>
 """
 
@@ -43,5 +56,8 @@ def generate(_options, _outputdir: str):
     os.makedirs(output_dir, exist_ok=True)
 
     contents = template
+    contents = contents.replace("{{org_name}}", _options["org_name"])
+    contents = contents.replace("{{module_name}}", _options["module_name"])
+
     output_path = os.path.join(output_dir, "{}_{}.xml".format(_options["org_name"], _options["module_name"]))
     writer.write(output_path, contents, False)
