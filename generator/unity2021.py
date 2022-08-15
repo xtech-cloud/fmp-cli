@@ -2,6 +2,8 @@ import os
 from typing import Dict, List, Tuple
 from generator.template.unity2021 import copy_dll
 from generator.template.unity2021 import link_vendor
+from generator.template.unity2021 import compile
+from generator.template.unity2021 import Module_csproj
 from generator.template.unity2021.packages import manifest
 from generator.template.unity2021.packages import packages_lock
 from generator.template.unity2021.projectsettings import ProjectVersion
@@ -37,6 +39,8 @@ def generate(_options, _workdir: str):
     # 生成copy_dll.json
     copy_dll.generate(_options, dir_unity2021)
     link_vendor.generate(_options, dir_unity2021)
+    compile.generate(_options, dir_unity2021)
+    Module_csproj.generate(_options, dir_unity2021)
 
     dir_unity2021 = os.path.join(_workdir, "unity2021/{}".format(_options["module_name"]))
     os.makedirs(dir_unity2021, exist_ok=True)

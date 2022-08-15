@@ -121,10 +121,16 @@ def useYaml(_version):
     with open("fmp.yaml") as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         if "generate" in data:
+            config = data["generate"]
+            if "active" not in config:
+                print("active is required!")
+                sys.exit(0)
+            if not config["active"]:
+                print("active is false")
+                sys.exit(0)
             print("! found generate task")
             print("> run generate")
             print("```")
-            config = data["generate"]
             if "org_name" not in config:
                 print("org_name is required!!")
                 sys.exit(1)
@@ -160,7 +166,7 @@ def useYaml(_version):
                 print("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
 
 
-version = "1.9.6"
+version = "1.10.0"
 print("****************************************************")
 print("* FMP Client - ver {}".format(version))
 print("****************************************************")

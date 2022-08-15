@@ -3,6 +3,7 @@ from generator.template.utility import writer
 
 template = r"""
 /_dist_/
+/_build_/
 /{{module_name}}/Assets/TextMesh Pro/
 /{{module_name}}/Assets/TextMesh Pro.meta
 /{{module_name}}/Assets/Plugins/
