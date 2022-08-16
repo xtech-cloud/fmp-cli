@@ -8,13 +8,18 @@ template = """
 //*************************************************************************************
 
 using System;
+using System.Threading;
+using LibMVCS = XTC.FMP.LIB.MVCS;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.Bridge;
 
 namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 {
+
     public class {{service}}UiBridgeBase : I{{service}}UiBridge
     {
-        public virtual void Alert(string _code, string _message)
+        public LibMVCS.Logger logger { get; set; }
+
+        public virtual void Alert(string _code, string _message, SynchronizationContext _context)
         {
             throw new NotImplementedException();
         }
@@ -25,7 +30,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 """
 
 template_method = """
-        public virtual void Refresh{{rpc}}(IDTO _dto)
+        public virtual void Refresh{{rpc}}(IDTO _dto, SynchronizationContext _context)
         {
             throw new NotImplementedException();
         }

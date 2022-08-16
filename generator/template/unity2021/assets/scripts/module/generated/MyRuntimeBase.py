@@ -11,7 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LibMVCS = XTC.FMP.LIB.MVCS;
-using {{org_name}}.FMP.MOD.{{module_name}}.LIB.Bridge;
 
 namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 {
@@ -23,16 +22,15 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     ///</remarks>
     public abstract class MyRuntimeBase
     {
-        public MonoBehaviour mono { get; set; }
-        public MyConfig config { get; set; }
-        public Dictionary<string, LibMVCS.Any> settings { get; set; }
-        public LibMVCS.Logger logger { get; set; }
-        public MyEntryBase entry { get; set; }
-
         /// <summary>
         /// ui的根对象
         /// </summary>
         public GameObject rootUI { get; private set; }
+
+        /// <summary>
+        /// 附件的根对象
+        /// </summary>
+        public GameObject rootAttachment { get; private set; }
 
         /// <summary>
         /// ui的实例对象
@@ -44,6 +42,21 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// </summary>
         public Dictionary<string, MyInstance> instances { get; private set; } = new Dictionary<string, MyInstance>();
 
+        protected MonoBehaviour mono_ { get; set; }
+        protected MyConfig config_ { get; set; }
+        protected Dictionary<string, LibMVCS.Any> settings_ { get; set; }
+        protected LibMVCS.Logger logger_ { get; set; }
+        protected MyEntryBase entry_ { get; set; }
+
+        public MyRuntimeBase(MonoBehaviour _mono, MyConfig _config, Dictionary<string, LibMVCS.Any> _settings, LibMVCS.Logger _logger, MyEntryBase _entry)
+        {
+            mono_ = _mono;
+            config_ = _config;
+            settings_= _settings;
+            logger_ = _logger;
+            entry_ = _entry; 
+        }
+
         /// <summary>
         /// 处理从UAB中实例化的根对象
         /// </summary>
@@ -51,25 +64,40 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_uiSlot">ui的挂载槽</param>
         public virtual void ProcessRoot(GameObject _root, Transform _uiSlot)
         {
+            string attachmentsRootName = string.Format("[Attachments_Root_({0})]", MyEntry.ModuleName);
+            var attachmentsRoot = _root.transform.Find(attachmentsRootName);
+            if (null != attachmentsRoot)
+            {
+                rootAttachment = attachmentsRoot.gameObject;
+                rootAttachment.transform.SetParent(null);
+            }
+
+            string uiRootName = string.Format("Canvas/[UI_Root_({0})]", MyEntry.ModuleName);
+            var uiRoot = _root.transform.Find(uiRootName);
+            if (null == uiRoot)
+            {
+                logger_.Error("{0} not found", uiRoot);
+                return;
+            }
+
             // 将ui挂载到指定的槽上
-            var root = _root.transform.Find(string.Format("Canvas/[UI_Root_({0})]", MyEntry.ModuleName));
-            rootUI = root.gameObject;
-            root.SetParent(_uiSlot);
+            rootUI = uiRoot.gameObject;
+            rootUI.transform.SetParent(_uiSlot);
             // 挂载后重置参数
-            root.localScale = Vector3.one;
-            root.localRotation = Quaternion.identity;
-            root.localPosition = Vector3.zero;
-            RectTransform rt = root.GetComponent<RectTransform>();
+            rootUI.transform.localScale = Vector3.one;
+            rootUI.transform.localRotation = Quaternion.identity;
+            rootUI.transform.localPosition = Vector3.zero;
+            RectTransform rt = rootUI.GetComponent<RectTransform>();
             rt.sizeDelta = Vector2.zero;
             rt.anchoredPosition = Vector2.zero;
-            root.gameObject.SetActive(config.ui.visible);
+            rootUI.SetActive(config_.ui.visible);
             // 销毁根对象
             GameObject.Destroy(_root);
             // 查找实例的对象
             var rInstance = rootUI.transform.Find("instance");
             if (null == rInstance)
             {
-                logger.Error("{0}/instance is required!", _root.name);
+                logger_.Error("{0}/instance is required!", _root.name);
                 return;
             }
             instanceUI = rInstance.gameObject;
@@ -86,7 +114,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <returns></returns>
         public virtual void CreateInstanceAsync(string _uid, string _style, System.Action<MyInstance> _onFinish)
         {
-            mono.StartCoroutine(createInstanceAsync(_uid, _style, _onFinish));
+            mono_.StartCoroutine(createInstanceAsync(_uid, _style, _onFinish));
         }
 
         /// <summary>
@@ -95,7 +123,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_uid">实例的uid</param>
         public virtual void DeleteInstanceAsync(string _uid)
         {
-            mono.StartCoroutine(deleteInstanceAsync(_uid));
+            mono_.StartCoroutine(deleteInstanceAsync(_uid));
         }
 
 
@@ -108,7 +136,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_delay">延时时间，单位秒</param>
         public virtual void OpenInstanceAsync(string _uid, string _source, string _uri, float _delay)
         {
-            mono.StartCoroutine(openInstanceAsync(_uid, _source, _uri, _delay));
+            mono_.StartCoroutine(openInstanceAsync(_uid, _source, _uri, _delay));
         }
 
         /// <summary>
@@ -118,7 +146,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_delay">延时时间，单位秒</param>
         public virtual void CloseInstanceAsync(string _uid, float _delay)
         {
-            mono.StartCoroutine(closeInstanceAsync(_uid, _delay));
+            mono_.StartCoroutine(closeInstanceAsync(_uid, _delay));
         }
 
         protected IEnumerator delayDo(float _time, System.Action _action)
@@ -132,50 +160,38 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         private IEnumerator createInstanceAsync(string _uid, string _style, System.Action<MyInstance> _onFinish)
         {
-            logger.Debug("create instance of {0}, uid is {1}, style is {2}", MyEntryBase.ModuleName, _uid, _style);
+            logger_.Debug("create instance of {0}, uid is {1}, style is {2}", MyEntryBase.ModuleName, _uid, _style);
             // 延时一帧执行，在发布消息时不能动态注册
             yield return new WaitForEndOfFrame();
 
             MyInstance instance;
             if (instances.TryGetValue(_uid, out instance))
             {
-                logger.Error("instance is exists");
+                logger_.Error("instance is exists");
                 yield break;
             }
 
-            instance = new MyInstance();
+            instance = new MyInstance(_uid, _style, config_, logger_, settings_, entry_, mono_, rootAttachment);
             instances[_uid] = instance;
-
-            instance.rootUI = UnityEngine.GameObject.Instantiate(instanceUI, instanceUI.transform.parent);
-            instance.rootUI.name = _uid;
-            instance.logger = logger;
-            instance.config = config;
-            instance.settings = settings;
-
-            MyConfig.Style style = null;
-            foreach (var s in config.styles)
-            {
-                if (s.name.Equals(_style))
-                    style = s;
-            }
-            instance.ApplyStyle(style);
+            instance.InstantiateUI(instanceUI);
+            instance.ApplyStyle();
             instance.HandleCreated();
             // 动态注册直系的MVCS
-            entry.DynamicRegister(_uid, logger);
-{{dynamic_register_blocks}}
+            entry_.DynamicRegister(_uid, logger_);
+            instance.SetupBridges();
             _onFinish(instance);
         }
 
         private IEnumerator deleteInstanceAsync(string _uid)
         {
-            logger.Debug("delete instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+            logger_.Debug("delete instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
             // 延时一帧执行，在发布消息时不能动态注销
             yield return new WaitForEndOfFrame();
 
             MyInstance instance;
             if (!instances.TryGetValue(_uid, out instance))
             {
-                logger.Error("instance not found");
+                logger_.Error("instance not found");
                 yield break;
             }
 
@@ -184,30 +200,30 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instances.Remove(_uid);
 
             // 动态注销直系的MVCS
-            entry.DynamicCancel(_uid, logger);
+            entry_.DynamicCancel(_uid, logger_);
         }
 
         private IEnumerator openInstanceAsync(string _uid, string _source, string _uri, float _delay)
         {
-            logger.Debug("open instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+            logger_.Debug("open instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
 
             MyInstance instance;
             if (!instances.TryGetValue(_uid, out instance))
             {
-                logger.Error("instance not found");
+                logger_.Error("instance not found");
                 yield break;
             }
             yield return new WaitForSeconds(_delay);
-            instance.HandleOpened();
+            instance.HandleOpened(_source, _uri);
         }
 
         private IEnumerator closeInstanceAsync(string _uid, float _delay)
         {
-            logger.Debug("close instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+            logger_.Debug("close instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
             MyInstance instance;
             if (!instances.TryGetValue(_uid, out instance))
             {
-                logger.Error("instance not found");
+                logger_.Error("instance not found");
                 yield break;
             }
             yield return new WaitForSeconds(_delay);
@@ -216,12 +232,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
     }
 }
-"""
-
-template_dynamic_register_blocks = """
-            var facade{{service}} = entry.getDynamic{{service}}Facade(_uid);
-            facade{{service}}.setUiBridge(new {{service}}UiBridge());
-            instance.viewBridge{{service}} = facade{{service}}.getViewBridge() as I{{service}}ViewBridge;
 """
 
 def generate(_options, _outputdir: str):
@@ -234,17 +244,9 @@ def generate(_options, _outputdir: str):
     output_dir = os.path.join(output_dir, "_Generated_")
     os.makedirs(output_dir, exist_ok=True)
 
-    services = _options["services"]
-    dynamic_register_blocks = ""
-    for service in services.keys():
-        dynamic_register_block = template_dynamic_register_blocks
-        dynamic_register_block = dynamic_register_block.replace("{{service}}", service)
-        dynamic_register_blocks = dynamic_register_blocks + dynamic_register_block
-
     contents = template
     contents = contents.replace("{{org_name}}", _options["org_name"])
     contents = contents.replace("{{module_name}}", _options["module_name"])
     contents = contents.replace("{{version}}", _options["version"])
-    contents = contents.replace("{{dynamic_register_blocks}}", dynamic_register_blocks)
     output_path = os.path.join(output_dir, "MyRuntimeBase.cs")
     writer.write(output_path, contents, True)

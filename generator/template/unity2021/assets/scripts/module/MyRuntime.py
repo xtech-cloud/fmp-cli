@@ -3,6 +3,9 @@ import uuid
 from generator.template.utility import writer
 
 template = """
+using System.Collections.Generic;
+using UnityEngine;
+using LibMVCS = XTC.FMP.LIB.MVCS;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.MVCS;
 
 namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
@@ -15,6 +18,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     ///</remarks>
     public class MyRuntime : MyRuntimeBase
     {
+        public MyRuntime(MonoBehaviour _mono, MyConfig _config, Dictionary<string, LibMVCS.Any> _settings, FMP.LIB.MVCS.Logger _logger, MyEntryBase _entry)
+            : base(_mono, _config, _settings, _logger, _entry)
+        {
+        }
     }
 }
 

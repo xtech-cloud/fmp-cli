@@ -3,6 +3,8 @@ import uuid
 from generator.template.utility import writer
 
 template = """
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,15 +19,17 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     /// </summary>
     public class MyInstance : MyInstanceBase
     {
-        private MyConfig.Style style_ { get; set; }
+
+        public MyInstance(string _uid, string _style, MyConfig _config, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
+            : base(_uid, _style, _config, _logger, _settings, _entry, _mono, _rootAttachments)
+        {
+        }
 
         /// <summary>
         /// 应用样式
         /// </summary>
-        /// <param name="_style">样式</param>
-        public void ApplyStyle(MyConfig.Style _style)
+        public void ApplyStyle()
         {
-            style_ = _style;
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <summary>
         /// 当被打开时
         /// </summary>
-        public void HandleOpened()
+        public void HandleOpened(string _source, string _uri)
         {
             rootUI.gameObject.SetActive(true);
         }

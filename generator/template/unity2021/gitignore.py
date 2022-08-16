@@ -16,6 +16,7 @@ template = r"""
 /{{module_name}}/*.sln
 /{{module_name}}/*.csproj
 /{{module_name}}/.vsconfig
+/.UNITY_HOME.env
 """
 
 def generate(_options, _outputdir: str):
