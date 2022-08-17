@@ -8,6 +8,8 @@ template = r"""
 /{{module_name}}/Assets/TextMesh Pro.meta
 /{{module_name}}/Assets/Plugins/
 /{{module_name}}/Assets/Plugins.meta
+/{{module_name}}/Assets/3rd/
+/{{module_name}}/Assets/3rd.meta
 /{{module_name}}/Library/
 /{{module_name}}/obj/
 /{{module_name}}/Logs/
