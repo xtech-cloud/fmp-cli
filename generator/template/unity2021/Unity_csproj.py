@@ -96,4 +96,4 @@ def generate(_options, _outputdir: str):
     contents = contents.replace("{{org_name_lower}}", _options["org_name"].lower())
     contents = contents.replace("{{module_name_lower}}", _options["module_name"].lower())
     output_path = os.path.join(output_dir, "Unity.csproj.keep")
-    writer.write(output_path, contents, True)
+    writer.write(output_path, contents, False)
