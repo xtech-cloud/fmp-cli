@@ -24,7 +24,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public string uid { get; private set; }
         public GameObject rootUI { get; private set; }
         public GameObject rootAttachments { get; private set; }
-        public ObjectsPool objectsPool { get; private set; }
+        public ObjectsPool contentObjectsPool { get; private set; }
+        public ObjectsPool themeObjectsPool { get; private set; }
 
 {{member_blocks}}
 
@@ -34,7 +35,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         protected MyConfig.Style style_ { get; set; }
         protected Dictionary<string, LibMVCS.Any> settings_ { get; set; }
         protected MonoBehaviour mono_ {get;set;}
-        protected ObjectsPool objectsPool_;
 
         public MyInstanceBase(string _uid, string _style, MyConfig _config, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
         {
@@ -53,7 +53,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     break;
                 }
             }
-            objectsPool = new ObjectsPool(uid, logger_);
+            contentObjectsPool = new ObjectsPool(uid + ".Content", logger_);
+            themeObjectsPool = new ObjectsPool(uid + ".Theme", logger_);
         }
 
         /// <summary>
@@ -149,15 +150,13 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         protected void loadSpriteFromTheme(string _file, System.Action<Sprite> _onFinish)
         {
-            Sprite sprite = null;
-
             string datapath = settings_["datapath"].AsString();
             string vendor = settings_["vendor"].AsString();
             string dir = System.IO.Path.Combine(datapath, vendor);
             dir = System.IO.Path.Combine(dir, "themes");
             dir = System.IO.Path.Combine(dir, MyEntryBase.ModuleName);
             string filefullpath = System.IO.Path.Combine(dir, _file);
-            objectsPool_.LoadTexture(filefullpath, null, (_texture) =>
+            themeObjectsPool.LoadTexture(filefullpath, null, (_texture) =>
             {
                 var sprite = Sprite.Create(_texture as Texture2D, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
                 _onFinish(sprite);

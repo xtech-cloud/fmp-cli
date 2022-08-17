@@ -28,9 +28,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         protected MonoBehaviour mono_;
 
         /// <summary>
-        /// 加载到内存的对象
+        /// 加载到内存的对象，键为加载路径
         /// </summary>
-        protected List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
+        protected Dictionary<string, UnityEngine.Object> objects = new Dictionary<string, UnityEngine.Object>();
 
         /// <summary>
         /// 加载协程的列表，键为协程的独占编号
@@ -39,7 +39,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         public ObjectsPool(string _uid, LibMVCS.Logger _logger)
         {
-            uid_ = _uid;
+            uid_ = string.Format("{0}.{1}", MyEntryBase.ModuleName, _uid);
             logger_ = _logger;
         }
 
@@ -50,7 +50,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         {
             if (null != mono_)
                 return;
-            var goMono = new GameObject(string.Format("[ObjectsPool_{0}_{1}]", MyEntryBase.ModuleName, uid_));
+            var goMono = new GameObject(string.Format("[ObjectsPool_{0}]", uid_));
             mono_ = goMono.AddComponent<ObjectsPoolMonoBehaviour>();
         }
 
@@ -65,8 +65,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             GameObject.Destroy(mono_.gameObject);
             mono_ = null;
 
-            logger_.Trace("ready to dispose {0} Objects", objects.Count);
-            foreach (var obj in objects)
+            logger_.Trace("ObjectsPool:{0} ready to dispose {1} Objects", uid_, objects.Count);
+            foreach (var obj in objects.Values)
             {
                 UnityEngine.Object.Destroy(obj);
             }
@@ -82,6 +82,13 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_onFinish">完成的回调</param>
         public void LoadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish)
         {
+            UnityEngine.Object obj;
+            if (objects.TryGetValue(_file, out obj))
+            {
+                _onFinish(obj as AudioClip);
+                return;
+            }
+
             Coroutine coroutine;
             if (null != _exclusiveNumber)
             {
@@ -92,7 +99,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 }
             }
             coroutine = mono_.StartCoroutine(loadAudioClip(_file, _exclusiveNumber, _onFinish));
-            if(null != _exclusiveNumber)
+            if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
             }
@@ -105,6 +112,13 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_onFinish"></param>
         public void LoadTexture(string _file, string _exclusiveNumber, Action<Texture> _onFinish)
         {
+            UnityEngine.Object obj;
+            if (objects.TryGetValue(_file, out obj))
+            {
+                _onFinish(obj as Texture);
+                return;
+            }
+
             Coroutine coroutine;
             if (null != _exclusiveNumber)
             {
@@ -115,7 +129,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 }
             }
             coroutine = mono_.StartCoroutine(loadTexture(_file, _exclusiveNumber, _onFinish));
-            if(null != _exclusiveNumber)
+            if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
             }
@@ -133,11 +147,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     yield break;
                 }
                 AudioClip clip = DownloadHandlerAudioClip.GetContent(uwr);
-                if (!objects.Contains(clip))
-                    objects.Add(clip);
+                objects[_file] = clip;
                 logger_.Trace("load AduioClip:{0} success", _file);
-                logger_.Trace("Currently, ObjectsPool has {0} Objects", objects.Count);
-                if(null != _exclusiveNumber && exclusiveCoroutines.ContainsKey(_exclusiveNumber))
+                logger_.Trace("Currently, ObjectsPool:{0} has {1} Objects", uid_, objects.Count);
+                if (null != _exclusiveNumber && exclusiveCoroutines.ContainsKey(_exclusiveNumber))
                 {
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
@@ -159,11 +172,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     yield break;
                 }
                 Texture2D texture = handler.texture;
-                if (!objects.Contains(texture))
-                    objects.Add(texture);
+                objects[_file] = texture;
                 logger_.Trace("load Texture:{0} success", _file);
-                logger_.Trace("Currently, ObjectsPool has {0} Objects", objects.Count);
-                if(null != _exclusiveNumber && exclusiveCoroutines.ContainsKey(_exclusiveNumber))
+                logger_.Trace("Currently, ObjectsPool:{0} has {1} Objects", uid_, objects.Count);
+                if (null != _exclusiveNumber && exclusiveCoroutines.ContainsKey(_exclusiveNumber))
                 {
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }

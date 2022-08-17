@@ -174,6 +174,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instance = new MyInstance(_uid, _style, config_, logger_, settings_, entry_, mono_, rootAttachment);
             instances[_uid] = instance;
             instance.InstantiateUI(instanceUI);
+            instance.themeObjectsPool.Prepare();
             instance.ApplyStyle();
             instance.HandleCreated();
             // 动态注册直系的MVCS
@@ -198,6 +199,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instance.HandleDeleted();
             GameObject.Destroy(instance.rootUI);
             instances.Remove(_uid);
+            instance.themeObjectsPool.Dispose();
 
             // 动态注销直系的MVCS
             entry_.DynamicCancel(_uid, logger_);
@@ -214,7 +216,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 yield break;
             }
             yield return new WaitForSeconds(_delay);
-            instance.objectsPool.Prepare();
+            instance.contentObjectsPool.Prepare();
             instance.HandleOpened(_source, _uri);
         }
 
@@ -229,7 +231,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
             yield return new WaitForSeconds(_delay);
             instance.HandleClosed();
-            instance.objectsPool.Dispose();
+            instance.contentObjectsPool.Dispose();
         }
 
     }
