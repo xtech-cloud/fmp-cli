@@ -214,6 +214,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 yield break;
             }
             yield return new WaitForSeconds(_delay);
+            instance.objectsPool.Prepare();
             instance.HandleOpened(_source, _uri);
         }
 
@@ -228,6 +229,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
             yield return new WaitForSeconds(_delay);
             instance.HandleClosed();
+            instance.objectsPool.Dispose();
         }
 
     }

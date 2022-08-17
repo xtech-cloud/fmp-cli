@@ -24,6 +24,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public string uid { get; private set; }
         public GameObject rootUI { get; private set; }
         public GameObject rootAttachments { get; private set; }
+        public ObjectsPool objectsPool { get; private set; }
 
 {{member_blocks}}
 
@@ -33,6 +34,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         protected MyConfig.Style style_ { get; set; }
         protected Dictionary<string, LibMVCS.Any> settings_ { get; set; }
         protected MonoBehaviour mono_ {get;set;}
+        protected ObjectsPool objectsPool_;
 
         public MyInstanceBase(string _uid, string _style, MyConfig _config, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
         {
@@ -51,6 +53,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     break;
                 }
             }
+            objectsPool = new ObjectsPool(uid, logger_);
         }
 
         /// <summary>

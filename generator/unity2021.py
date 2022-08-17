@@ -31,6 +31,7 @@ from generator.template.unity2021.assets.scripts.module.generated import MySubje
 from generator.template.unity2021.assets.scripts.module.generated import UiBridgeBase
 from generator.template.unity2021.assets.scripts.module.generated import DummyViewBase
 from generator.template.unity2021.assets.scripts.module.generated import DummyModelBase
+from generator.template.unity2021.assets.scripts.module.generated import ObjectsPool
 from generator.template.unity2021.assets.lib3rd import dll
 from generator.template.unity2021 import gitignore
 
@@ -103,5 +104,7 @@ def generate(_options, _workdir: str):
     DummyViewBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/DummyModelBase.cs
     DummyModelBase.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/ObjectsPool.cs
+    ObjectsPool.generate(_options, dir_unity2021)
     # 生成Asset/3rd/xxx.dll
     dll.generate(_options, dir_unity2021)
