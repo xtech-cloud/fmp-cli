@@ -71,6 +71,82 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 {{dynamic_register_blocks}}
         }
 
+        /// <summary>
+        /// 将目标按锚点在父对象中对齐
+        /// </summary>
+        /// <param name="_target">目标</param>
+        /// <param name="_anchor">锚点</param>
+        protected void alignByAncor(Transform _target, MyConfig.Anchor _anchor)
+        {
+            if (null == _target)
+                return;
+            RectTransform rectTransform = _target.GetComponent<RectTransform>();
+            if (null == rectTransform)
+                return;
+
+            RectTransform parent = _target.transform.parent.GetComponent<RectTransform>();
+            float marginH = 0;
+            if (_anchor.marginH.EndsWith("%"))
+            {
+                float margin = 0;
+                float.TryParse(_anchor.marginH.Replace("%", ""), out margin);
+                marginH = (margin / 100.0f) * (parent.rect.width / 2);
+            }
+            else
+            {
+                float.TryParse(_anchor.marginH, out marginH);
+            }
+
+            float marginV = 0;
+            if (_anchor.marginV.EndsWith("%"))
+            {
+                float margin = 0;
+                float.TryParse(_anchor.marginV.Replace("%", ""), out margin);
+                marginV = (margin / 100.0f) * (parent.rect.height / 2);
+            }
+            else
+            {
+                float.TryParse(_anchor.marginV, out marginV);
+            }
+
+            Vector2 anchorMin = new Vector2(0.5f, 0.5f);
+            Vector2 anchorMax = new Vector2(0.5f, 0.5f);
+            Vector2 pivot = new Vector2(0.5f, 0.5f);
+            if (_anchor.horizontal.Equals("left"))
+            {
+                anchorMin.x = 0;
+                anchorMax.x = 0;
+                pivot.x = 0;
+            }
+            else if (_anchor.horizontal.Equals("right"))
+            {
+                anchorMin.x = 1;
+                anchorMax.x = 1;
+                pivot.x = 1;
+                marginH *= -1;
+            }
+
+            if (_anchor.vertical.Equals("top"))
+            {
+                anchorMin.y = 1;
+                anchorMax.y = 1;
+                pivot.y = 1;
+                marginV *= -1;
+            }
+            else if (_anchor.vertical.Equals("bottom"))
+            {
+                anchorMin.y = 0;
+                anchorMax.y = 0;
+                pivot.y = 0;
+            }
+
+            Vector2 position = new Vector2(marginH, marginV);
+            rectTransform.anchorMin = anchorMin;
+            rectTransform.anchorMax = anchorMax;
+            rectTransform.pivot = pivot;
+            rectTransform.anchoredPosition = position;
+        }
+
         protected void loadSpriteFromTheme(string _file, System.Action<Sprite> _onFinish)
         {
             Sprite sprite = null;
@@ -81,19 +157,11 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             dir = System.IO.Path.Combine(dir, "themes");
             dir = System.IO.Path.Combine(dir, MyEntryBase.ModuleName);
             string filefullpath = System.IO.Path.Combine(dir, _file);
-            if (System.IO.File.Exists(filefullpath))
+            objectsPool_.LoadTexture(filefullpath, null, (_texture) =>
             {
-                var bytes = System.IO.File.ReadAllBytes(filefullpath);
-                var texture = new Texture2D(10, 10, TextureFormat.RGBA32, false);
-                texture.LoadImage(bytes);
-                sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            }
-            else
-            {
-                logger_.Error("{0} not found", filefullpath);
-            }
-
-            _onFinish(sprite);
+                var sprite = Sprite.Create(_texture as Texture2D, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
+                _onFinish(sprite);
+            });
         }
 
          

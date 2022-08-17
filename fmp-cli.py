@@ -1,12 +1,12 @@
 import os
 import sys
 import yaml
+from generator import proto
 from generator import vs2022
 from generator import unity2021
 from generator import parse
 from deploy import docker
 from utility import filetohex
-
 
 def buildOption(
     _version: str,
@@ -152,6 +152,9 @@ def useYaml(_version):
             print("unity_soluton: {}".format(unity))
             print("debug: {}".format(debug))
             print("```")
+
+            proto.generate(config["org_name"], config["module_name"], "./")
+
             options = buildOption(
                 _version,
                 config["org_name"],
@@ -166,7 +169,7 @@ def useYaml(_version):
                 print("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
 
 
-version = "1.14.0"
+version = "1.16.0"
 print("****************************************************")
 print("* FMP Client - ver {}".format(version))
 print("****************************************************")

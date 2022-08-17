@@ -19,6 +19,18 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public string address { get; set; } = "";
         }
 
+        public class Anchor
+        {
+            [XmlAttribute("horizontal")]
+            public string horizontal { get; set; } = "center";
+            [XmlAttribute("vertical")]
+            public string vertical { get; set; } = "center";
+            [XmlAttribute("marginH")]
+            public string marginH { get; set; } = "0";
+            [XmlAttribute("marginV")]
+            public string marginV { get; set; } = "0";
+        }
+
         public class UI
         {
             [XmlAttribute("visible")]
