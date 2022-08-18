@@ -102,7 +102,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             framework_.getStaticPipe().CancelModel(modelDummy_);
         }
 
-        public virtual void Preload()
+        public virtual void Preload(System.Action<int> _onProgress, System.Action<string> _onFinish)
         {
             mono_.StartCoroutine(loadUAB("file", (_root) =>
             {
@@ -110,6 +110,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 createInstances(() =>
                 {
                     publishPreloadSubjects();
+                    _onFinish(ModuleName);
                 });
             }, (_err) =>
             {
@@ -164,6 +165,12 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_onFinish"></param>
         protected void createInstances(System.Action _onFinish)
         {
+            if(config_.instances.Length <= 0)
+            {
+                _onFinish();
+                return;
+            }
+
             int finished = 0;
             foreach (var instance in config_.instances)
             {
