@@ -146,6 +146,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             rectTransform.anchorMax = anchorMax;
             rectTransform.pivot = pivot;
             rectTransform.anchoredPosition = position;
+            rectTransform.sizeDelta = new Vector2(_anchor.width, _anchor.height);
         }
 
         protected void loadSpriteFromTheme(string _file, System.Action<Sprite> _onFinish)

@@ -29,6 +29,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public string marginH { get; set; } = "0";
             [XmlAttribute("marginV")]
             public string marginV { get; set; } = "0";
+            [XmlAttribute("width")]
+            public int width { get; set; } = 0;
+            [XmlAttribute("height")]
+            public int height { get; set; } = 0;
         }
 
         public class UI
