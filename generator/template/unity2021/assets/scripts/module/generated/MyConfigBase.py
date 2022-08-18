@@ -35,6 +35,15 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public int height { get; set; } = 0;
         }
 
+        public class UiElement
+        {
+            [XmlAttribute("image")]
+            public string image { get; set; } = "";
+
+            [XmlElement("Anchor")]
+            public Anchor anchor { get; set; } = new Anchor();
+        }
+
         public class UI
         {
             [XmlAttribute("visible")]
