@@ -18,6 +18,7 @@ template = r"""
 /{{module_name}}/*.sln
 /{{module_name}}/*.csproj
 /{{module_name}}/.vsconfig
+/{{module_name}}/.vs/
 /.UNITY_HOME.env
 """
 
