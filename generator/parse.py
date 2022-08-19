@@ -1,17 +1,18 @@
 import os
 import re
+from common import logger
 
 
 def scan_protos(_protodir, _enums, _services, _messages):
     if not os.path.exists(_protodir):
-        print(_protodir + " not found")
+        logger.error(_protodir + " not found")
         return
 
     for entry in os.listdir(_protodir):
         # 跳过不是.proto的文件
         if not entry.endswith(".proto"):
             continue
-        print('parse {}'.format(entry))
+        logger.trace('parse {}'.format(entry))
         proto_name = os.path.splitext(entry)[0]
         with open(os.path.join(_protodir, entry), "r", encoding="utf-8") as rf:
             content = rf.read()

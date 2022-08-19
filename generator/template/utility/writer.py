@@ -1,9 +1,10 @@
 import os
+from common import logger
 
 def write(_filepath, _contents, _overwrite):
     if os.path.exists(_filepath) and not _overwrite:
         return
-    print("write " + _filepath)
+    logger.trace("write " + _filepath)
     with open(_filepath, "w", encoding="utf-8") as wf:
         wf.write(_contents)
         wf.close()
@@ -18,7 +19,7 @@ def writeVS2022Project(_sln_dir, _project_name, _contents, _overwrite):
 def writeHexToBinary(_filepath, _bin_hex, _overwrite):
     if os.path.exists(_filepath) and not _overwrite:
         return
-    print("write " + _filepath)
+    logger.trace("write " + _filepath)
     contents = _bin_hex.replace("\r", "").replace("\n","")
     contents.strip()
     bytes_data = bytes.fromhex(contents)
