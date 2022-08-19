@@ -3,8 +3,8 @@ import uuid
 from generator.template.utility import writer
 
 template = """
-m_EditorVersion: 2021.3.4f1
-m_EditorVersionWithRevision: 2021.3.4f1 (cb45f9cae8b7) 
+m_EditorVersion: 2021.3.8f1
+m_EditorVersionWithRevision: 2021.3.8f1 (b30333d56e81)
 """
 
 
