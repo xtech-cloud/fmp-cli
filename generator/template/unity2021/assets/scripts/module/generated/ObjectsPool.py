@@ -141,7 +141,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             using (var uwr = UnityWebRequestMultimedia.GetAudioClip(_file, AudioType.MPEG))
             {
                 yield return uwr.SendWebRequest();
-                if (uwr.result == UnityWebRequest.Result.ProtocolError)
+                if (uwr.result != UnityWebRequest.Result.Success)
                 {
                     logger_.Error(uwr.error);
                     yield break;
@@ -166,7 +166,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 DownloadHandlerTexture handler = new DownloadHandlerTexture(true);
                 uwr.downloadHandler = handler;
                 yield return uwr.SendWebRequest();
-                if (uwr.result == UnityWebRequest.Result.ProtocolError)
+                if (uwr.result != UnityWebRequest.Result.Success)
                 {
                     logger_.Error(uwr.error);
                     yield break;
