@@ -1,5 +1,7 @@
 import sys
 import os
+import hashlib
+import json
 from shutil import copyfile
 from common import logger
 
@@ -7,28 +9,26 @@ from common import logger
 def run(_version, _config):
     config = _config
     if "active" not in config:
-        logger.err("active is required!")
+        logger.error("active is required!")
         return 1
     if not config["active"]:
-        logger.err("active is false")
+        logger.error("active is false")
         return 1
     logger.debug("! found publish task")
     logger.info("> run publish")
     logger.debug("```")
     if "org_name" not in config:
-        logger.err("org_name is required!!")
+        logger.error("org_name is required!!")
         return 1
     if "module_name" not in config:
-        logger.err("module is required!!")
+        logger.error("module is required!!")
         return 1
     if "environment" not in config:
-        logger.err("environment is required!!")
+        logger.error("environment is required!!")
         return 1
     if "repository" not in config:
-        logger.err("repository is required!!")
+        logger.error("repository is required!!")
         return 1
-
-    home_dir = os.path.expanduser("~")
 
     org_name = _config["org_name"]
     module_name = _config["module_name"]
@@ -85,17 +85,38 @@ def run(_version, _config):
         ),
     ]
 
+    manifest = {}
+    manifest["entries"] = []
     if repository.startswith("file://"):
         repo_dir = repository[7:]
         org_dir = os.path.join(repo_dir, org_name)
         os.makedirs(org_dir, exist_ok=True)
-        version = "develop"
-        if environment == "product":
-            version = "1.0.0"
+        # TODO read version from file
+        version = "1.0.0"
+        if environment == "develop":
+            version = "develop"
         module_dir = os.path.join(org_dir, module_name) + "@" + version
         os.makedirs(module_dir, exist_ok=True)
         for tup in files:
             if os.path.exists(tup[1]):
                 copyfile(tup[1], os.path.join(module_dir, tup[0]))
+                md5 = hashlib.md5()
+                with open(tup[1], "rb") as f:
+                    while True:
+                        data = f.read(10240)
+                        if not data:
+                            break
+                        md5.update(data)
+                entry = {
+                    "file": tup[0],
+                    "size": os.path.getsize(tup[1]),
+                    "hash": md5.hexdigest(),
+                }
+                manifest["entries"].append(entry)
+                logger.debug("publish {}".format(tup[0]))
+    # 保存md5文件
+    with open(os.path.join(module_dir, "md5.json"), "w", encoding="utf-8") as wf:
+        wf.write(json.dumps(manifest))
+        wf.close()
 
     return 0
