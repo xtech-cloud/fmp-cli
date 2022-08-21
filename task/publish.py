@@ -95,6 +95,12 @@ def run(_version, _config):
                 org_name.lower(), module_name.lower()
             ),
         ),
+        (
+            "{}_{}.xml".format(org_name, module_name),
+            "unity2021/{}/Assets/Exports/{}_{}.xml".format(
+                module_name, org_name, module_name
+            ),
+        ),
     ]
 
     manifest = {}
