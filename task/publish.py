@@ -78,8 +78,20 @@ def run(_version, _config):
             ),
         ),
         (
-            "{}_{}@win32.uab".format(org_name.lower(), module_name.lower()),
-            "unity2021/_dist_/win32/{}_{}.uab".format(
+            "{}_{}@windows.uab".format(org_name.lower(), module_name.lower()),
+            "unity2021/_dist_/windows/{}_{}.uab".format(
+                org_name.lower(), module_name.lower()
+            ),
+        ),
+        (
+            "{}_{}@android.uab".format(org_name.lower(), module_name.lower()),
+            "unity2021/_dist_/android/{}_{}.uab".format(
+                org_name.lower(), module_name.lower()
+            ),
+        ),
+        (
+            "{}_{}@webgl.uab".format(org_name.lower(), module_name.lower()),
+            "unity2021/_dist_/webgl/{}_{}.uab".format(
                 org_name.lower(), module_name.lower()
             ),
         ),

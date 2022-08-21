@@ -25,16 +25,10 @@ public static class BuildTools
         buildAssetBundle(BuildTarget.WebGL);
     }
 
-    [MenuItem("BuildTools/AssetBundle/Win32")]
-    public static void BuildAssetBundleForWin32()
+    [MenuItem("BuildTools/AssetBundle/Windows")]
+    public static void BuildAssetBundleForWindows()
     {
         buildAssetBundle(BuildTarget.StandaloneWindows);
-    }
-
-    [MenuItem("BuildTools/AssetBundle/Win64")]
-    public static void BuildAssetBundleForWin64()
-    {
-        buildAssetBundle(BuildTarget.StandaloneWindows64);
     }
 
     [MenuItem("BuildTools/AssetBundle/Android")]
@@ -66,9 +60,7 @@ public static class BuildTools
     private static string convertToPlatform(BuildTarget _target)
     {
         if (BuildTarget.StandaloneWindows == _target)
-            return "win32";
-        if (BuildTarget.StandaloneWindows64 == _target)
-            return "win64";
+            return "windows";
         if (BuildTarget.WebGL == _target)
             return "webgl";
         if (BuildTarget.Android == _target)
