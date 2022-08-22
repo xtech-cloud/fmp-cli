@@ -53,7 +53,7 @@ template_method = """
 """
 
 template_safe_method = """
-        protected override async Task<{{response}}> safe{{rpc}}({{request}} _request, ServerCallContext _context)
+        protected virtual async Task<{{response}}> safe{{rpc}}({{request}} _request, ServerCallContext _context)
         {
             return await Task.Run(() => new {{response}} {
                     Status = new LIB.Proto.Status() { Code = -1, Message = "Not Implemented" },
