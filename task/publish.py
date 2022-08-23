@@ -125,9 +125,8 @@ def run(_version, _config):
         """
         文件形式
         """
-        repo_dir = repository[7:]
+        repo_dir = os.path.join(repository[7:], "modules")
         org_dir = os.path.join(repo_dir, org_name)
-        os.makedirs(org_dir, exist_ok=True)
         module_dir = os.path.join(org_dir, module_name) + "@" + version
         os.makedirs(module_dir, exist_ok=True)
         for tup in files:
