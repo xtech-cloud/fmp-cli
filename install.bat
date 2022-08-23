@@ -23,6 +23,8 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"  
 :--------------------------------------
 
+python -m grpc_tools.protoc -I%CD%/proto/Repository --python_out=%CD%/mygrpc --grpc_python_out=%CD%/mygrpc %CD%/proto/Repository/*.proto
+
 pyinstaller -F %CD%\fmp-cli.py
 move %CD%\dist\fmp-cli.exe C:\Windows\System32\
 pause

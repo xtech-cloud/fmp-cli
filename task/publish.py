@@ -1,7 +1,13 @@
 import sys
 import os
+import requests
 import hashlib
 import json
+import grpc
+from mygrpc import shared_pb2
+from mygrpc import shared_pb2_grpc
+from mygrpc import module_pb2
+from mygrpc import module_pb2_grpc
 from shutil import copyfile
 from common import logger
 
@@ -34,6 +40,10 @@ def run(_version, _config):
     module_name = _config["module_name"]
     environment = _config["environment"]
     repository: str = _config["repository"]
+    # TODO read version from file
+    version = "1.0.0"
+    if environment == "develop":
+        version = "develop"
     files = [
         (
             "fmp-{}-{}-lib-proto.dll".format(org_name.lower(), module_name.lower()),
@@ -103,16 +113,21 @@ def run(_version, _config):
         ),
     ]
 
+    logger.debug("org: {}".format(org_name))
+    logger.debug("module: {}".format(module_name))
+    logger.debug("environment: {}".format(environment))
+    logger.debug("repository: {}".format(repository))
+    logger.debug("```")
+
     manifest = {}
     manifest["entries"] = []
     if repository.startswith("file://"):
+        """
+        文件形式
+        """
         repo_dir = repository[7:]
         org_dir = os.path.join(repo_dir, org_name)
         os.makedirs(org_dir, exist_ok=True)
-        # TODO read version from file
-        version = "1.0.0"
-        if environment == "develop":
-            version = "develop"
         module_dir = os.path.join(org_dir, module_name) + "@" + version
         os.makedirs(module_dir, exist_ok=True)
         for tup in files:
@@ -132,9 +147,44 @@ def run(_version, _config):
                 }
                 manifest["entries"].append(entry)
                 logger.debug("publish {}".format(tup[0]))
-    # 保存md5文件
-    with open(os.path.join(module_dir, "md5.json"), "w", encoding="utf-8") as wf:
-        wf.write(json.dumps(manifest))
+        # 保存清单文件
+        with open(
+            os.path.join(module_dir, "manifest.json"), "w", encoding="utf-8"
+        ) as wf:
+            wf.write(json.dumps(manifest))
         wf.close()
+    elif repository.startswith("grpc://"):
+        """
+        网络形式
+        """
+        endpoint = repository[7:]
+        channel = grpc.insecure_channel(endpoint)
+        stub = module_pb2_grpc.ModuleStub(channel)
+        # 创建Module
+        rspCreate = stub.Create(
+            module_pb2.ModuleCreateRequest(
+                org=org_name, name=module_name, version=version
+            )
+        )
+        if not (0 == rspCreate.status.code or 1 == rspCreate.status.code):
+            logger.error(rspCreate)
+            return 1
+        rspPrepare = stub.PrepareUpload(shared_pb2.UuidRequest(uuid=rspCreate.uuid))
+        if not (0 == rspPrepare.status.code):
+            logger.error(rspPrepare)
+            return 1
+        for tup in files:
+            if os.path.exists(tup[1]):
+                if tup[0] in rspPrepare.urls:
+                    logger.trace("upload {} ......".format(tup[0]))
+                    uploadUrl = rspPrepare.urls[tup[0]]
+                    uploadData = {"file": (tup[0], open(tup[1], "rb").read())}
+                    r = requests.put(uploadUrl, files=uploadData)
+                    if 200 != r.status_code:
+                        logger.error(r)
+        rspFlush = stub.FlushUpload(shared_pb2.UuidRequest(uuid=rspCreate.uuid))
+        if not (0 == rspFlush.status.code):
+            logger.error(rspFlush)
+            return 1
 
     return 0
