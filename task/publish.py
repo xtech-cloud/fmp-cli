@@ -177,8 +177,8 @@ def run(_version, _config):
                 if tup[0] in rspPrepare.urls:
                     logger.trace("upload {} ......".format(tup[0]))
                     uploadUrl = rspPrepare.urls[tup[0]]
-                    uploadData = {"file": (tup[0], open(tup[1], "rb").read())}
-                    r = requests.put(uploadUrl, files=uploadData)
+                    headers = {"content-type": "binary/octet-stream"}
+                    r = requests.put(uploadUrl, data=open(tup[1], "rb"), headers=headers)
                     if 200 != r.status_code:
                         logger.error(r)
         rspFlush = stub.FlushUpload(shared_pb2.UuidRequest(uuid=rspCreate.uuid))
