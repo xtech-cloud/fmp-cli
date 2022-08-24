@@ -15,6 +15,7 @@ services:
       - "29000-29099:29000-29099"
     volumes:
       - ./fmp-daemon/apps:/app/apps
+      - ./fmp-daemon/cers:/app/cers
     networks:
       xtc:
         ipv4_address: 10.1.100.11
