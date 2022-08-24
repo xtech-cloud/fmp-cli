@@ -22,10 +22,13 @@ def useWizard(_version):
         pass
     elif "2" == index:
         print("1. DSC (Data Storage Center)")
+        print("2. MSA (Micro Service Agent)")
         index = input("enter you choice:")
         target = ""
         if "1" == index:
             target = "DSC"
+        elif "2" == index:
+            target = "MSA"
         docker.buildCompose(target, "./")
     elif "3" == index:
         print("1. file to hex")
