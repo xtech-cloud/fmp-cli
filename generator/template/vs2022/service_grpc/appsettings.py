@@ -17,10 +17,10 @@ template = """
     },
     "Endpoints": {
       "Http": {
-        "Url": "http://localhost:18000"
+        "Url": "http://*:18000"
       },
       "Https": {
-        "Url": "https://localhost:19000"
+        "Url": "https://*:19000"
       }
     }
   },
@@ -77,5 +77,6 @@ def generate(_options, _outputdir: str):
     else:
         contents = contents.replace("{{db_blocks}}", template_driver_none)
     contents = contents.replace("{{module}}", module_name)
+    contents = contents.replace("{{org}}", org_name)
     filepath = os.path.join(_outputdir, "appsettings.Development.json")
     writer.write(filepath, contents, False)
