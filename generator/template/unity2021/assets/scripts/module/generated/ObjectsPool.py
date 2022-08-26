@@ -143,6 +143,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 yield return uwr.SendWebRequest();
                 if (uwr.result != UnityWebRequest.Result.Success)
                 {
+                    logger_.Trace("load {0} happen error", _file);
                     logger_.Error(uwr.error);
                     yield break;
                 }
@@ -168,6 +169,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 yield return uwr.SendWebRequest();
                 if (uwr.result != UnityWebRequest.Result.Success)
                 {
+                    logger_.Trace("load {0} happen error", _file);
                     logger_.Error(uwr.error);
                     yield break;
                 }
@@ -185,6 +187,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     }
 }
 """
+
 
 def generate(_options, _outputdir: str):
     output_dir = os.path.join(_outputdir, "Assets")
