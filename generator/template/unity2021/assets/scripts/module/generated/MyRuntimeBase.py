@@ -69,7 +69,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             if (null != attachmentsRoot)
             {
                 rootAttachment = attachmentsRoot.gameObject;
-                rootAttachment.transform.SetParent(null);
             }
 
             string uiRootName = string.Format("Canvas/[UI_Root_({0})]", MyEntry.ModuleName);
@@ -91,8 +90,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             rt.sizeDelta = Vector2.zero;
             rt.anchoredPosition = Vector2.zero;
             rootUI.SetActive(config_.ui.visible);
-            // 销毁根对象
-            GameObject.Destroy(_root);
+            // 隐藏根对象
+            _root.gameObject.SetActive(false);
+            _root.name = _root.name + MyEntryBase.ModuleName;
             // 查找实例的对象
             var rInstance = rootUI.transform.Find("instance");
             if (null == rInstance)
