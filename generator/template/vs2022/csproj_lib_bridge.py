@@ -18,7 +18,7 @@ template = """
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="fmp-lib-mvcs" Version="1.6.0" />
+    <PackageReference Include="fmp-lib-mvcs" Version="1.6.1" />
   </ItemGroup>
 
 </Project>

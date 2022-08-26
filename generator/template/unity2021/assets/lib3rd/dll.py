@@ -13,7 +13,7 @@ from generator.template.unity2021.assets.lib3rd.binhex import System_Runtime_Com
 from generator.template.unity2021.assets.lib3rd.binhex import Newtonsoft_Json
 
 def writeMVCS(_outputdir:str):
-    output_dir = os.path.join(_outputdir, "fmp-lib-mvcs-1.6.0")
+    output_dir = os.path.join(_outputdir, "fmp-lib-mvcs-1.6.1")
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, "fmp-lib-mvcs.dll")
     writer.writeHexToBinary(output_path, fmp_lib_mvcs.bin_hex, True)
