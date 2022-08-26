@@ -115,7 +115,7 @@ public class RootBase : UnityEngine.MonoBehaviour
         settings_["vendor"] = LibMVCS.Any.FromString("data");
         settings_["datapath"] = LibMVCS.Any.FromString(UnityEngine.Application.persistentDataPath);
         settings_["devicecode"] = LibMVCS.Any.FromString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
-        settings_["main.canvas"] = LibMVCS.Any.FromObject(mainCanvas);
+        settings_["canvas.main"] = LibMVCS.Any.FromObject(mainCanvas);
     }
 
     /// <summary>

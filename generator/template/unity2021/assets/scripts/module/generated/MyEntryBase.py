@@ -134,9 +134,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
             // 从设置中获取主画布参数
             LibMVCS.Any anyMainCanvas;
-            if (!settings_.TryGetValue("main.canvas", out anyMainCanvas))
+            if (!settings_.TryGetValue("canvas.main", out anyMainCanvas))
             {
-                logger_.Error("the main.canvas not found in settings");
+                logger_.Error("the canvas.main not found in settings");
                 return;
             }
             Transform mainCanvas = anyMainCanvas.AsObject() as Transform;
