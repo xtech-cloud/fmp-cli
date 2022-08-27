@@ -4,6 +4,7 @@ import requests
 import hashlib
 import json
 import grpc
+from proto import parse
 from mygrpc import shared_pb2
 from mygrpc import shared_pb2_grpc
 from mygrpc import module_pb2
@@ -119,6 +120,12 @@ def run(_version, _config):
     logger.debug("repository: {}".format(repository))
     logger.debug("```")
 
+    # 解析协议文件
+    enums: List[str] = []
+    services: Dict[str, Dict[str, Tuple]] = {}
+    messages: Dict[str, List[Tuple]] = {}
+    parse.scan_protos(os.path.join("./proto", module_name), enums, services, messages)
+
     manifest = {}
     manifest["entries"] = []
     if repository.startswith("file://"):
@@ -162,25 +169,37 @@ def run(_version, _config):
         # 创建Module
         rspCreate = stub.Create(
             module_pb2.ModuleCreateRequest(
-                org=org_name, name=module_name, version=version
+                org=org_name,
+                name=module_name,
+                version=version,
             )
         )
         if not (0 == rspCreate.status.code or 1 == rspCreate.status.code):
             logger.error(rspCreate)
             return 1
+        # 更新
+        rspUpdate = stub.Update(module_pb2.ModuleUpdateRequest(uuid=rspCreate.uuid, pages=list(services.keys())))
+        if not (0 == rspUpdate.status.code or 1 == rspUpdate.status.code):
+            logger.error(rspUpdate)
+            return 1
+        # 获取上传地址
         rspPrepare = stub.PrepareUpload(shared_pb2.UuidRequest(uuid=rspCreate.uuid))
         if not (0 == rspPrepare.status.code):
             logger.error(rspPrepare)
             return 1
+        # 上传全部文件
         for tup in files:
             if os.path.exists(tup[1]):
                 if tup[0] in rspPrepare.urls:
                     logger.trace("upload {} ......".format(tup[0]))
                     uploadUrl = rspPrepare.urls[tup[0]]
                     headers = {"content-type": "binary/octet-stream"}
-                    r = requests.put(uploadUrl, data=open(tup[1], "rb"), headers=headers)
+                    r = requests.put(
+                        uploadUrl, data=open(tup[1], "rb"), headers=headers
+                    )
                     if 200 != r.status_code:
                         logger.error(r)
+        # 刷新
         rspFlush = stub.FlushUpload(shared_pb2.UuidRequest(uuid=rspCreate.uuid))
         if not (0 == rspFlush.status.code):
             logger.error(rspFlush)

@@ -5,7 +5,7 @@ from common import logger
 from generator import proto
 from generator import vs2022
 from generator import unity2021
-from generator import parse
+from proto import parse
 from deploy import docker
 from utility import filetohex
 

@@ -1,5 +1,5 @@
 import os
-from generator import parse
+from proto import parse
 from generator.template.proto import healthy
 from generator.template.proto import shared
 

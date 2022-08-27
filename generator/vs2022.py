@@ -1,6 +1,6 @@
 import os
 from typing import Dict, List, Tuple
-from generator import parse
+from proto import parse
 from generator.template.vs2022 import sln
 from generator.template.vs2022 import csproj_lib_proto
 from generator.template.vs2022 import csproj_lib_bridge
