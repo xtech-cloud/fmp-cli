@@ -64,7 +64,7 @@ if os.path.exists("./.fmp.yaml"):
     fmp_yaml = "./.fmp.yaml"
 
 if os.path.exists(fmp_yaml):
-    logger.debug("! use fmp.yaml")
+    logger.debug("! use {}".format(fmp_yaml))
     with open(fmp_yaml) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         if "generate" in data:
