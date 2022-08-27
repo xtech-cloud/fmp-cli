@@ -48,12 +48,11 @@ def run(_version, _config):
     files = [
         (
             "{}.{}.zip".format(org_name, module_name),
-            "vs2022/fmp-{}-{}-service-grpc/bin/{}.{}@{}.zip".format(
+            "vs2022/fmp-{}-{}-service-grpc/bin/{}.{}.zip".format(
                 org_name.lower(),
                 module_name.lower(),
                 org_name,
                 module_name,
-                version,
             ),
         ),
     ]
