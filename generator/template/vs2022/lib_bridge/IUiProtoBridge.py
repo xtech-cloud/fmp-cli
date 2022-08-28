@@ -23,7 +23,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Bridge
         /// </summary>
         /// <param name="_code">错误码</param>
         /// <param name="_code">错误信息</param>
-        void Alert(string _code, string _message, SynchronizationContext? _context);
+        void Alert(string _code, string _message, object? _context);
 {{rpc_blocks}}
     }
 }
@@ -34,7 +34,7 @@ template_method = """
         /// <summary>
         /// 刷新{{rpc}}的数据
         /// </summary>
-        void Refresh{{rpc}}(IDTO _dto, SynchronizationContext? _context);
+        void Refresh{{rpc}}(IDTO _dto, object? _context);
 """
 
 

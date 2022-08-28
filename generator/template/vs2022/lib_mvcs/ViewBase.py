@@ -93,7 +93,7 @@ template_method = """
         /// </summary>
         /// <param name="_err">错误</param>
         /// <param name="_dto">{{response}}的数据传输对象</param>
-        public virtual void RefreshProto{{rpc}}(Error _err, {{response}}DTO _dto, SynchronizationContext? _context)
+        public virtual void RefreshProto{{rpc}}(Error _err, {{response}}DTO _dto, object? _context)
         {
             var bridge = getFacade()?.getUiBridge() as I{{service}}UiBridge; 
             if (!Error.IsOK(_err))

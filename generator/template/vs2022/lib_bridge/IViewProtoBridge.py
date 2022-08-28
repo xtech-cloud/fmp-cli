@@ -29,7 +29,7 @@ template_method = """
         /// <summary>
         /// 处理{{rpc}}的提交
         /// </summary>
-        Task<Error> On{{rpc}}Submit(IDTO _dto, SynchronizationContext? _context);
+        Task<Error> On{{rpc}}Submit(IDTO _dto, object? _context);
 """
 
 

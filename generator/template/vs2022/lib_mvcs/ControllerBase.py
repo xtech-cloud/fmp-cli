@@ -60,7 +60,7 @@ template_method = """
         /// </summary>
         /// <param name="_status">直系状态</param>
         /// <param name="_response">{{rpc}}的回复</param>
-        public virtual void UpdateProto{{rpc}}({{service}}Model.{{service}}Status? _status, {{response}} _response, SynchronizationContext? _context)
+        public virtual void UpdateProto{{rpc}}({{service}}Model.{{service}}Status? _status, {{response}} _response, object? _context)
         {
             Error err = new Error(_response.Status.Code, _response.Status.Message);
             {{response}}DTO? dto = new {{response}}DTO(_response);

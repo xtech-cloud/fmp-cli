@@ -41,7 +41,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
                 razor_ = _razor;
             }
 
-            public void Alert(string _code, string _message, SynchronizationContext? _context)
+            public void Alert(string _code, string _message, object? _context)
             {
                 if (null == razor_.messageService_)
                     return;
@@ -78,7 +78,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
 """
 
 template_method_razor = """
-            public void Refresh{{rpc}}(IDTO _dto, SynchronizationContext? _context)
+            public void Refresh{{rpc}}(IDTO _dto, object? _context)
             {
                 var dto = _dto as {{response}}DTO;
                 razor_.__debug{{rpc}} = dto?.Value.ToString();

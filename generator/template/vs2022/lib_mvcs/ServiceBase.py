@@ -100,7 +100,7 @@ template_method = """
         /// </summary>
         /// <param name="_request">{{rpc}}的请求</param>
         /// <returns>错误</returns>
-        public virtual async Task<Error> Call{{rpc}}({{request}}? _request, SynchronizationContext? _context)
+        public virtual async Task<Error> Call{{rpc}}({{request}}? _request, object? _context)
         {
             getLogger()?.Trace("Call {{rpc}} ...");
             if (null == _request)

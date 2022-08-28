@@ -61,7 +61,7 @@ template_method = """
         /// 更新{{rpc}}的数据
         /// </summary>
         /// <param name="_response">{{rpc}}的回复</param>
-        public virtual void UpdateProto{{rpc}}({{response}} _response, SynchronizationContext? _context)
+        public virtual void UpdateProto{{rpc}}({{response}} _response, object? _context)
         {
             getController()?.UpdateProto{{rpc}}(status_ as {{service}}Model.{{service}}Status, _response, _context);
         }

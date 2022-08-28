@@ -38,7 +38,7 @@ template_method = """
         /// </summary>
         /// <param name="_dto">{{request}}的数据传输对象</param>
         /// <returns>错误</returns>
-        public virtual async Task<Error> On{{rpc}}Submit(IDTO _dto, SynchronizationContext? _context)
+        public virtual async Task<Error> On{{rpc}}Submit(IDTO _dto, object? _context)
         {
             {{request}}DTO? dto = _dto as {{request}}DTO;
             if(null == service)

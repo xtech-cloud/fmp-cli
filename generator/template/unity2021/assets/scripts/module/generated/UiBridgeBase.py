@@ -19,7 +19,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     {
         public LibMVCS.Logger logger { get; set; }
 
-        public virtual void Alert(string _code, string _message, SynchronizationContext _context)
+        public virtual void Alert(string _code, string _message, object _context)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 """
 
 template_method = """
-        public virtual void Refresh{{rpc}}(IDTO _dto, SynchronizationContext _context)
+        public virtual void Refresh{{rpc}}(IDTO _dto, object _context)
         {
             throw new NotImplementedException();
         }
