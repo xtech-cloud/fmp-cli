@@ -7,7 +7,7 @@ template = r"""
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>{{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity</AssemblyName>
-    <Version>1.0.0</Version>
+    <Version>{{VERSION}}</Version>
     <RootNamespace />
   </PropertyGroup>
 
