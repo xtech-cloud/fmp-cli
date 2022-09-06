@@ -175,7 +175,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             instances[_uid] = instance;
             instance.InstantiateUI(instanceUI);
             instance.themeObjectsPool.Prepare();
-            instance.ApplyStyle();
             instance.HandleCreated();
             // 动态注册直系的MVCS
             entry_.DynamicRegister(_uid, logger_);

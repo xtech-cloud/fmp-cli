@@ -26,13 +26,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         }
 
         /// <summary>
-        /// 应用样式
-        /// </summary>
-        public void ApplyStyle()
-        {
-        }
-
-        /// <summary>
         /// 当被创建时
         /// </summary>
         public void HandleCreated()
