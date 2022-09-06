@@ -138,7 +138,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         private IEnumerator loadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish)
         {
             logger_.Trace("ready to load AduioClip from {0}", _file);
-            using (var uwr = UnityWebRequestMultimedia.GetAudioClip(_file, AudioType.MPEG))
+            using (var uwr = UnityWebRequestMultimedia.GetAudioClip(new Uri(_file), AudioType.MPEG))
             {
                 yield return uwr.SendWebRequest();
                 if (uwr.result != UnityWebRequest.Result.Success)
@@ -162,7 +162,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         private IEnumerator loadTexture(string _file, string _exclusiveNumber, Action<Texture> _onFinish)
         {
             logger_.Trace("ready to load Texture from {0}", _file);
-            using (var uwr = new UnityWebRequest(_file))
+            using (var uwr = new UnityWebRequest(new Uri(_file)))
             {
                 DownloadHandlerTexture handler = new DownloadHandlerTexture(true);
                 uwr.downloadHandler = handler;
