@@ -22,10 +22,10 @@ template = """
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
-    <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.46.0" />
-    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.47.0-pre1" />
-    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.46.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.48.0" />
+    <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.48.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.48.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.48.0" />
 {{db_blocks}}
   </ItemGroup>
 

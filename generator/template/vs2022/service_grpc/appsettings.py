@@ -13,7 +13,7 @@ template = """
   "AllowedHosts": "*",
   "Kestrel": {
     "EndpointDefaults": {
-      "Protocols": "Http2"
+      "Protocols": "Http1AndHttp2"
     },
     "Endpoints": {
       "Http": {
