@@ -15,8 +15,7 @@ template = """
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.11.0" />
-    <PackageReference Include="AntDesign.ProLayout" Version="0.10.6" />
+    <PackageReference Include="AntDesign.ProLayout" Version="0.12.4" />
   </ItemGroup>
 
 
