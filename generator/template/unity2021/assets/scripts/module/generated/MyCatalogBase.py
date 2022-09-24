@@ -11,8 +11,48 @@ using System.Xml.Serialization;
 
 namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 {
+    /// <summary>
+    /// 大纲类的基类
+    /// </summary>
     public class MyCatalogBase
     {
+        /// <summary>
+        /// 段
+        /// </summary>
+        public class Section
+        {
+            /// <summary>
+            /// 段的名称
+            /// </summary>
+            public string name { get; set; } = "";
+
+            /// <summary>
+            /// 段的路径，支持/字符分割
+            /// </summary>
+            public string path { get; set; } = "";
+
+            /// <summary>
+            /// 预设标签
+            /// </summary>
+            public string[] labelS { get; set; } = new string[0];
+
+            /// <summary>
+            /// 自定义标签
+            /// </summary>
+            public string[] tagS { get; set; } = new string[0];
+
+            /// <summary>
+            /// 主体内容
+            /// </summary>
+            public string[] bodyS { get; set; } = new string[0];
+
+            /// <summary>
+            /// 键值对
+            /// </summary>
+            public Dictionary<string, string> kvS { get; set; } = new Dictionary<string, string>();
+        }
+
+        public Section[] sectionS { get; set; } = new Section[0];
     }
 }
 
