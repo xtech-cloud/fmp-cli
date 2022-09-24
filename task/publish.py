@@ -111,6 +111,12 @@ def run(_version, _config):
                 module_name, org_name, module_name
             ),
         ),
+        (
+            "{}_{}.json".format(org_name, module_name),
+            "unity2021/{}/Assets/Exports/{}_{}.json".format(
+                module_name, org_name, module_name
+            ),
+        ),
     ]
 
     logger.debug("org: {}".format(org_name))

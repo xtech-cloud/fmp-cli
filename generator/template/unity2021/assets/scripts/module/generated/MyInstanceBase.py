@@ -32,14 +32,16 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         protected MyEntryBase entry_ { get; set; }
         protected LibMVCS.Logger logger_ { get; set; }
         protected MyConfig config_ { get; set; }
+        protected MyCatalog catalog_ { get; set; }
         protected MyConfig.Style style_ { get; set; }
         protected Dictionary<string, LibMVCS.Any> settings_ { get; set; }
         protected MonoBehaviour mono_ {get;set;}
 
-        public MyInstanceBase(string _uid, string _style, MyConfig _config, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
+        public MyInstanceBase(string _uid, string _style, MyConfig _config, MyCatalog _catalog, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
         {
             uid = _uid;
             config_ = _config;
+            catalog_ = _catalog;
             logger_ = _logger;
             settings_ = _settings;
             entry_ = _entry;

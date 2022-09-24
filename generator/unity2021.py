@@ -10,6 +10,7 @@ from generator.template.unity2021.projectsettings import ProjectVersion
 from generator.template.unity2021.projectsettings import ProjectSettings
 from generator.template.unity2021.assets.editor import PackageTools
 from generator.template.unity2021.assets.exports import config
+from generator.template.unity2021.assets.exports import catalog
 from generator.template.unity2021.assets.exports import ExportRoot
 from generator.template.unity2021.assets.scenes import SampleScene
 from generator.template.unity2021.assets.scripts import DebugEntry
@@ -18,12 +19,14 @@ from generator.template.unity2021.assets.scripts.generated import RootBase
 from generator.template.unity2021.assets.scripts.module import DummyView
 from generator.template.unity2021.assets.scripts.module import DummyModel
 from generator.template.unity2021.assets.scripts.module import MyConfig
+from generator.template.unity2021.assets.scripts.module import MyCatalog
 from generator.template.unity2021.assets.scripts.module import MyEntry 
 from generator.template.unity2021.assets.scripts.module import MyInstance
 from generator.template.unity2021.assets.scripts.module import MyRuntime
 from generator.template.unity2021.assets.scripts.module import MySubject
 from generator.template.unity2021.assets.scripts.module import UiBridge
 from generator.template.unity2021.assets.scripts.module.generated import MyConfigBase
+from generator.template.unity2021.assets.scripts.module.generated import MyCatalogBase
 from generator.template.unity2021.assets.scripts.module.generated import MyEntryBase
 from generator.template.unity2021.assets.scripts.module.generated import MyInstanceBase 
 from generator.template.unity2021.assets.scripts.module.generated import MyRuntimeBase
@@ -62,6 +65,8 @@ def generate(_options, _workdir: str):
     PackageTools.generate(_options, dir_unity2021)
     # 生成Asset/Exports/xxxx.xml
     config.generate(_options, dir_unity2021)
+    # 生成Asset/Exports/xxxx.json
+    catalog.generate(_options, dir_unity2021)
     # 生成Asset/Exports/[ExportRoot].prefab
     ExportRoot.generate(_options, dir_unity2021)
     # 生成Asset/Scenes/SampleScene.unity
@@ -78,6 +83,8 @@ def generate(_options, _workdir: str):
     DummyModel.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyConfig.cs
     MyConfig.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/MyCatalog.cs
+    MyCatalog.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyEntry.cs
     MyEntry.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyInstance.cs
@@ -90,6 +97,8 @@ def generate(_options, _workdir: str):
     UiBridge.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyConfigBase.cs
     MyConfigBase.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/MyCatalogBase.cs
+    MyCatalogBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyEntryBase.cs
     MyEntryBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyInstanceBase.cs

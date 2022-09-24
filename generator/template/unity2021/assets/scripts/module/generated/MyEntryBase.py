@@ -16,6 +16,7 @@ using System.Net.Http;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;
 using UnityEngine;
+using Newtonsoft.Json;
 using LibMVCS = XTC.FMP.LIB.MVCS;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.Bridge;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.MVCS;
@@ -34,6 +35,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         protected MonoBehaviour mono_;
         protected MyConfig config_;
+        protected MyCatalog catalog_;
         protected LibMVCS.Logger logger_;
         protected Dictionary<string, LibMVCS.Any> settings_;
         protected MyRuntime runtime_ { get; set; }
@@ -61,11 +63,14 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             settings_ = _settings;
             logger_ = _logger;
 
-            string xml = _config.getField(ModuleName).AsString();
+            string xml = _config.getField(ModuleName+".xml").AsString();
             byte[] bytes = Encoding.UTF8.GetBytes(xml);
             MemoryStream ms = new MemoryStream(bytes);
             var xs = new XmlSerializer(typeof(MyConfig));
             config_ = xs.Deserialize(ms) as MyConfig;
+
+            string json = _config.getField(ModuleName + ".json").AsString();
+            catalog_ = JsonConvert.DeserializeObject<MyCatalog>(json);
 
             if (!string.IsNullOrEmpty(config_.grpc.address))
             {
@@ -76,7 +81,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 _options.setChannel(channel);
             }
 
-            runtime_ = new MyRuntime(mono_, config_, settings_, logger_, this);
+            runtime_ = new MyRuntime(mono_, config_, catalog_, settings_, logger_, this);
         }
 
         /// <summary>

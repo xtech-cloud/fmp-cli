@@ -20,8 +20,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     public class MyInstance : MyInstanceBase
     {
 
-        public MyInstance(string _uid, string _style, MyConfig _config, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
-            : base(_uid, _style, _config, _logger, _settings, _entry, _mono, _rootAttachments)
+        public MyInstance(string _uid, string _style, MyConfig _config, MyCatalog _catalog, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
+            : base(_uid, _style, _config, _catalog, _logger, _settings, _entry, _mono, _rootAttachments)
         {
         }
 

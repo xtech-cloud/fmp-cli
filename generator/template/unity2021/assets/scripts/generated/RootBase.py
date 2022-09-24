@@ -24,6 +24,18 @@ public class XmlConfig : LibMVCS.Config
     }
 }
 
+
+/// <summary>
+/// Json格式的大纲
+/// </summary>
+public class JsonCatalog: LibMVCS.Config
+{
+    public void MergeKV(string _key, string _value)
+    {
+        fields_[_key] = LibMVCS.Any.FromString(_value);
+    }
+}
+
 /// <summary>
 /// 控制台日志
 /// </summary>
@@ -70,6 +82,7 @@ public class RootBase : UnityEngine.MonoBehaviour
     protected LibMVCS.Logger logger_ { get; set; } = new ConsoleLogger();
     protected DebugEntry entry_ { get; set; } = new DebugEntry();
     protected XmlConfig config_ { get; set; } = new XmlConfig();
+    protected JsonCatalog catalog_ { get; set; } = new JsonCatalog();
     protected Dictionary<string, LibMVCS.Any> settings_ = new Dictionary<string, LibMVCS.Any>();
 
     /// <summary>
@@ -80,7 +93,10 @@ public class RootBase : UnityEngine.MonoBehaviour
         setupSettings();
 
         string xml = File.ReadAllText(UnityEngine.Application.dataPath + string.Format("/Exports/{0}.xml", MyEntryBase.ModuleName));
-        config_.MergeKV(MyEntryBase.ModuleName, xml);
+        config_.MergeKV(MyEntryBase.ModuleName + ".xml", xml);
+
+        string json = File.ReadAllText(UnityEngine.Application.dataPath + string.Format("/Exports/{0}.json", MyEntryBase.ModuleName));
+        catalog_.MergeKV(MyEntryBase.ModuleName + ".json'", xml);
 
         initFramework();
 

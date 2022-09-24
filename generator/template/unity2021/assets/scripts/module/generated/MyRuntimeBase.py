@@ -44,14 +44,16 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         protected MonoBehaviour mono_ { get; set; }
         protected MyConfig config_ { get; set; }
+        protected MyCatalog catalog_ { get; set; }
         protected Dictionary<string, LibMVCS.Any> settings_ { get; set; }
         protected LibMVCS.Logger logger_ { get; set; }
         protected MyEntryBase entry_ { get; set; }
 
-        public MyRuntimeBase(MonoBehaviour _mono, MyConfig _config, Dictionary<string, LibMVCS.Any> _settings, LibMVCS.Logger _logger, MyEntryBase _entry)
+        public MyRuntimeBase(MonoBehaviour _mono, MyConfig _config, MyCatalog _catalog, Dictionary<string, LibMVCS.Any> _settings, LibMVCS.Logger _logger, MyEntryBase _entry)
         {
             mono_ = _mono;
             config_ = _config;
+            catalog_ = _catalog;
             settings_= _settings;
             logger_ = _logger;
             entry_ = _entry; 
@@ -171,7 +173,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 yield break;
             }
 
-            instance = new MyInstance(_uid, _style, config_, logger_, settings_, entry_, mono_, rootAttachment);
+            instance = new MyInstance(_uid, _style, config_, catalog_, logger_, settings_, entry_, mono_, rootAttachment);
             instances[_uid] = instance;
             instance.InstantiateUI(instanceUI);
             instance.themeObjectsPool.Prepare();
