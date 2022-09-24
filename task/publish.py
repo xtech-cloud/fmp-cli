@@ -159,12 +159,16 @@ def run(_version, _config):
         ) as wf:
             wf.write(json.dumps(manifest))
         wf.close()
-    elif repository.startswith("grpc://"):
+    elif repository.startswith("grpc://") or repository.startswith("grpcs://"):
         """
         网络形式
         """
-        endpoint = repository[7:]
-        channel = grpc.insecure_channel(endpoint)
+        if repository.startswith("grpc://"):
+            endpoint = repository[7:]
+            channel = grpc.insecure_channel(endpoint)
+        elif repository.startswith("grpcs://"):
+            endpoint = repository[8:]
+            channel = grpc.secure_channel(endpoint, grpc.ssl_channel_credentials())
         stub = module_pb2_grpc.ModuleStub(channel)
         # 创建Module
         rspCreate = stub.Create(
