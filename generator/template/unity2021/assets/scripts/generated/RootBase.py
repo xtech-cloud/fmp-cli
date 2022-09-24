@@ -13,22 +13,7 @@ using LibMVCS = XTC.FMP.LIB.MVCS;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity;
 using {{org_name}}.FMP.MOD.{{module_name}}.LIB.MVCS;
 
-/// <summary>
-/// XML格式的配置
-/// </summary>
-public class XmlConfig : LibMVCS.Config
-{
-    public void MergeKV(string _key, string _value)
-    {
-        fields_[_key] = LibMVCS.Any.FromString(_value);
-    }
-}
-
-
-/// <summary>
-/// Json格式的大纲
-/// </summary>
-public class JsonCatalog: LibMVCS.Config
+public class RootConfig : LibMVCS.Config
 {
     public void MergeKV(string _key, string _value)
     {
@@ -81,8 +66,7 @@ public class RootBase : UnityEngine.MonoBehaviour
     protected LibMVCS.Framework framework_ { get; set; } = new LibMVCS.Framework();
     protected LibMVCS.Logger logger_ { get; set; } = new ConsoleLogger();
     protected DebugEntry entry_ { get; set; } = new DebugEntry();
-    protected XmlConfig config_ { get; set; } = new XmlConfig();
-    protected JsonCatalog catalog_ { get; set; } = new JsonCatalog();
+    protected RootConfig config_ { get; set; } = new RootConfig();
     protected Dictionary<string, LibMVCS.Any> settings_ = new Dictionary<string, LibMVCS.Any>();
 
     /// <summary>
@@ -96,7 +80,7 @@ public class RootBase : UnityEngine.MonoBehaviour
         config_.MergeKV(MyEntryBase.ModuleName + ".xml", xml);
 
         string json = File.ReadAllText(UnityEngine.Application.dataPath + string.Format("/Exports/{0}.json", MyEntryBase.ModuleName));
-        catalog_.MergeKV(MyEntryBase.ModuleName + ".json'", json);
+        config_.MergeKV(MyEntryBase.ModuleName + ".json'", json);
 
         initFramework();
 

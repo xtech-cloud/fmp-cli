@@ -56,6 +56,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_mono"></param>
         /// <param name="_logger"></param>
         /// <param name="_config"></param>
+        /// <param name="_catalog"></param>
         /// <param name="_settings"></param>
         public void UniInject(MonoBehaviour _mono, Options _options, LibMVCS.Logger _logger, LibMVCS.Config _config, Dictionary<string, LibMVCS.Any> _settings)
         {
