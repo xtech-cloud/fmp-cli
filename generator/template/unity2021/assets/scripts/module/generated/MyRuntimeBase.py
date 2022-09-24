@@ -142,6 +142,26 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         }
 
         /// <summary>
+        /// 显示实例
+        /// </summary>
+        /// <param name="_uid">实例的uid</param>
+        /// <param name="_delay">延时时间，单位秒</param>
+        public virtual void ShowInstanceAsync(string _uid, float _delay)
+        {
+            mono_.StartCoroutine(showInstanceAsync(_uid, _delay));
+        }
+
+        /// <summary>
+        /// 隐藏实例
+        /// </summary>
+        /// <param name="_uid">实例的uid</param>
+        /// <param name="_delay">延时时间，单位秒</param>
+        public virtual void HideInstanceAsync(string _uid, float _delay)
+        {
+            mono_.StartCoroutine(hideInstanceAsync(_uid, _delay));
+        }
+
+        /// <summary>
         /// 关闭实例
         /// </summary>
         /// <param name="_uid">实例的uid</param>
@@ -219,6 +239,34 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             yield return new WaitForSeconds(_delay);
             instance.contentObjectsPool.Prepare();
             instance.HandleOpened(_source, _uri);
+        }
+
+        private IEnumerator showInstanceAsync(string _uid, float _delay)
+        {
+            logger_.Debug("show instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+
+            MyInstance instance;
+            if (!instances.TryGetValue(_uid, out instance))
+            {
+                logger_.Error("instance not found");
+                yield break;
+            }
+            yield return new WaitForSeconds(_delay);
+            instance.HandleShowed();
+        }
+
+        private IEnumerator hideInstanceAsync(string _uid, float _delay)
+        {
+            logger_.Debug("hide instance of {0}, uid is {1}", MyEntryBase.ModuleName, _uid);
+
+            MyInstance instance;
+            if (!instances.TryGetValue(_uid, out instance))
+            {
+                logger_.Error("instance not found");
+                yield break;
+            }
+            yield return new WaitForSeconds(_delay);
+            instance.HandleHided();
         }
 
         private IEnumerator closeInstanceAsync(string _uid, float _delay)

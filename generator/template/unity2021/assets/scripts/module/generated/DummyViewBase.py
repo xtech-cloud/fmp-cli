@@ -39,6 +39,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         {
             addSubscriber(MySubjectBase.Create, handleCreate);
             addSubscriber(MySubjectBase.Open, handleOpen);
+            addSubscriber(MySubjectBase.Show, handleShow);
+            addSubscriber(MySubjectBase.Hide, handleHide);
             addSubscriber(MySubjectBase.Close, handleClose);
             addSubscriber(MySubjectBase.Delete, handleDelete);
             addSubscriber("/Bootloader/Step/Execute", handleBootloaderStepExecute);
@@ -84,6 +86,42 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 getLogger().Exception(ex);
             }
             runtime.OpenInstanceAsync(uid, source, uri, delay);
+        }
+
+        private void handleShow(LibMVCS.Model.Status _status, object _data)
+        {
+            getLogger().Debug("handle show instance of {0} with data: {1}", MyEntryBase.ModuleName, JsonConvert.SerializeObject(_data));
+            string uid = "";
+            float delay = 0f;
+            try
+            {
+                Dictionary<string, object> data = _data as Dictionary<string, object>;
+                uid = (string)data["uid"];
+                delay = (float)data["delay"];
+            }
+            catch (Exception ex)
+            {
+                getLogger().Exception(ex);
+            }
+            runtime.ShowInstanceAsync(uid, delay);
+        }
+
+        private void handleHide(LibMVCS.Model.Status _status, object _data)
+        {
+            getLogger().Debug("handle hide instance of {0} with data: {1}", MyEntryBase.ModuleName, JsonConvert.SerializeObject(_data));
+            string uid = "";
+            float delay = 0f;
+            try
+            {
+                Dictionary<string, object> data = _data as Dictionary<string, object>;
+                uid = (string)data["uid"];
+                delay = (float)data["delay"];
+            }
+            catch (Exception ex)
+            {
+                getLogger().Exception(ex);
+            }
+            runtime.HideInstanceAsync(uid, delay);
         }
 
         private void handleClose(LibMVCS.Model.Status _status, object _data)

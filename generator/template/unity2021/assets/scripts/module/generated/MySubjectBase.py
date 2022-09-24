@@ -25,6 +25,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <summary>
         /// 打开
         /// </summary>
+        /// <remarks>
+        /// 先加载资源，然后显示
+        /// </remarks>
         /// <example>
         /// var data = new Dictionary<string, object>();
         /// data["uid"] = "default";
@@ -36,8 +39,39 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public const string Open = "/{{org_name}}/{{module_name}}/Open";
 
         /// <summary>
+        /// 显示
+        /// </summary>
+        /// <remarks>
+        /// 仅显示，不执行其他任何操作
+        /// </remarks>
+        /// <example>
+        /// var data = new Dictionary<string, object>();
+        /// data["uid"] = "default";
+        /// data["delay"] = 0f;
+        /// model.Publish(/{{org_name}}/{{module_name}}/Show, data);
+        /// </example>
+        public const string Show = "/{{org_name}}/{{module_name}}/Show";
+
+        /// <summary>
+        /// 隐藏
+        /// </summary>
+        /// <remarks>
+        /// 仅隐藏，不执行其他任何操作
+        /// </remarks>
+        /// <example>
+        /// var data = new Dictionary<string, object>();
+        /// data["uid"] = "default";
+        /// data["delay"] = 0f;
+        /// model.Publish(/{{org_name}}/{{module_name}}/Hide, data);
+        /// </example>
+        public const string Hide = "/{{org_name}}/{{module_name}}/Hide";
+
+        /// <summary>
         /// 关闭
         /// </summary>
+        /// <remarks>
+        /// 先隐藏，然后释放资源
+        /// </remarks>
         /// <example>
         /// var data = new Dictionary<string, object>();
         /// data["uid"] = "default";

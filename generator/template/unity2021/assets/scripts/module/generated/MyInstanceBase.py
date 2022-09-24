@@ -75,6 +75,22 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         }
 
         /// <summary>
+        /// 当被显示时
+        /// </summary>
+        public virtual void HandleShowed()
+        {
+            rootUI.gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// 当被隐藏时
+        /// </summary>
+        public virtual void HandleHided()
+        {
+            rootUI.gameObject.SetActive(false);
+        }
+
+        /// <summary>
         /// 将目标按锚点在父对象中对齐
         /// </summary>
         /// <param name="_target">目标</param>
