@@ -96,7 +96,7 @@ public class RootBase : UnityEngine.MonoBehaviour
         config_.MergeKV(MyEntryBase.ModuleName + ".xml", xml);
 
         string json = File.ReadAllText(UnityEngine.Application.dataPath + string.Format("/Exports/{0}.json", MyEntryBase.ModuleName));
-        catalog_.MergeKV(MyEntryBase.ModuleName + ".json'", xml);
+        catalog_.MergeKV(MyEntryBase.ModuleName + ".json'", json);
 
         initFramework();
 
