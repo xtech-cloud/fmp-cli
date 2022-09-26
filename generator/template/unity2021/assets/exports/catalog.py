@@ -5,7 +5,7 @@ from generator.template.utility import writer
 template = """{
     "sectionS":[
         {
-            "name":"".
+            "name":"",
             "path": "/",
             "instanceS": [
                 "default"
@@ -13,10 +13,10 @@ template = """{
             "contentS": [
                 "{{org_name}}.{{module_name}}/+"
             ],
-            "kvS":[
+            "kvS": {
                 "key1":"value1",
                 "key2":"value2"
-            ]
+            }
         }
     ]
 }
