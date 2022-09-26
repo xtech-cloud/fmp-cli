@@ -198,7 +198,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             if(_source.Equals("file://assloud"))
             {
                 var dir = Path.Combine(settings_["datapath"].AsString(), settings_["vendor"].AsString());
-                dir = Path.Combine(dir, "assloud");
+                dir = Path.Combine(dir, "assets");
                 return Path.Combine(dir, _uri);
             }
             return _uri;
