@@ -20,6 +20,7 @@ from generator.template.unity2021.assets.scripts.module import DummyView
 from generator.template.unity2021.assets.scripts.module import DummyModel
 from generator.template.unity2021.assets.scripts.module import MyConfig
 from generator.template.unity2021.assets.scripts.module import MyCatalog
+from generator.template.unity2021.assets.scripts.module import MyContent
 from generator.template.unity2021.assets.scripts.module import MyEntry 
 from generator.template.unity2021.assets.scripts.module import MyInstance
 from generator.template.unity2021.assets.scripts.module import MyRuntime
@@ -27,6 +28,7 @@ from generator.template.unity2021.assets.scripts.module import MySubject
 from generator.template.unity2021.assets.scripts.module import UiBridge
 from generator.template.unity2021.assets.scripts.module.generated import MyConfigBase
 from generator.template.unity2021.assets.scripts.module.generated import MyCatalogBase
+from generator.template.unity2021.assets.scripts.module.generated import MyContentBase
 from generator.template.unity2021.assets.scripts.module.generated import MyEntryBase
 from generator.template.unity2021.assets.scripts.module.generated import MyInstanceBase 
 from generator.template.unity2021.assets.scripts.module.generated import MyRuntimeBase
@@ -86,6 +88,8 @@ def generate(_options, _workdir: str):
     MyConfig.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyCatalog.cs
     MyCatalog.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/MyContent.cs
+    MyContent.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyEntry.cs
     MyEntry.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/MyInstance.cs
@@ -100,6 +104,8 @@ def generate(_options, _workdir: str):
     MyConfigBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyCatalogBase.cs
     MyCatalogBase.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/MyContentBase.cs
+    MyContentBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyEntryBase.cs
     MyEntryBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/MyInstanceBase.cs

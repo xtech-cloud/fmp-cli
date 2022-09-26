@@ -3,6 +3,22 @@ import uuid
 from generator.template.utility import writer
 
 template = """{
+    "sectionS":[
+        {
+            "name":"".
+            "path": "/",
+            "instanceS": [
+                "default"
+            ],
+            "contentS": [
+                "{{org_name}}.{{module_name}}/+"
+            ],
+            "kvS":[
+                "key1":"value1",
+                "key2":"value2"
+            ]
+        }
+    ]
 }
 """
 

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 {
     /// <summary>
-    /// 大纲类的基类
+    /// 目录类的基类
     /// </summary>
     public class MyCatalogBase
     {
@@ -37,9 +37,12 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public List<string> instanceS { get; set; } = new List<string>();
 
             /// <summary>
-            /// 主体内容
+            /// 内容列表
             /// </summary>
-            public string[] bodyS { get; set; } = new string[0];
+            /// <remarks>
+            /// 支持正则表达式
+            /// </remarks>
+            public string[] contentS { get; set; } = new string[0];
 
             /// <summary>
             /// 键值对

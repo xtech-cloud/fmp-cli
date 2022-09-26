@@ -182,6 +182,16 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             });
         }
 
+        protected void loadContentFromAsset(string _uri, System.Action<byte[]> _onFinish)
+        {
+            string datapath = settings_["datapath"].AsString();
+            string vendor = settings_["vendor"].AsString();
+            string dir = System.IO.Path.Combine(datapath, vendor);
+            dir = System.IO.Path.Combine(dir, "assets");
+            dir = System.IO.Path.Combine(dir, _uri);
+            string metafullpath = System.IO.Path.Combine(dir, "meta.json");
+            themeObjectsPool.LoadText(metafullpath, null, _onFinish);
+        }
          
         protected string combineAssetPath(string _source, string _uri)
         {

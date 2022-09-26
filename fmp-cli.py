@@ -54,7 +54,7 @@ def printResult(_task, _code):
         logger.error("-------------------------------------------------------------")
 
 
-version = "1.37.0"
+version = "1.38.0"
 logger.info("****************************************************")
 logger.info("* FMP Client - ver {}".format(version))
 logger.info("****************************************************")
