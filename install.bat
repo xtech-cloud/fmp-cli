@@ -24,7 +24,7 @@ if '%errorlevel%' NEQ '0' (
 :--------------------------------------
 
 
-pyinstaller -F %CD%\fmp-cli.py
+pyinstaller fmp-cli.spec
 move %CD%\dist\fmp-cli.exe D:\FPE\__bin__\
 pause
 
