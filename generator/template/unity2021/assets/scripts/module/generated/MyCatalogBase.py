@@ -42,7 +42,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             /// <remarks>
             /// 支持正则表达式
             /// </remarks>
-            public string[] contentS { get; set; } = new string[0];
+            public List<string> contentS { get; set; } = new List<string>();
 
             /// <summary>
             /// 键值对
