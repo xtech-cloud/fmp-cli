@@ -10,6 +10,7 @@ template = """
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Grpc.Net.Client;
@@ -47,6 +48,12 @@ public partial class Program
         var entry = new Entry();
         var options = new Options();
         options.setChannel(channel);
+        var permissioS = new Dictionary<string,string>();
+        permissioS[Permissions.Create] = "";
+        permissioS[Permissions.Update] = "";
+        permissioS[Permissions.Retrieve] = "";
+        permissioS[Permissions.Delete] = "";
+        options.setPermissionS(permissioS);
         framework.setUserData("{{org}}.FMP.MOD.{{module}}.LIB.MVCS.Entry", entry);
         entry.Inject(framework, options);
         entry.DynamicRegister("default", logger);
