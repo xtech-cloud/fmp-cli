@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from mygrpc import agent_pb2 as agent__pb2
-from mygrpc import shared_pb2 as shared__pb2
+import mygrpc.agent_pb2 as agent__pb2
+import mygrpc.shared_pb2 as shared__pb2
 
 
 class AgentStub(object):

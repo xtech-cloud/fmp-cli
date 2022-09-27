@@ -241,5 +241,10 @@ def run(_version, _config):
         if not (0 == rspFlush.status.code):
             logger.error(rspFlush)
             return 1
+        # 更新
+        rspUpdate = stub.Update(module_pb2.ModuleUpdateRequest(uuid=rspCreate.uuid, cli=_version))
+        if not (0 == rspPrepare.status.code):
+            logger.error(rspPrepare)
+            return 1
 
     return 0

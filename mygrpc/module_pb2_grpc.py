@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from mygrpc import module_pb2 as module__pb2
-from mygrpc import shared_pb2 as shared__pb2
+import mygrpc.module_pb2 as module__pb2
+import mygrpc.shared_pb2 as shared__pb2
 
 
 class ModuleStub(object):
