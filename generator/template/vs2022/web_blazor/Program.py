@@ -24,6 +24,9 @@ public partial class Program
 {
     public static async Task Main(string[] args)
     {
+        var permissioS = new Dictionary<string,string>();
+{{template_permission_blocks}}
+
         var channel = GrpcChannel.ForAddress("https://localhost:19000/", new GrpcChannelOptions
         {
             HttpHandler = new GrpcWebHandler(new HttpClientHandler())
@@ -48,11 +51,6 @@ public partial class Program
         var entry = new Entry();
         var options = new Options();
         options.setChannel(channel);
-        var permissioS = new Dictionary<string,string>();
-        permissioS[Permissions.Create] = "";
-        permissioS[Permissions.Update] = "";
-        permissioS[Permissions.Retrieve] = "";
-        permissioS[Permissions.Delete] = "";
         options.setPermissionS(permissioS);
         framework.setUserData("{{org}}.FMP.MOD.{{module}}.LIB.MVCS.Entry", entry);
         entry.Inject(framework, options);
@@ -66,13 +64,27 @@ public partial class Program
 }
 """
 
+template_permission_blocks = """
+        permissioS[Permissions.{{service}}Create] = "";
+        permissioS[Permissions.{{service}}Update] = "";
+        permissioS[Permissions.{{service}}Retrieve] = "";
+        permissioS[Permissions.{{service}}Delete] = "";
+"""
+
+
 def generate(_options, _outputdir: str):
     org_name = _options["org_name"]
     module_name = _options["module_name"]
-
+    services = _options["services"]
+    permission_blocks = ""
+    for service in services.keys():
+        permission_blocks = permission_blocks + template_permission_blocks.replace(
+            "{{service}}", service
+        )
     contents = (
         template.replace("{{org}}", org_name)
         .replace("{{module}}", module_name)
+        .replace("{{template_permission_blocks}}", permission_blocks)
     )
     filepath = os.path.join(_outputdir, "Program.cs")
     writer.write(filepath, contents, True)
