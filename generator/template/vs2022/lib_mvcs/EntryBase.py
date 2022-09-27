@@ -19,7 +19,6 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
     /// </summary>
     public class Options : UserData
     {
-        /// <summary>
         /// 获取GRPC通道
         /// </summary>
         public GrpcChannel? getChannel()
@@ -37,9 +36,31 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         }
 
         /// <summary>
+        /// 获取权限列表
+        /// </summary>
+        public Dictionary<string,string> getPermissionS()
+        {
+            return permissionS_;
+        }
+
+        /// <summary>
+        /// 设置权限列表
+        /// </summary>
+        /// <param name="_permissionS">权限列表</param>
+        public void setPermissionS(Dictionary<string,string> _permissionS)
+        {
+            permissionS_ = _permissionS;
+        }
+
+        /// <summary>
         /// GRPC通道
         /// </summary>
         private GrpcChannel? channel_;
+
+        /// <summary>
+        /// 权限列表
+        /// </summary>
+        private Dictionary<string, string> permissionS_ = new Dictionary<string, string>();
     }
 
     /// <summary>
@@ -62,6 +83,14 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.MVCS
         {
             framework_ = _framework;
             options_ = _options;
+        }
+
+        /// <summary>
+        /// 获取权限列表
+        /// </summary>
+        public Dictionary<string, string> getPermissionS()
+        {
+            return options_?.getPermissionS() ?? new Dictionary<string, string>();
         }
 
         /// <summary>

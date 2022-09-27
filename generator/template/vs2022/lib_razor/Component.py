@@ -125,6 +125,7 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
                     logger_?.Error("entry is null");
                     return null;
                 }
+                permissionS_ = entry.getPermissionS();
                 facade_ = entry?.getDynamic{{service}}Facade("default");
                 if (null == facade_)
                 {
@@ -147,14 +148,19 @@ namespace {{org}}.FMP.MOD.{{module}}.LIB.Razor
         [Inject] Logger? logger_ { get; set; }
 
         /// <summary>
+        /// 注入的全局提示服务
+        /// </summary>
+        [Inject] MessageService? messageService_ { get; set; }
+
+        /// <summary>
         /// 直系UI装饰层
         /// </summary>
         private {{service}}Facade? facade_;
 
         /// <summary>
-        /// 注入的全局提示服务
+        /// 权限列表
         /// </summary>
-        [Inject] MessageService? messageService_ { get; set; }
+        private Dictionary<string, string> permissionS_ = new Dictionary<string, string>();
     }
 }
 """
