@@ -136,7 +136,7 @@ def run(_version, _config):
     """
     发布vs2022
     """
-    publish_vs2022_cmd = "dotnet publish /p:Version={}".format(git_version)
+    publish_vs2022_cmd = "dotnet publish -c Release /p:Version={}".format(git_version)
     logger.trace(publish_vs2022_cmd)
     pbuild = subprocess.run(publish_vs2022_cmd, cwd="vs2022", stdout=subprocess.PIPE)
     if 0 != pbuild.returncode:
@@ -146,10 +146,12 @@ def run(_version, _config):
     """
     打包server
     """
-    zip_target_dir = "vs2022/fmp-{}-{}-service-grpc/bin/Release/net6.0/publish".format(
+    publish_rootdir = "vs2022/fmp-{}-{}-service-grpc/bin/Release/net6.0".format(
         org_name.lower(),
         module_name.lower(),
     )
+    publish_basedir = "{}.{}".format(org_name, module_name)
+    os.rename(os.path.join(publish_rootdir, "publish"), os.path.join(publish_rootdir, publish_basedir))
 
     zipfile_path = "vs2022/fmp-{}-{}-service-grpc/bin/{}.{}".format(
         org_name.lower(),
@@ -158,7 +160,9 @@ def run(_version, _config):
         module_name,
     )
     logger.trace("pack {}.zip ...".format(zipfile_path))
-    shutil.make_archive(zipfile_path, "zip", zip_target_dir)
+    shutil.make_archive(zipfile_path, "zip", publish_rootdir, publish_basedir)
+    if os.path.exists(os.path.join(publish_rootdir, publish_basedir)):
+        shutil.rmtree(os.path.join(publish_rootdir, publish_basedir))
 
     manifest = {}
     manifest["entries"] = []
