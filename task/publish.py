@@ -4,6 +4,7 @@ import requests
 import hashlib
 import json
 import grpc
+import subprocess
 from mygrpc import shared_pb2
 from mygrpc import shared_pb2_grpc
 from mygrpc import module_pb2
@@ -40,14 +41,19 @@ def run(_version, _config):
     module_name = _config["module_name"]
     environment = _config["environment"]
     repository: str = _config["repository"]
-    # TODO read version from file
-    version = "1.0.0"
+    p = os.popen('git tag --contains')
+    git_version = p.read().strip()
+    if "" == git_version:
+        logger.error("The current commit has no tag!")
+        return 1
+
+    version = git_version
     if environment == "develop":
         version = "develop"
     files = [
         (
             "fmp-{}-{}-lib-proto.dll".format(org_name.lower(), module_name.lower()),
-            "vs2022/fmp-{}-{}-lib-proto/bin/Release/netstandard2.1/fmp-{}-{}-lib-proto.dll".format(
+            "vs2022/fmp-{}-{}-lib-proto/bin/Release/netstandard2.1/publish/fmp-{}-{}-lib-proto.dll".format(
                 org_name.lower(),
                 module_name.lower(),
                 org_name.lower(),
@@ -56,7 +62,7 @@ def run(_version, _config):
         ),
         (
             "fmp-{}-{}-lib-bridge.dll".format(org_name.lower(), module_name.lower()),
-            "vs2022/fmp-{}-{}-lib-bridge/bin/Release/netstandard2.1/fmp-{}-{}-lib-bridge.dll".format(
+            "vs2022/fmp-{}-{}-lib-bridge/bin/Release/netstandard2.1/publish/fmp-{}-{}-lib-bridge.dll".format(
                 org_name.lower(),
                 module_name.lower(),
                 org_name.lower(),
@@ -65,7 +71,7 @@ def run(_version, _config):
         ),
         (
             "fmp-{}-{}-lib-mvcs.dll".format(org_name.lower(), module_name.lower()),
-            "vs2022/fmp-{}-{}-lib-mvcs/bin/Release/netstandard2.1/fmp-{}-{}-lib-mvcs.dll".format(
+            "vs2022/fmp-{}-{}-lib-mvcs/bin/Release/netstandard2.1/publish/fmp-{}-{}-lib-mvcs.dll".format(
                 org_name.lower(),
                 module_name.lower(),
                 org_name.lower(),
@@ -74,7 +80,7 @@ def run(_version, _config):
         ),
         (
             "fmp-{}-{}-lib-razor.dll".format(org_name.lower(), module_name.lower()),
-            "vs2022/fmp-{}-{}-lib-razor/bin/Release/net6.0/fmp-{}-{}-lib-razor.dll".format(
+            "vs2022/fmp-{}-{}-lib-razor/bin/Release/net6.0/publish/fmp-{}-{}-lib-razor.dll".format(
                 org_name.lower(),
                 module_name.lower(),
                 org_name.lower(),
@@ -121,9 +127,20 @@ def run(_version, _config):
 
     logger.debug("org: {}".format(org_name))
     logger.debug("module: {}".format(module_name))
+    logger.debug("verison: {}".format(git_version))
     logger.debug("environment: {}".format(environment))
     logger.debug("repository: {}".format(repository))
     logger.debug("```")
+
+    """
+    发布vs2022
+    """
+    publish_vs2022_cmd = "dotnet publish /p:Version={}".format(git_version)
+    logger.trace(publish_vs2022_cmd)
+    pbuild = subprocess.run(publish_vs2022_cmd, cwd="vs2022", stdout=subprocess.PIPE)
+    if 0 != pbuild.returncode:
+        logger.error("publish vs2022 failure")
+        return 1
 
 
     manifest = {}

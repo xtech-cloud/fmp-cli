@@ -59,6 +59,11 @@ def buildOption(
         logger.trace(services)
         logger.trace(messages)
 
+    for service in services.keys():
+        if service.lower() == _modulename.lower():
+            logger.error("the name of service is sameas module, please rename it")
+            sys.exit(1)
+
     return {
         "version": _version,
         "org_name": _orgname,
