@@ -34,7 +34,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             /// <summary>
             /// 实例
             /// </summary>
-            public List<string> instanceS { get; set; } = new List<string>();
+            public string[] instanceS { get; set; } = new string[0];
 
             /// <summary>
             /// 内容列表
@@ -42,7 +42,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             /// <remarks>
             /// 支持正则表达式
             /// </remarks>
-            public List<string> contentS { get; set; } = new List<string>();
+            public string[] contentS { get; set; } = new string[0];
 
             /// <summary>
             /// 键值对
