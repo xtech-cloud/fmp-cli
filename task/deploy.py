@@ -42,8 +42,12 @@ def run(_version, _config):
     environment = _config["environment"]
     repository: str = _config["repository"]
     agent_port = _config["agent_port"]
-    # TODO read version from file
-    version = "1.0.0"
+    p = os.popen("git tag --contains")
+    git_version = p.read().strip()
+    if "" == git_version:
+        logger.error("The current commit has no tag!")
+        return 1
+    version = git_version
     if environment == "develop":
         version = "develop"
     files = [
@@ -60,6 +64,8 @@ def run(_version, _config):
 
     logger.debug("org: {}".format(org_name))
     logger.debug("module: {}".format(module_name))
+    logger.debug("version: {}".format(git_version))
+    logger.debug("agent_port: {}".format(agent_port))
     logger.debug("environment: {}".format(environment))
     logger.debug("repository: {}".format(repository))
     logger.debug("```")
@@ -103,14 +109,18 @@ def run(_version, _config):
         ) as wf:
             wf.write(json.dumps(manifest))
         wf.close()
-    elif repository.startswith("grpc://"):
+    elif repository.startswith("grpc://") or repository.startswith("grpcs://"):
         """
         网络形式
         """
-        endpoint = repository[7:]
-        channel = grpc.insecure_channel(endpoint)
+        if repository.startswith("grpc://"):
+            endpoint = repository[7:]
+            channel = grpc.insecure_channel(endpoint)
+        elif repository.startswith("grpcs://"):
+            endpoint = repository[8:]
+            channel = grpc.secure_channel(endpoint, grpc.ssl_channel_credentials())
         stub = agent_pb2_grpc.AgentStub(channel)
-        # 创建Module
+        # 创建Agent
         rspCreate = stub.Create(
             agent_pb2.AgentCreateRequest(
                 org=org_name,
@@ -122,7 +132,11 @@ def run(_version, _config):
             logger.error(rspCreate)
             return 1
         # 更新
-        rspUpdate = stub.Update(agent_pb2.AgentUpdateRequest(uuid=rspCreate.uuid, port=agent_port, pages=list(services.keys())))
+        rspUpdate = stub.Update(
+            agent_pb2.AgentUpdateRequest(
+                uuid=rspCreate.uuid, port=agent_port, pages=list(services.keys())
+            )
+        )
         if not (0 == rspUpdate.status.code or 1 == rspUpdate.status.code):
             logger.error(rspUpdate)
             return 1

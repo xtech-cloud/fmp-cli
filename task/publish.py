@@ -5,6 +5,7 @@ import hashlib
 import json
 import grpc
 import subprocess
+import shutil
 from mygrpc import shared_pb2
 from mygrpc import shared_pb2_grpc
 from mygrpc import module_pb2
@@ -41,7 +42,7 @@ def run(_version, _config):
     module_name = _config["module_name"]
     environment = _config["environment"]
     repository: str = _config["repository"]
-    p = os.popen('git tag --contains')
+    p = os.popen("git tag --contains")
     git_version = p.read().strip()
     if "" == git_version:
         logger.error("The current commit has no tag!")
@@ -142,6 +143,22 @@ def run(_version, _config):
         logger.error("publish vs2022 failure")
         return 1
 
+    """
+    打包server
+    """
+    zip_target_dir = "vs2022/fmp-{}-{}-service-grpc/bin/Release/net6.0/publish".format(
+        org_name.lower(),
+        module_name.lower(),
+    )
+
+    zipfile_path = "vs2022/fmp-{}-{}-service-grpc/bin/{}.{}".format(
+        org_name.lower(),
+        module_name.lower(),
+        org_name,
+        module_name,
+    )
+    logger.trace("pack {}.zip ...".format(zipfile_path))
+    shutil.make_archive(zipfile_path, "zip", zip_target_dir)
 
     manifest = {}
     manifest["entries"] = []
