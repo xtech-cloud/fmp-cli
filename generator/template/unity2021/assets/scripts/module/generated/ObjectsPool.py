@@ -7,6 +7,7 @@ template = """
 //*************************************************************************************
 
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,8 +92,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_onFinish">完成的回调</param>
         public void LoadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish)
         {
+            string file = _file.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             UnityEngine.Object obj;
-            if (objects.TryGetValue(_file, out obj))
+            if (objects.TryGetValue(file, out obj))
             {
                 _onFinish(obj as AudioClip);
                 return;
@@ -107,7 +109,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
             }
-            coroutine = mono_.StartCoroutine(loadAudioClip(_file, _exclusiveNumber, _onFinish));
+            coroutine = mono_.StartCoroutine(loadAudioClip(file, _exclusiveNumber, _onFinish));
             if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
@@ -121,8 +123,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_onFinish"></param>
         public void LoadTexture(string _file, string _exclusiveNumber, Action<Texture> _onFinish)
         {
+            string file = _file.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             UnityEngine.Object obj;
-            if (objects.TryGetValue(_file, out obj))
+            if (objects.TryGetValue(file, out obj))
             {
                 _onFinish(obj as Texture);
                 return;
@@ -137,7 +140,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
             }
-            coroutine = mono_.StartCoroutine(loadTexture(_file, _exclusiveNumber, _onFinish));
+            coroutine = mono_.StartCoroutine(loadTexture(file, _exclusiveNumber, _onFinish));
             if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
@@ -151,8 +154,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_onFinish"></param>
         public void LoadText(string _file, string _exclusiveNumber, Action<byte[]> _onFinish)
         {
+            string file = _file.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             byte[] text;
-            if (texts.TryGetValue(_file, out text))
+            if (texts.TryGetValue(file, out text))
             {
                 _onFinish(text);
                 return;
@@ -167,7 +171,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
             }
-            coroutine = mono_.StartCoroutine(loadText(_file, _exclusiveNumber, _onFinish));
+            coroutine = mono_.StartCoroutine(loadText(file, _exclusiveNumber, _onFinish));
             if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;

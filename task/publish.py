@@ -137,10 +137,35 @@ def run(_version, _config):
     发布vs2022
     """
     publish_vs2022_cmd = "dotnet publish -c Release /p:Version={}".format(git_version)
-    logger.trace(publish_vs2022_cmd)
-    pbuild = subprocess.run(publish_vs2022_cmd, cwd="vs2022", stdout=subprocess.PIPE)
+    publish_cwd = "vs2022/fmp-{}-{}-lib-proto".format(org_name.lower(), module_name.lower())
+    logger.trace("publish proto ...")
+    pbuild = subprocess.run(publish_vs2022_cmd, cwd=publish_cwd, stdout=subprocess.PIPE)
     if 0 != pbuild.returncode:
-        logger.error("publish vs2022 failure")
+        logger.error("publish proto failure")
+        return 1
+    publish_cwd = "vs2022/fmp-{}-{}-lib-bridge".format(org_name.lower(), module_name.lower())
+    logger.trace("publish bridge ...")
+    pbuild = subprocess.run(publish_vs2022_cmd, cwd=publish_cwd, stdout=subprocess.PIPE)
+    if 0 != pbuild.returncode:
+        logger.error("publish bridge failure")
+        return 1
+    publish_cwd = "vs2022/fmp-{}-{}-lib-mvcs".format(org_name.lower(), module_name.lower())
+    logger.trace("publish mvcs ...")
+    pbuild = subprocess.run(publish_vs2022_cmd, cwd=publish_cwd, stdout=subprocess.PIPE)
+    if 0 != pbuild.returncode:
+        logger.error("publish mvcs failure")
+        return 1
+    publish_cwd = "vs2022/fmp-{}-{}-lib-razor".format(org_name.lower(), module_name.lower())
+    logger.trace("publish razor ...")
+    pbuild = subprocess.run(publish_vs2022_cmd, cwd=publish_cwd, stdout=subprocess.PIPE)
+    if 0 != pbuild.returncode:
+        logger.error("publish razor failure")
+        return 1
+    publish_cwd = "vs2022/fmp-{}-{}-service-grpc".format(org_name.lower(), module_name.lower())
+    logger.trace("publish service ...")
+    pbuild = subprocess.run(publish_vs2022_cmd, cwd=publish_cwd, stdout=subprocess.PIPE)
+    if 0 != pbuild.returncode:
+        logger.error("publish service failure")
         return 1
 
     """
