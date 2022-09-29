@@ -75,11 +75,18 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
             if (!string.IsNullOrEmpty(config_.grpc.address))
             {
-                var channel = GrpcChannel.ForAddress(config_.grpc.address, new GrpcChannelOptions
+                try
                 {
-                    HttpHandler = new GrpcWebHandler(new HttpClientHandler())
-                });
-                _options.setChannel(channel);
+                    var channel = GrpcChannel.ForAddress(config_.grpc.address, new GrpcChannelOptions
+                    {
+                        HttpHandler = new GrpcWebHandler(new HttpClientHandler())
+                    });
+                    _options.setChannel(channel);
+                }
+                catch (System.Exception ex)
+                {
+                    logger_.Exception(ex);
+                }
             }
 
             runtime_ = new MyRuntime(mono_, config_, catalog_, settings_, logger_, this);
