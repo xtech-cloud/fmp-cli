@@ -37,6 +37,7 @@ from generator.template.unity2021.assets.scripts.module.generated import UiBridg
 from generator.template.unity2021.assets.scripts.module.generated import DummyViewBase
 from generator.template.unity2021.assets.scripts.module.generated import DummyModelBase
 from generator.template.unity2021.assets.scripts.module.generated import ObjectsPool
+from generator.template.unity2021.assets.scripts.module.generated import ResourceReader
 from generator.template.unity2021.assets.scripts.module.generated import Sequence
 from generator.template.unity2021.assets.lib3rd import dll
 from generator.template.unity2021 import gitignore
@@ -122,6 +123,8 @@ def generate(_options, _workdir: str):
     DummyModelBase.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/ObjectsPool.cs
     ObjectsPool.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/ResourceReader.cs
+    ResourceReader.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/Sequence.cs
     Sequence.generate(_options, dir_unity2021)
     # 生成Asset/3rd/xxx.dll
