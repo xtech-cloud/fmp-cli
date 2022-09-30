@@ -75,14 +75,16 @@ def buildOption(
     }
 
 
-def run(_version, _config):
+def run(_version, _config, _force):
     config = _config
     logger.debug("! found generate task")
-    if "active" not in config:
-        logger.error("active is required!")
-        return 1
-    if not config["active"]:
-        return -1
+    if not _force:
+        if "active" not in config:
+            logger.error("active is required!")
+            return 1
+        if not config["active"]:
+            logger.warn("active is false")
+            return -1
     logger.info("> run generate")
     logger.debug("```")
     if "org_name" not in config:

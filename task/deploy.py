@@ -13,14 +13,15 @@ from shutil import copyfile
 from common import logger
 
 
-def run(_version, _config):
+def run(_version, _config, _force):
     config = _config
-    if "active" not in config:
-        logger.error("active is required!")
-        return 1
-    if not config["active"]:
-        logger.error("active is false")
-        return 1
+    if not _force:
+        if "active" not in config:
+            logger.error("active is required!")
+            return 1
+        if not config["active"]:
+            logger.warn("active is false")
+            return -1
     logger.debug("! found deploy task")
     logger.info("> run deploy")
     logger.debug("```")

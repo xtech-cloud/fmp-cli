@@ -1,6 +1,7 @@
 import os
 import sys
 import yaml
+import argparse
 from common import logger
 from generator import proto
 from generator import vs2022
@@ -53,37 +54,99 @@ def printResult(_task, _code):
         logger.error(" {} FAILURE".format(_task))
         logger.error("-------------------------------------------------------------")
 
+def check_yaml_file(_print:bool, _exit:bool):
+    """
+    检测yaml文件是否存在
+    """
+    yaml_file = "./fmp.yaml"
+    if os.path.exists("./.fmp.yaml"):
+        yaml_file = "./.fmp.yaml"
+    exists = os.path.exists(yaml_file)
+    if not exists and _print:
+        logger.error("fmp.yaml or .fmp.yaml not found")
+    if not exists and _exit:
+        sys.exit(1)
+    return exists, yaml_file
 
-version = "1.59.0"
-logger.info("****************************************************")
-logger.info("* FMP Client - ver {}".format(version))
-logger.info("****************************************************")
-
-fmp_yaml = "./fmp.yaml"
-if os.path.exists("./.fmp.yaml"):
-    fmp_yaml = "./.fmp.yaml"
-
-if os.path.exists(fmp_yaml):
-    logger.debug("! use {}".format(fmp_yaml))
-    with open(fmp_yaml) as f:
+def run_task_generate(_force:bool):
+    """
+    执行生成任务
+    """
+    exists, yaml_file = check_yaml_file(True, True)
+    logger.debug("! use {}".format(yaml_file))
+    with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         if "generate" in data:
             config = data["generate"]
             config["org_name"] = data["org_name"]
             config["module_name"] = data["module_name"]
-            code = generate.run(version, config)
+            code = generate.run(version, config, _force)
             printResult("Generate", code)
+
+def run_task_publish(_force:bool):
+    """
+    执行发布任务
+    """
+    exists, yaml_file = check_yaml_file(True, True)
+    logger.debug("! use {}".format(yaml_file))
+    with open(yaml_file) as f:
+        data = yaml.load(f, Loader=yaml.FullLoader)
         if "publish" in data:
             config = data["publish"]
             config["org_name"] = data["org_name"]
             config["module_name"] = data["module_name"]
-            code = publish.run(version, config)
+            code = publish.run(version, config, _force)
             printResult("Publish", code)
+
+def run_task_deploy(_force:bool):
+    """
+    执行部署任务
+    """
+    exists, yaml_file = check_yaml_file(True, True)
+    logger.debug("! use {}".format(yaml_file))
+    with open(yaml_file) as f:
+        data = yaml.load(f, Loader=yaml.FullLoader)
         if "deploy" in data:
             config = data["deploy"]
             config["org_name"] = data["org_name"]
             config["module_name"] = data["module_name"]
-            code = deploy.run(version, config)
+            code = deploy.run(version, config, _force)
             printResult("Deploy", code)
-else:
-    useWizard(version)
+
+def parse_args():
+    parser = argparse.ArgumentParser("FMP Cli")
+    parser.add_argument("-g", help="generate", action="store_true")
+    parser.add_argument("-p", help="publish", action="store_true")
+    parser.add_argument("-d", help="deploy", action="store_true")
+    args = parser.parse_args()
+    if args.g:
+        run_task_generate(True)
+    if args.p:
+        run_task_publish(True)
+    if args.d:
+        run_task_deploy(True)
+
+if __name__ == '__main__':
+    version = "1.59.0"
+    logger.info("****************************************************")
+    logger.info("* FMP Client - ver {}".format(version))
+    logger.info("****************************************************")
+    if len(sys.argv) > 1:
+        parse_args()
+        sys.exit(0)
+    """
+    无参数时使用fmp.yaml文件
+    """
+    exists, yaml_file = check_yaml_file(False, False)
+    if exists:
+        """
+        执行fmp.yaml文件
+        """
+        run_task_generate(False)
+        run_task_publish(False)
+        run_task_deploy(False)
+    else:
+        """
+        使用向导
+        """
+        useWizard(version)
