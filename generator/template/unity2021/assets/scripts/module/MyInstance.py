@@ -28,6 +28,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <summary>
         /// 当被创建时
         /// </summary>
+        /// <remarks>
+        /// 可用于加载主题目录的数据
+        /// </remarks>
         public void HandleCreated()
         {
         }
@@ -42,6 +45,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <summary>
         /// 当被打开时
         /// </summary>
+        /// <remarks>
+        /// 可用于加载内容目录的数据
+        /// </remarks>
         public void HandleOpened(string _source, string _uri)
         {
             rootUI.gameObject.SetActive(true);

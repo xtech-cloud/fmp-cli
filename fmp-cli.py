@@ -127,7 +127,7 @@ def parse_args():
         run_task_deploy(True)
 
 if __name__ == '__main__':
-    version = "1.59.0"
+    version = "1.60.0"
     logger.info("****************************************************")
     logger.info("* FMP Client - ver {}".format(version))
     logger.info("****************************************************")

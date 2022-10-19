@@ -39,6 +39,7 @@ from generator.template.unity2021.assets.scripts.module.generated import DummyMo
 from generator.template.unity2021.assets.scripts.module.generated import ObjectsPool
 from generator.template.unity2021.assets.scripts.module.generated import ResourceReader
 from generator.template.unity2021.assets.scripts.module.generated import ContentReader
+from generator.template.unity2021.assets.scripts.module.generated import AssetSchema
 from generator.template.unity2021.assets.scripts.module.generated import Sequence
 from generator.template.unity2021.assets.lib3rd import dll
 from generator.template.unity2021 import gitignore
@@ -128,6 +129,8 @@ def generate(_options, _workdir: str):
     ResourceReader.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/ContentReader.cs
     ContentReader.generate(_options, dir_unity2021)
+    # 生成Asset/Scripts/Module/_Generated_/AssetSchema.cs
+    AssetSchema.generate(_options, dir_unity2021)
     # 生成Asset/Scripts/Module/_Generated_/Sequence.cs
     Sequence.generate(_options, dir_unity2021)
     # 生成Asset/3rd/xxx.dll

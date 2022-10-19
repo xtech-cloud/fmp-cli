@@ -12,57 +12,33 @@ using System.Collections.Generic;
 namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 {
     /// <summary>
-    /// 序列类基类
+    /// 资源包的meta结构
     /// </summary>
-    public class SequenceBase
+    public class BundleMetaSchema
     {
-        public System.Action OnFinish;
+        /// <summary>
+        /// 路径是否匹配表达式
+        /// </summary>
+        /// <param name="_contentUri">内容的短路径</param>
+        /// <param name="_pattern">正则表达式</param>
+        /// <returns>是否匹配</returns>
+        public static bool IsMatch(string _contentUri, string _pattern)
+        {
+            Regex regex = new Regex(_pattern);
+            return regex.IsMatch(_contentUri);
+        }
+
+        /// <summary>
+        /// 内容名称的列表
+        /// </summary>
+        public string[] contentS { get; set; } = new string[0];
     } //class
 
     /// <summary>
-    /// 计数器序列
+    /// 资源内容的meta结构
     /// </summary>
-    public class CounterSequence : SequenceBase
+    public class ContentMetaSchema
     {
-        public int total { get; protected set; }
-        public int ticker { get; protected set; }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="_total">初始化总数</param>
-        public CounterSequence(int _total)
-        {
-            total = _total;
-            ticker = 0;
-        }
-
-        /// <summary>
-        /// 总数加一
-        /// </summary>
-        public void Dial()
-        {
-            total += 1;
-        }
-
-        /// <summary>
-        /// 计数器加一
-        /// </summary>
-        public void Tick()
-        {
-            if (ticker >= total)
-                return;
-
-            ticker += 1;
-            if (ticker >= total)
-            {
-                if (null != OnFinish)
-                {
-                    OnFinish();
-                }
-            }
-        }
-
     } //class
 } //namespace
 
@@ -82,5 +58,5 @@ def generate(_options, _outputdir: str):
     contents = contents.replace("{{org_name}}", _options["org_name"])
     contents = contents.replace("{{module_name}}", _options["module_name"])
     contents = contents.replace("{{version}}", _options["version"])
-    output_path = os.path.join(output_dir, "Sequence.cs")
+    output_path = os.path.join(output_dir, "AssetSchema.cs")
     writer.write(output_path, contents, True)

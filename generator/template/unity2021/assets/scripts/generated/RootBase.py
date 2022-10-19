@@ -120,6 +120,7 @@ public class RootBase : UnityEngine.MonoBehaviour
         settings_["platform"] = LibMVCS.Any.FromString("windows");
         settings_["devicecode"] = LibMVCS.Any.FromString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
         settings_["canvas.main"] = LibMVCS.Any.FromObject(mainCanvas);
+        settings_["preloads"] = LibMVCS.Any.FromObject(new Dictionary<string, object>());
     }
 
     /// <summary>

@@ -90,7 +90,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <param name="_file">文件地址</param>
         /// <param name="_exclusiveNumber">独占编号，先终止正在运行的指定编号的协程, null为使用非独占模式</param>
         /// <param name="_onFinish">完成的回调</param>
-        public void LoadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish)
+        public void LoadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish, Action _onError)
         {
             string file = _file.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             UnityEngine.Object obj;
@@ -109,7 +109,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
             }
-            coroutine = mono_.StartCoroutine(loadAudioClip(file, _exclusiveNumber, _onFinish));
+            coroutine = mono_.StartCoroutine(loadAudioClip(file, _exclusiveNumber, _onFinish, _onError));
             if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
@@ -121,13 +121,13 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// </summary>
         /// <param name="_file"></param>
         /// <param name="_onFinish"></param>
-        public void LoadTexture(string _file, string _exclusiveNumber, Action<Texture> _onFinish)
+        public void LoadTexture(string _file, string _exclusiveNumber, Action<Texture2D> _onFinish, Action _onError)
         {
             string file = _file.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             UnityEngine.Object obj;
             if (objects.TryGetValue(file, out obj))
             {
-                _onFinish(obj as Texture);
+                _onFinish(obj as Texture2D);
                 return;
             }
 
@@ -140,7 +140,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
             }
-            coroutine = mono_.StartCoroutine(loadTexture(file, _exclusiveNumber, _onFinish));
+            coroutine = mono_.StartCoroutine(loadTexture(file, _exclusiveNumber, _onFinish, _onError));
             if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
@@ -152,7 +152,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// </summary>
         /// <param name="_file"></param>
         /// <param name="_onFinish"></param>
-        public void LoadText(string _file, string _exclusiveNumber, Action<byte[]> _onFinish)
+        public void LoadText(string _file, string _exclusiveNumber, Action<byte[]> _onFinish, Action _onError)
         {
             string file = _file.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             byte[] text;
@@ -171,14 +171,14 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     exclusiveCoroutines.Remove(_exclusiveNumber);
                 }
             }
-            coroutine = mono_.StartCoroutine(loadText(file, _exclusiveNumber, _onFinish));
+            coroutine = mono_.StartCoroutine(loadText(file, _exclusiveNumber, _onFinish, _onError));
             if (null != _exclusiveNumber)
             {
                 exclusiveCoroutines[_exclusiveNumber] = coroutine;
             }
         }
 
-        private IEnumerator loadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish)
+        private IEnumerator loadAudioClip(string _file, string _exclusiveNumber, Action<AudioClip> _onFinish, Action _onError)
         {
             logger_.Trace("ready to load AduioClip from {0}", _file);
             using (var uwr = UnityWebRequestMultimedia.GetAudioClip(new Uri(_file), AudioType.MPEG))
@@ -188,6 +188,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 {
                     logger_.Trace("load {0} happen error", _file);
                     logger_.Error(uwr.error);
+                    _onError();
                     yield break;
                 }
                 AudioClip clip = DownloadHandlerAudioClip.GetContent(uwr);
@@ -202,7 +203,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
         }
 
-        private IEnumerator loadTexture(string _file, string _exclusiveNumber, Action<Texture> _onFinish)
+        private IEnumerator loadTexture(string _file, string _exclusiveNumber, Action<Texture2D> _onFinish, Action _onError)
         {
             logger_.Trace("ready to load Texture from {0}", _file);
             using (var uwr = new UnityWebRequest(new Uri(_file)))
@@ -214,6 +215,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 {
                     logger_.Trace("load {0} happen error", _file);
                     logger_.Error(uwr.error);
+                    _onError();
                     yield break;
                 }
                 Texture2D texture = handler.texture;
@@ -228,9 +230,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }
         }
 
-        private IEnumerator loadText(string _file, string _exclusiveNumber, Action<byte[]> _onFinish)
+        private IEnumerator loadText(string _file, string _exclusiveNumber, Action<byte[]> _onFinish, Action _onError)
         {
-            logger_.Trace("ready to load Texture from {0}", _file);
+            logger_.Trace("ready to load Text from {0}", _file);
             using (var uwr = new UnityWebRequest(new Uri(_file)))
             {
                 DownloadHandlerBuffer handler = new DownloadHandlerBuffer();
@@ -240,6 +242,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 {
                     logger_.Trace("load {0} happen error", _file);
                     logger_.Error(uwr.error);
+                    _onError();
                     yield break;
                 }
                 byte[] bytes = handler.data;

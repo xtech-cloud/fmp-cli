@@ -116,14 +116,18 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         }
 
         public virtual void Preload(System.Action<int> _onProgress, System.Action<string> _onFinish)
-        {
+        {        
+            logger_.Info("ready to preload {0}", ModuleName);
             mono_.StartCoroutine(loadUAB((_root) =>
             {
                 processRoot(_root);
-                createInstances(() =>
+                runtime_.Preload(_onProgress, () =>
                 {
-                    publishPreloadSubjects();
-                    _onFinish(ModuleName);
+                    createInstances(() =>
+                    {
+                        publishPreloadSubjects();
+                        _onFinish(ModuleName);
+                    });
                 });
             }, (_err) =>
             {
