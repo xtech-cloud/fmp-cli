@@ -8,8 +8,9 @@ from generator.template.vs2022.service_grpc import ServiceBase
 from generator.template.vs2022.service_grpc import Service
 from generator.template.vs2022.service_grpc import appsettings
 from generator.template.vs2022.service_grpc import DatabaseSettings
-from generator.template.vs2022.service_grpc import DAO
+from generator.template.vs2022.service_grpc import MongoDAO
 from generator.template.vs2022.service_grpc import Entity
+from generator.template.vs2022.service_grpc import SingletonServices
 
 template = """
 <Project Sdk="Microsoft.NET.Sdk.Web">
@@ -75,6 +76,8 @@ def generate(_options, _outputdir: str):
     # 生成DatabaseSettings
     DatabaseSettings.generate(_options, os.path.join(_outputdir, project_name))
     # 生成DAO
-    DAO.generate(_options, os.path.join(_outputdir, project_name))
+    MongoDAO.generate(_options, os.path.join(_outputdir, project_name))
     # 生成Entity
     Entity.generate(_options, os.path.join(_outputdir, project_name))
+    # 生成SingletonServices
+    SingletonServices.generate(_options, os.path.join(_outputdir, project_name))

@@ -10,9 +10,12 @@ using {{org}}.FMP.MOD.{{module}}.App.Service;
 /// </summary>
 public class TestFixture : TestFixtureBase
 {
+    //private SingletonServices singletonServices_;
+
     public TestFixture()
         : base()
     {
+        //singletonServices_ = new SingletonServices(new DatabaseOptions());
     }
 
     public override void Dispose()
@@ -28,7 +31,7 @@ template_method = """
     protected override void new{{service}}Service()
     {
         throw new NotImplementedException();
-        //service{{service}}_ = new {{service}}Service(new {{service}}DAO(new DatabaseOptions()));
+        //service{{service}}_ = new {{service}}Service(singletonServices_);
     }
 """
 
