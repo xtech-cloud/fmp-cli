@@ -8,6 +8,7 @@ from generator import vs2022
 from generator import unity2021
 from deploy import docker
 from utility import filetohex
+from utility import publish_application
 from task import generate
 from task import publish
 from task import deploy
@@ -16,7 +17,8 @@ from task import deploy
 def useWizard(_version):
     print("1. create")
     print("2. deploy")
-    print("3. utility")
+    print("3. publish")
+    print("4. utility")
     index = input("enter you choice:")
 
     if "1" == index:
@@ -33,6 +35,17 @@ def useWizard(_version):
             target = "MSA"
         docker.buildCompose(target, "./")
     elif "3" == index:
+        print("1. publish application")
+        index = input("enter you choice:")
+        if "1" == index:
+            org = input("enter org:")
+            name = input("enter name:")
+            version = input("enter version:")
+            platform = input("enter platform:")
+            filepath = input("enter filepath:")
+            repository = input("enter repository:")
+            publish_application.run(org, name, version, platform, filepath, repository)
+    elif "4" == index:
         print("1. file to hex")
         index = input("enter you choice:")
         if "1" == index:
@@ -54,7 +67,8 @@ def printResult(_task, _code):
         logger.error(" {} FAILURE".format(_task))
         logger.error("-------------------------------------------------------------")
 
-def check_yaml_file(_print:bool, _exit:bool):
+
+def check_yaml_file(_print: bool, _exit: bool):
     """
     检测yaml文件是否存在
     """
@@ -68,7 +82,8 @@ def check_yaml_file(_print:bool, _exit:bool):
         sys.exit(1)
     return exists, yaml_file
 
-def run_task_generate(_force:bool):
+
+def run_task_generate(_force: bool):
     """
     执行生成任务
     """
@@ -83,7 +98,8 @@ def run_task_generate(_force:bool):
             code = generate.run(version, config, _force)
             printResult("Generate", code)
 
-def run_task_publish(_force:bool):
+
+def run_task_publish(_force: bool):
     """
     执行发布任务
     """
@@ -98,7 +114,8 @@ def run_task_publish(_force:bool):
             code = publish.run(version, config, _force)
             printResult("Publish", code)
 
-def run_task_deploy(_force:bool):
+
+def run_task_deploy(_force: bool):
     """
     执行部署任务
     """
@@ -113,6 +130,7 @@ def run_task_deploy(_force:bool):
             code = deploy.run(version, config, _force)
             printResult("Deploy", code)
 
+
 def parse_args():
     parser = argparse.ArgumentParser("FMP Cli")
     parser.add_argument("-g", help="generate", action="store_true")
@@ -126,7 +144,8 @@ def parse_args():
     if args.d:
         run_task_deploy(True)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     version = "1.61.0"
     logger.info("****************************************************")
     logger.info("* FMP Client - ver {}".format(version))
