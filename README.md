@@ -12,14 +12,25 @@ pip install grpcio-tools==1.47.0
 # 编译proto
 ```bash
 python -m grpc_tools.protoc -I./proto/Repository --python_out=./mygrpc --grpc_python_out=./mygrpc ./proto/Repository/*.proto
-```
+                                                                                                                      ```
 
 
 # 构建独立可执行程序
 
-## 
+##
 
 ## Windows
 
 运行install.bat
+
+
+# 运行错误解决方法
+- assertion failed: pem_root_certs != nullptr
+
+在fmp-cli.spec中加入
+```
+datas=[
+('roots.pem', 'grpc/_cython/_credentials/'),
+],
+```
 
