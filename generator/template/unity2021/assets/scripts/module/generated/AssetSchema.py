@@ -88,7 +88,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// <summary>
         /// 资源的列表
         /// </summary>
-        public string[] resourceS { get; set; } = new string[0];
+        public FileSchema[] resourceS { get; set; } = new FileSchema[0];
 
         /// <summary>
         /// 内容的UUID的列表
