@@ -9,6 +9,7 @@ from generator import unity2021
 from deploy import docker
 from utility import filetohex
 from utility import publish_application
+from utility import publish_plugin
 from task import generate
 from task import publish
 from task import deploy
@@ -35,9 +36,16 @@ def useWizard(_version):
             target = "MSA"
         docker.buildCompose(target, "./")
     elif "3" == index:
-        print("1. publish application")
+        print("1. publish plugin")
+        print("2. publish application")
         index = input("enter you choice:")
         if "1" == index:
+            name = input("enter name:")
+            version = input("enter version:")
+            filepath = input("enter filepath:")
+            repository = input("enter repository:")
+            publish_plugin.run(name, version, filepath, repository)
+        elif "2" == index:
             org = input("enter org:")
             name = input("enter name:")
             version = input("enter version:")
