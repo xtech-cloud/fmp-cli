@@ -116,6 +116,39 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         }
 
         /// <summary>
+        /// 使用消息订阅发布主题
+        /// </summary>
+        /// <param name="_subjects">主题列表</param>
+        /// <param name="_variableS">变量字典</param>
+        protected void publishSubjects(MyConfig.Subject[] _subjects, Dictionary<string, object> _variableS)
+        {
+            foreach (var subject in _subjects)
+            {
+                var data = new Dictionary<string, object>();
+                foreach (var parameter in subject.parameters)
+                {
+                    if (_variableS.ContainsKey(parameter.key))
+                    {
+                        data[parameter.key] = _variableS[parameter.key];
+                    }
+                    else
+                    {
+                        if (parameter.type.Equals("string"))
+                            data[parameter.key] = parameter.value;
+                        else if (parameter.type.Equals("int"))
+                            data[parameter.key] = int.Parse(parameter.value);
+                        else if (parameter.type.Equals("float"))
+                            data[parameter.key] = float.Parse(parameter.value);
+                        else if (parameter.type.Equals("bool"))
+                            data[parameter.key] = bool.Parse(parameter.value);
+                    }
+                }
+                logger_.Trace("publish {0}", subject.message);
+                (entry_ as MyEntry).getDummyModel().Publish(subject.message, data);
+            }
+        }
+
+        /// <summary>
         /// 将目标按锚点在父对象中对齐
         /// </summary>
         /// <param name="_target">目标</param>
