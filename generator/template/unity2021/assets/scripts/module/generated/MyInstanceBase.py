@@ -127,9 +127,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 var data = new Dictionary<string, object>();
                 foreach (var parameter in subject.parameters)
                 {
-                    if (_variableS.ContainsKey(parameter.key))
+                    if (_variableS.ContainsKey(parameter.value))
                     {
-                        data[parameter.key] = _variableS[parameter.key];
+                        data[parameter.key] = _variableS[parameter.value];
                     }
                     else
                     {
