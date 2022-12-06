@@ -144,7 +144,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     }
                 }
                 logger_.Trace("publish {0}", subject.message);
-                (entry_ as MyEntry).getDummyModel().Publish(subject.message, data);
+                entry_.getDummyModel().Publish(subject.message, data);
             }
         }
 

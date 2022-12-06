@@ -42,6 +42,16 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         protected DummyView viewDummy_ { get; set; }
         protected DummyModel modelDummy_ { get; set; }
 
+        public DummyModel getDummyModel()
+        {
+            return modelDummy_;
+        }
+
+        public DummyView getDummyView()
+        {
+            return viewDummy_;
+        }
+
         public Options NewOptions()
         {
             return new Options();
@@ -259,6 +269,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     }
 }
 """
+
 
 def generate(_options, _outputdir: str):
     output_dir = os.path.join(_outputdir, "Assets")
