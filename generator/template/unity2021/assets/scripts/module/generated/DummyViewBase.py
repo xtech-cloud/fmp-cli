@@ -51,17 +51,19 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             getLogger().Debug("handle create instance of {0} with data: {1}", MyEntryBase.ModuleName, JsonConvert.SerializeObject(_data));
             string uid = "";
             string style = "";
+            string uiSlot = "";
             try
             {
                 Dictionary<string, object> data = _data as Dictionary<string, object>;
                 uid = (string)data["uid"];
                 style = (string)data["style"];
+                uiSlot = (string)data["uiSlot"];
             }
             catch (Exception ex)
             {
                 getLogger().Exception(ex);
             }
-            runtime.CreateInstanceAsync(uid, style, (_instance)=>
+            runtime.CreateInstanceAsync(uid, style, uiSlot, (_instance)=>
             {
             });
         }

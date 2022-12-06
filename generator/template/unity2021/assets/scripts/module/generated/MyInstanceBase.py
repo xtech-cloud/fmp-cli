@@ -87,9 +87,10 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// 实例化UI
         /// </summary>
         /// <param name="_instanceUI">ui的实例模板</param>
-        public void InstantiateUI(GameObject _instanceUI)
+        /// <param name="_parent">父对象</param>
+        public void InstantiateUI(GameObject _instanceUI, Transform _parent)
         {
-            rootUI = Object.Instantiate(_instanceUI, _instanceUI.transform.parent);
+            rootUI = Object.Instantiate(_instanceUI, _parent);
             rootUI.name = uid;
         }
 

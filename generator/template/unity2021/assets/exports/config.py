@@ -23,9 +23,10 @@ template = """<?xml version="1.0" encoding="utf-8"?>
     <!-- 预创建的实例列表
       uid: 实例的唯一ID
       style: 使用的样式名
+      uiSlot: UI挂载的路径
     -->
     <Instances>
-        <Instance uid="default" style="default"/>
+        <Instance uid="default" style="default" uiSlot=""/>
     </Instances>
     <!-- 预加载 -->
     <Preload>
