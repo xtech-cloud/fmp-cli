@@ -9,6 +9,11 @@ template = """<?xml version="1.0" encoding="utf-8"?>
       slot: ui根节点在主Canvas中的挂载路径
     -->
     <UI visible="true" slot="[root]"/>
+    <!-- World
+      visible: 预加载完成后是否显示
+      slot: world根节点的挂载路径
+    -->
+    <World visible="true" slot="[root]"/>
     <!-- 远程过程调用
       address: 地址
     -->
@@ -24,9 +29,10 @@ template = """<?xml version="1.0" encoding="utf-8"?>
       uid: 实例的唯一ID
       style: 使用的样式名
       uiSlot: UI挂载的路径
+      worldSlot: World挂载的路径
     -->
     <Instances>
-        <Instance uid="default" style="default" uiSlot=""/>
+        <Instance uid="default" style="default" uiSlot="" worldSlot=""/>
     </Instances>
     <!-- 预加载 -->
     <Preload>

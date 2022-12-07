@@ -53,6 +53,15 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public string slot { get; set; } = "[root]";
         }
 
+        public class World
+        {
+            [XmlAttribute("visible")]
+            public bool visible { get; set; } = false;
+
+            [XmlAttribute("slot")]
+            public string slot { get; set; } = "[root]";
+        }
+
         public class Instance
         {
             [XmlAttribute("uid")]
@@ -61,6 +70,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public string style { get; set; } = "";
             [XmlAttribute("uiSlot")]
             public string uiSlot { get; set; } = "";
+            [XmlAttribute("worldSlot")]
+            public string worldSlot { get; set; } = "";
         }
 
         public class Parameter
@@ -96,6 +107,9 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
 
         [XmlElement("UI")]
         public UI ui { get; set; } = new UI();
+
+        [XmlElement("World")]
+        public World world { get; set; } = new World();
 
         [XmlArray("Instances"), XmlArrayItem("Instance")]
         public Instance[] instances { get; set; } = new Instance[0];

@@ -38,11 +38,15 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// </summary>
         /// <param name="_uid">实例的uid</param>
         /// <param name="_style">实例的样式名</param>
-        public void __DebugCreate(string _uid, string _style)
+        /// <param name="_uiSlot">ui挂载的路径</param>
+        /// <param name="_worldSlot">world挂载的路径</param>
+        public void __DebugCreate(string _uid, string _style, string _uiSlot, string _worldSlot)
         {
             var data = new Dictionary<string, object>();
             data["uid"] = _uid;
             data["style"] = _style;
+            data["uiSlot"] = _uiSlot;
+            data["worldSlot"] = _worldSlot;
             modelDummy_.Publish(MySubjectBase.Create, data);
         }
 

@@ -61,6 +61,7 @@ public class ConsoleLogger : LibMVCS.Logger
 public class RootBase : UnityEngine.MonoBehaviour
 {
     public UnityEngine.Transform mainCanvas;
+    public UnityEngine.Transform mainWorld;
     public UnityEngine.GameObject exportRoot;
 
     protected LibMVCS.Framework framework_ { get; set; } = new LibMVCS.Framework();
@@ -120,6 +121,7 @@ public class RootBase : UnityEngine.MonoBehaviour
         settings_["platform"] = LibMVCS.Any.FromString("windows");
         settings_["devicecode"] = LibMVCS.Any.FromString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
         settings_["canvas.main"] = LibMVCS.Any.FromObject(mainCanvas);
+        settings_["world.main"] = LibMVCS.Any.FromObject(mainWorld);
         settings_["preloads"] = LibMVCS.Any.FromObject(new Dictionary<string, object>());
     }
 

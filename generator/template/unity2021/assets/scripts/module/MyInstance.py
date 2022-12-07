@@ -51,6 +51,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public void HandleOpened(string _source, string _uri)
         {
             rootUI.gameObject.SetActive(true);
+            rootWorld.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -59,10 +60,12 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public void HandleClosed()
         {
             rootUI.gameObject.SetActive(false);
+            rootWorld.gameObject.SetActive(false);
         }
     }
 }
 """
+
 
 def generate(_options, _outputdir: str):
     output_dir = os.path.join(_outputdir, "Assets")

@@ -18,6 +18,8 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         /// var data = new Dictionary<string, object>();
         /// data["uid"] = "default";
         /// data["style"] = "default";
+        /// data["uiSlot"] = "";
+        /// data["worldSlot"] = "";
         /// model.Publish(/{{org_name}}/{{module_name}}/Create, data);
         /// </example>
         public const string Create = "/{{org_name}}/{{module_name}}/Create";

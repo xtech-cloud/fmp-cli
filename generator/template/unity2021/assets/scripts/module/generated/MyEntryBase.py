@@ -145,7 +145,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             }));
         }
 
-
         /// <summary>
         /// 处理实例化的根对象
         /// </summary>
@@ -173,6 +172,20 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 return;
             }
 
+            // 从设置中获取主世界参数
+            LibMVCS.Any anyMainWorld;
+            if (!settings_.TryGetValue("world.main", out anyMainWorld))
+            {
+                logger_.Error("the world.main not found in settings");
+                return;
+            }
+            Transform mainWorld = anyMainWorld.AsObject() as Transform;
+            if (null == mainWorld)
+            {
+                logger_.Error("the mainWorld is null");
+                return;
+            }
+
             // 查找UI的挂载槽
             Transform slotUi = mainCanvas.Find(config_.ui.slot);
             if (null == slotUi)
@@ -181,10 +194,19 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 return;
             }
 
-            runtime_.ProcessRoot(_root, slotUi);
+            // 查找World的挂载槽
+            Transform slotWorld = mainWorld.Find(config_.world.slot);
+            if (null == slotWorld)
+            {
+                logger_.Error("the slotWorld is null");
+                return;
+            }
+
+            runtime_.ProcessRoot(_root, slotUi, slotWorld);
 
             logger_.Debug("process {0} success", _root.name);
         }
+
 
         /// <summary>
         /// 创建实例
@@ -201,7 +223,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             int finished = 0;
             foreach (var instance in config_.instances)
             {
-                runtime_.CreateInstanceAsync(instance.uid, instance.style, instance.uiSlot, (_instance)=>
+                runtime_.CreateInstanceAsync(instance.uid, instance.style, instance.uiSlot, instance.worldSlot, (_instance)=>
                 {
                     finished += 1;
                     if(finished >= config_.instances.Length)

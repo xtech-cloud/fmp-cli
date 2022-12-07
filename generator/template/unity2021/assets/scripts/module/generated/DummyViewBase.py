@@ -52,18 +52,20 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             string uid = "";
             string style = "";
             string uiSlot = "";
+            string worldSlot = "";
             try
             {
                 Dictionary<string, object> data = _data as Dictionary<string, object>;
                 uid = (string)data["uid"];
                 style = (string)data["style"];
                 uiSlot = (string)data["uiSlot"];
+                worldSlot = (string)data["worldSlot"];
             }
             catch (Exception ex)
             {
                 getLogger().Exception(ex);
             }
-            runtime.CreateInstanceAsync(uid, style, uiSlot, (_instance)=>
+            runtime.CreateInstanceAsync(uid, style, uiSlot, worldSlot, (_instance)=>
             {
             });
         }

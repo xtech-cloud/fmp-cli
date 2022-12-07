@@ -23,6 +23,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     {
         public string uid { get; private set; }
         public GameObject rootUI { get; private set; }
+        public GameObject rootWorld { get; private set; }
         public GameObject rootAttachments { get; private set; }
 
         /// <summary>
@@ -93,6 +94,17 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             rootUI = Object.Instantiate(_instanceUI, _parent);
             rootUI.name = uid;
         }
+        
+        /// <summary>
+        /// 实例化World
+        /// </summary>
+        /// <param name="_instanceWorld">world的实例模板</param>
+        /// <param name="_parent">父对象</param>
+        public void InstantiateWorld(GameObject _instanceWorld, Transform _parent)
+        {
+            rootWorld = Object.Instantiate(_instanceWorld, _parent);
+            rootWorld.name = uid;
+        }
 
         public void SetupBridges()
         {
@@ -105,6 +117,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public virtual void HandleShowed()
         {
             rootUI.gameObject.SetActive(true);
+            rootWorld.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -113,6 +126,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public virtual void HandleHided()
         {
             rootUI.gameObject.SetActive(false);
+            rootWorld.gameObject.SetActive(false);
         }
 
         /// <summary>
