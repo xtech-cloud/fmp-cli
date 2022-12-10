@@ -3,6 +3,7 @@ import sys
 import yaml
 import argparse
 from common import logger
+from creator import fmp_yaml
 from generator import proto
 from generator import vs2022
 from generator import unity2021
@@ -23,8 +24,9 @@ def useWizard(_version):
     index = input("enter you choice:")
 
     if "1" == index:
-        # TODO generate fmp.yaml
-        pass
+        org = input("enter org:")
+        name = input("enter name:")
+        fmp_yaml.run(org, name)
     elif "2" == index:
         print("1. DSC (Data Storage Center)")
         print("2. MSA (Micro Service Agent)")
