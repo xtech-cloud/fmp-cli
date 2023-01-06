@@ -4,9 +4,18 @@ python: 3.8.3
 
 # 依赖包
 
+- conda
+
 ```bash
-pip install grpcio==1.47.0
-pip install grpcio-tools==1.47.0
+conda config --add channels https://mirrors.aliyun.com/anaconda/cloud/conda-forge
+conda config --set show_channel_urls yes
+
+conda install grpcio==1.46.0 -c conda-forge
+conda install grpcio-tools==1.46.0 -c conda-forge
+conda install pyyaml==5.1.2 -c conda-forge
+conda install colorama==0.4.0 -c conda-forge
+conda install requests==2.23.0 -c conda-forge
+pip install pyinstaller==5.6.2
 ```
 
 # 编译proto
