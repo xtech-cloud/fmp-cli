@@ -78,13 +78,14 @@ def printResult(_task, _code):
         logger.error("-------------------------------------------------------------")
 
 
-def check_yaml_file(_print: bool, _exit: bool):
+def check_yaml_file(_print: bool, _exit: bool, _ignoreMyConfig: bool):
     """
     检测yaml文件是否存在
     """
     yaml_file = "./fmp.yaml"
-    if os.path.exists("./.fmp.yaml"):
-        yaml_file = "./.fmp.yaml"
+    if not _ignoreMyConfig:
+        if os.path.exists("./.fmp.yaml"):
+            yaml_file = "./.fmp.yaml"
     exists = os.path.exists(yaml_file)
     if not exists and _print:
         logger.error("fmp.yaml or .fmp.yaml not found")
@@ -93,11 +94,11 @@ def check_yaml_file(_print: bool, _exit: bool):
     return exists, yaml_file
 
 
-def run_task_generate(_force: bool):
+def run_task_generate(_force: bool, _ignoreMyConfig: bool):
     """
     执行生成任务
     """
-    exists, yaml_file = check_yaml_file(True, True)
+    exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -109,11 +110,11 @@ def run_task_generate(_force: bool):
             printResult("Generate", code)
 
 
-def run_task_publish(_force: bool):
+def run_task_publish(_force: bool, _ignoreMyConfig: bool):
     """
     执行发布任务
     """
-    exists, yaml_file = check_yaml_file(True, True)
+    exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -125,11 +126,11 @@ def run_task_publish(_force: bool):
             printResult("Publish", code)
 
 
-def run_task_deploy(_force: bool):
+def run_task_deploy(_force: bool, _ignoreMyConfig: bool):
     """
     执行部署任务
     """
-    exists, yaml_file = check_yaml_file(True, True)
+    exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -146,19 +147,23 @@ def parse_args():
     parser.add_argument("-g", help="generate", action="store_true")
     parser.add_argument("-p", help="publish", action="store_true")
     parser.add_argument("-d", help="deploy", action="store_true")
+    parser.add_argument("-i", help="ignore .fmp.yaml", action="store_true")
     args = parser.parse_args()
+    if args.i:
+        logger.warn("found -i argv, .fmp.yaml is ignored")
     if args.g:
-        run_task_generate(True)
+        run_task_generate(True, args.i)
     if args.p:
-        run_task_publish(True)
+        run_task_publish(True, args.i)
     if args.d:
-        run_task_deploy(True)
+        run_task_deploy(True, args.i)
 
 
 if __name__ == "__main__":
     version = "1.70.0"
+    build = "8"
     logger.info("****************************************************")
-    logger.info("* FMP Client - ver {}".format(version))
+    logger.info("* FMP Client - ver {}.{}".format(version, build))
     logger.info("****************************************************")
     if len(sys.argv) > 1:
         parse_args()
@@ -166,14 +171,14 @@ if __name__ == "__main__":
     """
     无参数时使用fmp.yaml文件
     """
-    exists, yaml_file = check_yaml_file(False, False)
+    exists, yaml_file = check_yaml_file(False, False, False)
     if exists:
         """
         执行fmp.yaml文件
         """
-        run_task_generate(False)
-        run_task_publish(False)
-        run_task_deploy(False)
+        run_task_generate(False, False)
+        run_task_publish(False, False)
+        run_task_deploy(False, False)
     else:
         """
         使用向导
