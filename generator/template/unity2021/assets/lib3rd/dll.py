@@ -3,6 +3,7 @@ import uuid
 from generator.template.utility import writer
 from generator.template.unity2021.assets.lib3rd.binhex import fmp_lib_mvcs
 from generator.template.unity2021.assets.lib3rd.binhex import Google_Protobuf
+from generator.template.unity2021.assets.lib3rd.binhex import Google_Api_CommonProtos
 from generator.template.unity2021.assets.lib3rd.binhex import Grpc_Core_Api
 from generator.template.unity2021.assets.lib3rd.binhex import Grpc_Net_Client
 from generator.template.unity2021.assets.lib3rd.binhex import Grpc_Net_Client_Web
@@ -21,6 +22,8 @@ def writeMVCS(_outputdir:str):
 def writeDependency(_outputdir:str):
     output_dir = os.path.join(_outputdir, "fmp-dependency")
     os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, "Google.Api.CommonProtos.dll")
+    writer.writeHexToBinary(output_path, Google_Api_CommonProtos.bin_hex, True)
     output_path = os.path.join(output_dir, "Google.Protobuf.dll")
     writer.writeHexToBinary(output_path, Google_Protobuf.bin_hex, True)
     output_path = os.path.join(output_dir, "Grpc.Core.Api.dll")

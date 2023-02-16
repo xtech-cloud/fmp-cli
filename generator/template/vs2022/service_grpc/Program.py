@@ -12,7 +12,7 @@ using {{org}}.FMP.MOD.{{module}}.App.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGrpc();
+builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddGrpcReflection();
 builder.Services.AddGrpcHealthChecks()
                 .AddCheck("{{module}}", () => HealthCheckResult.Healthy());

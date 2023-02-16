@@ -16,11 +16,8 @@ namespace {{org}}.FMP.MOD.{{module}}.App.Service
     /// 数据实体
     /// </summary>
     /// <example>
-    /// public class YourDAO : DAO<YourEntity>
+    /// public class YourEntity: Entity
     /// {
-    ///     public YourDAO(IOptions<DBSettings> _settings) : base(_settings)
-    ///     {
-    ///     }
     /// }
     /// </example>
     public class Entity
