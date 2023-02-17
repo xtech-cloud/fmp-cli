@@ -20,7 +20,11 @@ template = """
         "Url": "http://*:18000"
       },
       "Https": {
-        "Url": "https://*:19000"
+        "Url": "https://*:19000",
+        "Certificate": {
+          "Path": "../../cers/xtc.crt",
+          "KeyPath": "../../cers/xtc.key"
+        }
       }
     }
   },

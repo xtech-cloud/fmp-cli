@@ -3,6 +3,7 @@ import sys
 import yaml
 from common import logger
 from generator import proto
+from generator import certificate
 from generator import vs2022
 from generator import unity2021
 from proto import parse
@@ -110,6 +111,7 @@ def run(_version, _config, _force):
     logger.debug("```")
 
     proto.generate(config["org_name"], config["module_name"], "./")
+    certificate.generate(config["org_name"], config["module_name"], "./")
 
     options = buildOption(
         _version,

@@ -4,9 +4,6 @@ import yaml
 import argparse
 from common import logger
 from creator import fmp_yaml
-from generator import proto
-from generator import vs2022
-from generator import unity2021
 from deploy import docker
 from utility import filetohex
 from utility import publish_application
@@ -161,7 +158,7 @@ def parse_args():
 
 if __name__ == "__main__":
     version = "1.80.0"
-    build = "9"
+    build = "10"
     logger.info("****************************************************")
     logger.info("* FMP Client - ver {}.{}".format(version, build))
     logger.info("****************************************************")
