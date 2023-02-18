@@ -82,7 +82,7 @@ def run(_version, _config, _force):
         ),
         (
             "fmp-{}-{}-lib-razor.dll".format(org_name.lower(), module_name.lower()),
-            "vs2022/fmp-{}-{}-lib-razor/bin/Release/net6.0/publish/fmp-{}-{}-lib-razor.dll".format(
+            "vs2022/fmp-{}-{}-lib-razor/bin/Release/net7.0/publish/fmp-{}-{}-lib-razor.dll".format(
                 org_name.lower(),
                 module_name.lower(),
                 org_name.lower(),
@@ -172,7 +172,7 @@ def run(_version, _config, _force):
     """
     打包server
     """
-    publish_rootdir = "vs2022/fmp-{}-{}-service-grpc/bin/Release/net6.0".format(
+    publish_rootdir = "vs2022/fmp-{}-{}-service-grpc/bin/Release/net7.0".format(
         org_name.lower(),
         module_name.lower(),
     )
