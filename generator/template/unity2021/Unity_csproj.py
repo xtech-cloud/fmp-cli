@@ -21,6 +21,9 @@ template = r"""
     <Reference Include="Google.Protobuf">
       <HintPath>{{WORK_DIR}}\{{module_name}}\Assets\3rd\fmp-dependency\Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Api.CommonProtos">
+      <HintPath>{{WORK_DIR}}\AccessNet\Assets\3rd\fmp-dependency\Google.Api.CommonProtos.dll</HintPath>
+    </Reference>
     <Reference Include="Grpc.Core.Api">
       <HintPath>{{WORK_DIR}}\{{module_name}}\Assets\3rd\fmp-dependency\Grpc.Core.Api.dll</HintPath>
     </Reference>
