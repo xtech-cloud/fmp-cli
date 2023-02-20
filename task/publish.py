@@ -223,6 +223,76 @@ def run(_version, _config, _force):
         ) as wf:
             wf.write(json.dumps(manifest))
         wf.close()
+    elif repository.startswith("http://") or repository.startswith("https://"):
+        url = repository + "/v1/xtc/repository/module/create"
+        headers = {"content-type": "application/json"}
+        body_dict = {}
+        body_dict["org"] = org_name
+        body_dict["name"] = module_name
+        body_dict["version"] = version
+        body_json = json.dumps(body_dict, ensure_ascii=False)
+        r = requests.post(
+            url, data=body_json, headers=headers
+        )
+        if 200 != r.status_code:
+            logger.error(r)
+            return 1
+        replay_json = r.json()
+        if "uuid" not in replay_json:
+            logger.error(replay_json)
+            return 1
+        module_uuid = replay_json["uuid"]
+        # 获取上传地址
+        url = repository + "/v1/xtc/repository/module/prepareupload"
+        body_dict = {}
+        body_dict["uuid"] = replay_json["uuid"]
+        body_json = json.dumps(body_dict, ensure_ascii=False)
+        r = requests.post(
+            url, data=body_json, headers=headers
+        )
+        if 200 != r.status_code:
+            logger.error(r)
+            return 1
+        replay_json = r.json()
+        if "urls" not in replay_json:
+            logger.error(replay_json)
+            return 1
+        urls = replay_json["urls"]
+        for tup in files:
+            if os.path.exists(tup[1]):
+                if tup[0] in urls:
+                    logger.trace("upload {} ......".format(tup[0]))
+                    uploadUrl = urls[tup[0]]
+                    headers = {"content-type": "binary/octet-stream"}
+                    logger.trace(uploadUrl)
+                    r = requests.put(
+                        uploadUrl, data=open(tup[1], "rb"), headers=headers
+                    )
+                    if 200 != r.status_code:
+                        logger.error(r)
+        # 刷新
+        url = repository + "/v1/xtc/repository/module/flushupload"
+        body_dict = {}
+        body_dict["uuid"] = replay_json["uuid"]
+        body_json = json.dumps(body_dict, ensure_ascii=False)
+        r = requests.post(
+            url, data=body_json, headers=headers
+        )
+        if 200 != r.status_code:
+            logger.error(r)
+            return 1
+        # 更新
+        url = repository + "/v1/xtc/repository/module/update"
+        body_dict = {}
+        body_dict["uuid"] = replay_json["uuid"]
+        body_dict["cli"] = _version
+        body_json = json.dumps(body_dict, ensure_ascii=False)
+        r = requests.post(
+            url, data=body_json, headers=headers
+        )
+        if 200 != r.status_code:
+            logger.error(r)
+            return 1
     elif repository.startswith("grpc://") or repository.startswith("grpcs://"):
         """
         网络形式

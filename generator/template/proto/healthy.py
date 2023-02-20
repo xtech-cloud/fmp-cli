@@ -4,6 +4,7 @@ from generator.template.utility import writer
 template = """
 syntax = "proto3";
 import "shared.proto";
+import "google/api/annotations.proto";
 
 option csharp_namespace = "{{org}}.FMP.MOD.{{module}}.LIB.Proto";
 package {{org_lower}}.fmp.{{module_lower}};
@@ -11,7 +12,12 @@ package {{org_lower}}.fmp.{{module_lower}};
 // 健康
 service Healthy {
     // 回显
-    rpc Echo(HealthyEchoRequest) returns (HealthyEchoResponse) {}
+    rpc Echo(HealthyEchoRequest) returns (HealthyEchoResponse) {
+        option (google.api.http) = {
+            post: "/v1/{{org_lower}}/{{module_lower}}/healthy/echo",
+            body: "*",
+        };
+    }
 }
 
 // 回显的请求
