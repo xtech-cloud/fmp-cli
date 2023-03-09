@@ -6,6 +6,7 @@ from generator import proto
 from generator import certificate
 from generator import vs2022
 from generator import unity2021
+from generator.template.utility import writer
 from proto import parse
 from deploy import docker
 from utility import filetohex
@@ -125,4 +126,6 @@ def run(_version, _config, _force):
     if unity:
         unity2021.generate(options, "./")
         logger.warn("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
+
+    writer.write("./.generate.log", _version, True)
     return 0
