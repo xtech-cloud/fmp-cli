@@ -223,7 +223,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             int finished = 0;
             foreach (var instance in config_.instances)
             {
-                runtime_.CreateInstanceAsync(instance.uid, instance.style, instance.uiSlot, instance.worldSlot, (_instance)=>
+                runtime_.CreateInstanceAsync(instance.uid, instance.style, instance.uiRoot, instance.uiSlot, instance.worldRoot, instance.worldSlot, (_instance)=>
                 {
                     finished += 1;
                     if(finished >= config_.instances.Length)

@@ -68,8 +68,12 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             public string uid { get; set; } = "";
             [XmlAttribute("style")]
             public string style { get; set; } = "";
+            [XmlAttribute("uiRoot")]
+            public string uiRoot { get; set; } = "";
             [XmlAttribute("uiSlot")]
             public string uiSlot { get; set; } = "";
+            [XmlAttribute("worldRoot")]
+            public string worldRoot{ get; set; } = "";
             [XmlAttribute("worldSlot")]
             public string worldSlot { get; set; } = "";
         }

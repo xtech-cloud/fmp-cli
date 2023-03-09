@@ -157,8 +157,8 @@ def parse_args():
 
 
 if __name__ == "__main__":
-    version = "1.80.1"
-    build = "13"
+    version = "1.83.0"
+    build = "14"
     logger.info("****************************************************")
     logger.info("* FMP Client - ver {}.{}".format(version, build))
     logger.info("****************************************************")

@@ -51,21 +51,25 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             getLogger().Debug("handle create instance of {0} with data: {1}", MyEntryBase.ModuleName, JsonConvert.SerializeObject(_data));
             string uid = "";
             string style = "";
+            string uiRoot = "";
             string uiSlot = "";
+            string worldRoot = "";
             string worldSlot = "";
             try
             {
                 Dictionary<string, object> data = _data as Dictionary<string, object>;
                 uid = (string)data["uid"];
                 style = (string)data["style"];
+                uiRoot = (string)data["uiRoot"];
                 uiSlot = (string)data["uiSlot"];
+                worldRoot = (string)data["worldRoot"];
                 worldSlot = (string)data["worldSlot"];
             }
             catch (Exception ex)
             {
                 getLogger().Exception(ex);
             }
-            runtime.CreateInstanceAsync(uid, style, uiSlot, worldSlot, (_instance)=>
+            runtime.CreateInstanceAsync(uid, style, uiRoot, uiSlot, worldRoot, worldSlot, (_instance)=>
             {
             });
         }
