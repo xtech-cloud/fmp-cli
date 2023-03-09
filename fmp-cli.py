@@ -40,18 +40,18 @@ def useWizard(_version):
         index = input("enter you choice:")
         if "1" == index:
             name = input("enter name:")
-            version = input("enter version:")
+            plugin_version = input("enter version:")
             filepath = input("enter filepath:")
             repository = input("enter repository:")
-            publish_plugin.run(name, version, filepath, repository)
+            publish_plugin.run(name, plugin_version, filepath, repository)
         elif "2" == index:
             org = input("enter org:")
             name = input("enter name:")
-            version = input("enter version:")
+            app_version = input("enter version:")
             platform = input("enter platform:")
             filepath = input("enter filepath:")
             repository = input("enter repository:")
-            publish_application.run(org, name, version, platform, filepath, repository)
+            publish_application.run(org, name, app_version, platform, filepath, repository)
     elif "4" == index:
         print("1. file to hex")
         index = input("enter you choice:")
@@ -113,13 +113,16 @@ def run_task_publish(_force: bool, _ignoreMyConfig: bool):
     """
     exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
+    with open("./.generated.log") as f:
+        generate_verison = f.read()
+        f.close()
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         if "publish" in data:
             config = data["publish"]
             config["org_name"] = data["org_name"]
             config["module_name"] = data["module_name"]
-            code = publish.run(version, config, _force)
+            code = publish.run(generate_version, config, _force)
             printResult("Publish", code)
 
 
@@ -129,13 +132,16 @@ def run_task_deploy(_force: bool, _ignoreMyConfig: bool):
     """
     exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
+    with open("./.generated.log") as f:
+        generate_verison = f.read()
+        f.close()
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         if "deploy" in data:
             config = data["deploy"]
             config["org_name"] = data["org_name"]
             config["module_name"] = data["module_name"]
-            code = deploy.run(version, config, _force)
+            code = deploy.run(generate_version, config, _force)
             printResult("Deploy", code)
 
 
