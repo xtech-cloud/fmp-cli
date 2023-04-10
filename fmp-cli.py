@@ -114,7 +114,7 @@ def run_task_publish(_force: bool, _ignoreMyConfig: bool):
     exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
     with open("./.generated.log") as f:
-        generate_verison = f.read()
+        generate_version = f.read()
         f.close()
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -133,7 +133,7 @@ def run_task_deploy(_force: bool, _ignoreMyConfig: bool):
     exists, yaml_file = check_yaml_file(True, True, _ignoreMyConfig)
     logger.debug("! use {}".format(yaml_file))
     with open("./.generated.log") as f:
-        generate_verison = f.read()
+        generate_version = f.read()
         f.close()
     with open(yaml_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -164,7 +164,7 @@ def parse_args():
 
 if __name__ == "__main__":
     version = "1.83.0"
-    build = "16"
+    build = "17"
     logger.info("****************************************************")
     logger.info("* FMP Client - ver {}.{}".format(version, build))
     logger.info("****************************************************")

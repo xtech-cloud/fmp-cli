@@ -127,5 +127,5 @@ def run(_version, _config, _force):
         unity2021.generate(options, "./")
         logger.warn("!!! 手动运行unity2021/copy-dll.bat更新依赖库")
 
-    writer.write("./.generate.log", _version, True)
+    writer.write("./.generated.log", _version, True)
     return 0
