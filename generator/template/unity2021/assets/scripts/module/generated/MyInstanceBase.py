@@ -27,12 +27,12 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public GameObject rootAttachments { get; private set; }
 
         /// <summary>
-        /// 内容对象池，管理从内容目录中加载到内存中的对象
+        /// 资源对象池，管理从资源目录中加载到内存中的对象
         /// </summary>
         /// <remarks>
         /// 在实例打开(Open)时准备，在实例关闭(Close)时清理
         /// </remarks>
-        public ObjectsPool contentObjectsPool { get; private set; }
+        public ObjectsPool assetObjectsPool { get; private set; }
 
         /// <summary>
         /// 主题对象池，管理从主题目录加载到内存中的对象
@@ -80,7 +80,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                     break;
                 }
             }
-            contentObjectsPool = new ObjectsPool(uid + ".Content", logger_);
+            assetObjectsPool = new ObjectsPool(uid + ".Asset", logger_);
             themeObjectsPool = new ObjectsPool(uid + ".Theme", logger_);
         }
 

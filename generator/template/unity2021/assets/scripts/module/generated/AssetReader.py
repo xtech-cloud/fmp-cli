@@ -15,13 +15,13 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
     /// <summary>
     /// 内容读取器
     /// </summary>
-    public class ContentReader
+    public class AssetReader
     {
-        protected ObjectsPool contentObjectsPool_ { get; private set; }
+        protected ObjectsPool assetObjectsPool_ { get; private set; }
 
-        public ContentReader(ObjectsPool _contentObjectsPool)
+        public AssetReader(ObjectsPool _assetObjectsPool)
         {
-            contentObjectsPool_ = _contentObjectsPool;
+            assetObjectsPool_ = _assetObjectsPool;
         }
 
         /// <summary>
@@ -30,34 +30,26 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
         public string AssetRootPath { get; set; }
 
         /// <summary>
-        /// 内容的短路径，格式为 包名/内容名
-        /// </summary>
-        public string ContentUri { get; set; }
-
-        /// <summary>
         /// 加载纹理
         /// </summary>
-        /// <param name="_file">文件相对路径，相对于包含format.json的资源文件夹</param>
+        /// <param name="_file">文件在AssetRootPath中的相对路径</param>
         public void LoadTexture(string _file, Action<Texture2D> _onFinish, Action _onError)
         {
-            string dir = Path.Combine(AssetRootPath, ContentUri);
-            string filefullpath = Path.Combine(dir, _file);
-            contentObjectsPool_.LoadTexture(filefullpath, null, _onFinish, _onError);
+            string filefullpath = Path.Combine(AssetRootPath, _file);
+            assetObjectsPool_.LoadTexture(filefullpath, null, _onFinish, _onError);
         }
 
         /// <summary>
         /// 加载文本
         /// </summary>
-        /// <param name="_file">文件相对路径，相对于包含format.json的资源文件夹</param>
+        /// <param name="_file">文件在AssetRootPath中的相对路径</param>
         public void LoadText(string _file, Action<byte[]> _onFinish, Action _onError)
         {
-            string dir = Path.Combine(AssetRootPath, ContentUri);
-            string filefullpath = Path.Combine(dir, _file);
-            contentObjectsPool_.LoadText(filefullpath, null, _onFinish, _onError);
+            string filefullpath = Path.Combine(AssetRootPath, _file);
+            assetObjectsPool_.LoadText(filefullpath, null, _onFinish, _onError);
         }
     }
 }
-
 """
 
 
@@ -75,5 +67,5 @@ def generate(_options, _outputdir: str):
     contents = contents.replace("{{org_name}}", _options["org_name"])
     contents = contents.replace("{{module_name}}", _options["module_name"])
     contents = contents.replace("{{version}}", _options["version"])
-    output_path = os.path.join(output_dir, "ContentReader.cs")
+    output_path = os.path.join(output_dir, "AssetReader.cs")
     writer.write(output_path, contents, True)

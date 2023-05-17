@@ -363,7 +363,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 logger_.Error("instance not found");
                 yield break;
             }
-            instance.contentObjectsPool.Prepare();
+            instance.assetObjectsPool.Prepare();
             instance.HandleOpened(_source, _uri);
         }
 
@@ -407,7 +407,7 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
                 yield break;
             }
             instance.HandleClosed();
-            instance.contentObjectsPool.Dispose();
+            instance.assetObjectsPool.Dispose();
         }
 
     }
