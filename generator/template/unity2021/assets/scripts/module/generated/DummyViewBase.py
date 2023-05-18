@@ -101,7 +101,6 @@ namespace {{org_name}}.FMP.MOD.{{module_name}}.LIB.Unity
             {
                 Dictionary<string, object> data = _data as Dictionary<string, object>;
                 uid = (string)data["uid"];
-                uri = (string)data["uri"];
                 delay = (float)data["delay"];
                 object objSource;
                 if (data.TryGetValue("source", out objSource))
